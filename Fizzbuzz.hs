@@ -6,4 +6,3 @@ fizzbuzz x
     | otherwise       = show x
 
 main = print [fizzbuzz x | x <- [1..100]]
-   
