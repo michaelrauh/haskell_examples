@@ -7,7 +7,7 @@ type Answer = (String, String, String, String, String)
 main :: IO ()
 main = do
   contents <- getContents
-  print $ execute contents
+  putStrLn $ concat (execute contents)
 
 adjacentWords :: Int -> String -> String -> [String]
 adjacentWords offset corpus word =
@@ -32,8 +32,12 @@ foldWord corpus a =
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
 
-execute :: String -> Set.Set Answer
+prettyPrint :: Answer -> String
+prettyPrint (a, b, d, c, _) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
+
+execute :: String -> [String]
 execute input =
   let foldCorpus = foldWord input
       uniqueWords = Set.fromList $ words input
-  in Set.fromList $ concatMap (filterFoldedWords . foldCorpus) uniqueWords
+      answers = concatMap (filterFoldedWords . foldCorpus) uniqueWords
+  in map prettyPrint $ nub answers
