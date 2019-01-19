@@ -4,8 +4,10 @@ import qualified Data.Set as Set
 
 type Answer = (String, String, String, String, String)
 
-example :: String
-example = "a b c d a b a b a c a a b c d a b"
+main :: IO ()
+main = do
+  contents <- getContents
+  print $ execute contents
 
 adjacentWords :: Int -> String -> String -> [String]
 adjacentWords offset corpus word =
@@ -15,14 +17,12 @@ adjacentWords offset corpus word =
       remaining = filter (liftM2 (&&) (> 0) (< length wordList)) offsetIndices
   in map (wordList !!) remaining
 
-nextWords :: String -> [String]
-nextWords = adjacentWords 1 example
-
-prevWords :: String -> [String]
-prevWords = adjacentWords (-1) example
-
-foldWord :: String -> [Answer]
-foldWord a = do
+foldWord :: String -> String -> [(String, String, String, String, String)]
+foldWord corpus a =
+  let nextWords = adjacentWords 1 corpus
+      prevWords = adjacentWords (-1) corpus
+  in
+  do
       b <- nextWords a
       d <- nextWords b
       c <- prevWords d
@@ -32,8 +32,8 @@ foldWord a = do
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
 
-execute :: Set.Set Answer
-execute = Set.fromList $ concatMap (filterFoldedWords . foldWord) $ Set.fromList $ words example
-
-main :: IO ()
-main = print execute
+execute :: String -> Set.Set Answer
+execute input =
+  let foldCorpus = foldWord input
+      uniqueWords = Set.fromList $ words input
+  in Set.fromList $ concatMap (filterFoldedWords . foldCorpus) uniqueWords
