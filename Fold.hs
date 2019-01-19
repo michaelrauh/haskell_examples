@@ -32,11 +32,8 @@ foldWord a = do
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
 
-exampleWordList :: [String]
-exampleWordList = words example
-
 execute :: Set.Set Answer
-execute = Set.fromList $ concatMap (filterFoldedWords . foldWord) exampleWordList
+execute = Set.fromList $ concatMap (filterFoldedWords . foldWord) $ Set.fromList $ words example
 
 main :: IO ()
 main = print execute
