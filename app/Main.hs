@@ -13,18 +13,17 @@ main = do
   contents <- getContents
   putStr $ concat (execute contents)
 
-adjacentWords :: Int -> String -> String -> [String]
-adjacentWords offset corpus word =
-  let wordList = words corpus
-      indices = elemIndices word wordList
-      offsetIndices = map (+ offset) indices
-      remaining = filter (liftM2 (&&) (> 0) (< length wordList)) offsetIndices
+adjacentWords :: Int -> [String] -> String -> [String]
+adjacentWords offset wordList word =
+      let indices = elemIndices word wordList
+          offsetIndices = map (+ offset) indices
+          remaining = filter (liftM2 (&&) (> 0) (< length wordList)) offsetIndices
   in map (wordList !!) remaining
 
-foldWord :: String -> String -> [Answer]
-foldWord corpus a =
-  let nextWords = adjacentWords 1 corpus
-      prevWords = adjacentWords (-1) corpus
+foldWord :: [String] -> String -> [Answer]
+foldWord wordList a =
+  let nextWords = adjacentWords 1 wordList
+      prevWords = adjacentWords (-1) wordList
   in
   do
       b <- nextWords a
@@ -44,7 +43,8 @@ prettyPrint (a, b, d, c) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
 
 execute :: String -> [String]
 execute input =
-  let uniqueWords = nub $ words input
-      answers = concatMap (filterFoldedWords . foldWord input) uniqueWords
+  let wordList = words input
+      uniqueWords = nub wordList
+      answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
       formattedAnswers = map formFinalAnswer $ nub answers
   in map prettyPrint formattedAnswers
