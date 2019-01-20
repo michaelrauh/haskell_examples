@@ -1,3 +1,7 @@
+module Main where
+
+import Lib
+
 import Data.List
 import Control.Monad
 
