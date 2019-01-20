@@ -6,6 +6,7 @@ import Data.List
 import Control.Monad
 
 type Answer = (String, String, String, String, String)
+type FilteredAnswer = (String, String, String, String)
 
 main :: IO ()
 main = do
@@ -35,11 +36,14 @@ foldWord corpus a =
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
 
-prettyPrint :: Answer -> String
-prettyPrint (a, b, d, c, _) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
+formFinalAnswer :: Answer -> FilteredAnswer
+formFinalAnswer (a, b, d, c, _) = (a, b, d, c)
+
+prettyPrint :: FilteredAnswer -> String
+prettyPrint (a, b, d, c) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
 
 execute :: String -> [String]
 execute input =
   let uniqueWords = nub $ words input
       answers = concatMap (filterFoldedWords . foldWord input) uniqueWords
-  in map prettyPrint $ nub answers
+  in map prettyPrint $ nub $ map formFinalAnswer answers
