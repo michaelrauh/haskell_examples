@@ -46,4 +46,5 @@ execute :: String -> [String]
 execute input =
   let uniqueWords = nub $ words input
       answers = concatMap (filterFoldedWords . foldWord input) uniqueWords
-  in map prettyPrint $ nub $ map formFinalAnswer answers
+      formattedAnswers = map formFinalAnswer $ nub answers
+  in map prettyPrint formattedAnswers
