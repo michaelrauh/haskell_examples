@@ -1,13 +1,12 @@
 import Data.List
 import Control.Monad
-import qualified Data.Set as Set
 
 type Answer = (String, String, String, String, String)
 
 main :: IO ()
 main = do
   contents <- getContents
-  putStrLn $ concat (execute contents)
+  putStr $ concat (execute contents)
 
 adjacentWords :: Int -> String -> String -> [String]
 adjacentWords offset corpus word =
@@ -17,7 +16,7 @@ adjacentWords offset corpus word =
       remaining = filter (liftM2 (&&) (> 0) (< length wordList)) offsetIndices
   in map (wordList !!) remaining
 
-foldWord :: String -> String -> [(String, String, String, String, String)]
+foldWord :: String -> String -> [Answer]
 foldWord corpus a =
   let nextWords = adjacentWords 1 corpus
       prevWords = adjacentWords (-1) corpus
@@ -37,7 +36,6 @@ prettyPrint (a, b, d, c, _) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
 
 execute :: String -> [String]
 execute input =
-  let foldCorpus = foldWord input
-      uniqueWords = Set.fromList $ words input
-      answers = concatMap (filterFoldedWords . foldCorpus) uniqueWords
+  let uniqueWords = nub $ words input
+      answers = concatMap (filterFoldedWords . foldWord input) uniqueWords
   in map prettyPrint $ nub answers
