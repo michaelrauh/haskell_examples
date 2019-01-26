@@ -20,14 +20,14 @@ main = do
   contents <- getContents
   let wordList = words contents
   let answer2 = execute2 wordList
+  putStrLn "2x2 results:"
   putStr $ produceResult answer2
+  putStrLn "3x3 results:"
+  putStr $ concat $ execute3 wordList answer2
 
-execute3 :: String -> [String]
-execute3 input =
-  let wordList = words input
-      uniqueWords = nub wordList
-      answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
-      formattedAnswers = map formFinalAnswer $ nub answers
+execute3 :: [String] -> [FormattedAnswer] -> [String]
+execute3 wordList formattedAnswers =
+  let uniqueWords = nub wordList
       possibilities = makePossibilitiesPool formattedAnswers
       candidates = nub $ filterCandidates possibilities
       foldOnWordlist = fold3 wordList
