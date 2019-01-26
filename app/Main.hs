@@ -18,10 +18,11 @@ type FormattedAnswer3 = (Row, Row, Row)
 main :: IO ()
 main = do
   contents <- getContents
-  putStr $ concat (execute contents)
+  let answer2 = execute2  contents
+  putStr $ produceResult answer2
 
-execute :: String -> [String]
-execute input =
+execute3 :: String -> [String]
+execute3 input =
   let wordList = words input
       uniqueWords = nub wordList
       answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
