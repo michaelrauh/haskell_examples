@@ -12,15 +12,14 @@ module Fold3
 
 import Common
 import Data.List
+import Control.Monad
 
-type Answer = (String, String, String, String, String)
 type FormattedAnswer = (String, String, String, String)
-type SetTwo = (FormattedAnswer, FormattedAnswer, FormattedAnswer, FormattedAnswer)
+type SetTwo = (FormattedAnswer, FormattedAnswer)
 type Row = (String, String, String)
-type Extras = (String, String, String, String, String, String)
-type Answer3 = (Row, Row, Row, Extras)
-type FormattedAnswer3 = (Row, Row, Row)
-
+type Extras = (String, String)
+type Answer3 = (Row, Row, Extras)
+type FormattedAnswer3 = (Row, Row)
 
 execute3 :: [String] -> [FormattedAnswer] -> [String]
 execute3 wordList formattedAnswers =
@@ -35,46 +34,38 @@ execute3 wordList formattedAnswers =
 
 makePossibilitiesPool :: [FormattedAnswer] -> [SetTwo]
 makePossibilitiesPool answer =
-  do
-    tL <- answer
-    tR <- answer
-    bL <- answer
-    bR <- answer
-    return (tL, tR, bL, bR)
+  liftM2 (,) answer answer
 
 filterCandidates :: [SetTwo] -> [SetTwo]
 filterCandidates = filter candidate
 
 formFinal3 :: Answer3 -> FormattedAnswer3
-formFinal3 (t, m, b, _) = (t, m, b)
+formFinal3 (t, b, _) = (t, b)
 
 prettyPrint3 :: FormattedAnswer3 -> String
-prettyPrint3 (t, m, b) = prettyPrintRow t ++ prettyPrintRow m ++ prettyPrintRow b ++ "\n"
+prettyPrint3 (t, b) = prettyPrintRow t ++ prettyPrintRow b ++ "\n"
 
 prettyPrintRow :: Row -> String
 prettyPrintRow (a, b, c) = a  ++ " " ++ b ++ " " ++ c ++ "\n"
 
 candidate :: SetTwo -> Bool
-candidate ((a, b, e, d), (b', c, f, e'), (d', e'', h, g), (e''', f', i, h')) =
-  c /= g && b == b' && d == d' && e == e' && e == e'' && e == e''' && f == f' && h == h'
+candidate ((a, b, e, d), (b', c, f, e')) =
+  b == b' && e == e'
 
 fold3 :: [String] -> SetTwo -> [Answer3]
-fold3 wordList (tL, tR, bL, bR)  =
-  let (a, b, e, d) = tL
-      (_, c, f, _) = tR
-      (_, _, h, g) = bL
-      (_, _, i, _) = bR
+fold3 wordList (l, r)  =
+  let (a, b, e, d) = l
+      (_, c, f, _) = r
       nextTwo = adjacentWords 2 wordList
   in
   do
     c' <- nextTwo a
     f' <- nextTwo d
-    i' <- nextTwo g
     g' <- nextTwo a
     h' <- nextTwo b
     i'' <- nextTwo c
-    return ((a, b, c),(d, e, f),(g, h, i),(c', f', i', g', h', i''))
+    return ((a, b, c),(d, e, f),(c', f'))
 
 filterFolded3 :: Answer3 -> Bool
-filterFolded3 ((a, b, c),(d, e, f),(g, h, i),(c', f', i', g', h', i'')) =
-  c' == c && f' == f && i' == i && g' == g && h' == h && i'' == i
+filterFolded3 ((a, b, c),(d, e, f),(c', f')) =
+  c' == c && f' == f
