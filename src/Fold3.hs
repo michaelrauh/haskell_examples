@@ -7,7 +7,8 @@ module Fold3
     candidate,
     fold3,
     filterFolded3,
-    execute3
+    execute3,
+    produceResult3
     ) where
 
 import Common
@@ -21,7 +22,7 @@ type Extras = (String, String)
 type Answer3 = (Row, Row, Extras)
 type FormattedAnswer3 = (Row, Row)
 
-execute3 :: [String] -> [FormattedAnswer] -> [String]
+execute3 :: [String] -> [FormattedAnswer] -> [FormattedAnswer3]
 execute3 wordList formattedAnswers =
   let uniqueWords = nub wordList
       possibilities = makePossibilitiesPool formattedAnswers
@@ -30,11 +31,13 @@ execute3 wordList formattedAnswers =
       folded = concatMap foldOnWordlist candidates
       filtered = filter filterFolded3 folded
       final = nub $ map formFinal3 filtered
-  in map prettyPrint3 final
+  in final
 
 makePossibilitiesPool :: [FormattedAnswer] -> [SetTwo]
-makePossibilitiesPool answer =
-  liftM2 (,) answer answer
+makePossibilitiesPool answer = liftM2 (,) answer answer
+
+produceResult3 :: [FormattedAnswer3] -> String
+produceResult3 = concatMap prettyPrint3
 
 filterCandidates :: [SetTwo] -> [SetTwo]
 filterCandidates = filter candidate

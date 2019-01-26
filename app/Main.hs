@@ -12,7 +12,8 @@ main = do
   contents <- getContents
   let wordList = words contents
   let answer2 = execute2 wordList
+  let answer3 = execute3 wordList answer2
   putStrLn "2x2 results:"
   putStr $ produceResult answer2
   putStrLn "3x2 results:"
-  putStr $ concat $ execute3 wordList answer2
+  putStr $ produceResult3 answer3

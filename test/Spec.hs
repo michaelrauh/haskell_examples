@@ -14,4 +14,4 @@ main = hspec $ do
     it "folds 2x2 results into 3x2 results" $
       let wordList = ["a", "b", "c", "d", "e", "f", "a", "d", "b", "e", "c", "f"]
           results = [("a", "b", "e", "d"), ("b", "c", "f", "e")]
-      in (execute3 wordList results) `shouldBe` ["a b c\nd e f\n\n"]
+      in (execute3 wordList results) `shouldBe` [(("a", "b", "c"),("d", "e", "f"))]
