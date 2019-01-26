@@ -6,10 +6,12 @@ module Fold3
     prettyPrintRow,
     candidate,
     fold3,
-    filterFolded3
+    filterFolded3,
+    execute3
     ) where
 
 import Common
+import Data.List
 
 type Answer = (String, String, String, String, String)
 type FormattedAnswer = (String, String, String, String)
@@ -18,6 +20,18 @@ type Row = (String, String, String)
 type Extras = (String, String, String, String, String, String)
 type Answer3 = (Row, Row, Row, Extras)
 type FormattedAnswer3 = (Row, Row, Row)
+
+
+execute3 :: [String] -> [FormattedAnswer] -> [String]
+execute3 wordList formattedAnswers =
+  let uniqueWords = nub wordList
+      possibilities = makePossibilitiesPool formattedAnswers
+      candidates = nub $ filterCandidates possibilities
+      foldOnWordlist = fold3 wordList
+      folded = concatMap foldOnWordlist candidates
+      filtered = filter filterFolded3 folded
+      final = nub $ map formFinal3 filtered
+  in map prettyPrint3 final
 
 makePossibilitiesPool :: [FormattedAnswer] -> [SetTwo]
 makePossibilitiesPool answer =
