@@ -1,9 +1,5 @@
 module Fold2
-    ( foldWord,
-    filterFoldedWords,
-    formFinalAnswer,
-    prettyPrint,
-    produceResult,
+    ( produceResult,
     execute2
     ) where
 

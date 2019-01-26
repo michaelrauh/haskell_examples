@@ -1,13 +1,5 @@
 module Fold3
-    ( makePossibilitiesPool,
-    filterCandidates,
-    formFinal3,
-    prettyPrint3,
-    prettyPrintRow,
-    candidate,
-    fold3,
-    filterFolded3,
-    execute3,
+    ( execute3,
     produceResult3
     ) where
 

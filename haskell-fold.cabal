@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c369c57d8fcb2c3116fdc17f365a3890d998240b9e8244533e4fc84b417923a2
+-- hash: ced3095d58dd2735a45b57853f05f80c9d72ad5b09730e9f9f998dd5a2d3b189
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       Common
       Fold2
       Fold3
+      Fold4
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:
