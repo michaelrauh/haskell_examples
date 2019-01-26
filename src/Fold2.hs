@@ -16,10 +16,9 @@ type FormattedAnswer = (String, String, String, String)
 produceResult :: [FormattedAnswer] -> String
 produceResult = concatMap prettyPrint
 
-execute2 :: String -> [FormattedAnswer]
-execute2 input =
-  let wordList = words input
-      uniqueWords = nub wordList
+execute2 :: [String] -> [FormattedAnswer]
+execute2 wordList =
+  let uniqueWords = nub wordList
       answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
       formattedAnswers = map formFinalAnswer $ nub answers
   in formattedAnswers

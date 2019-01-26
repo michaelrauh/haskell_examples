@@ -18,7 +18,8 @@ type FormattedAnswer3 = (Row, Row, Row)
 main :: IO ()
 main = do
   contents <- getContents
-  let answer2 = execute2  contents
+  let wordList = words contents
+  let answer2 = execute2 wordList
   putStr $ produceResult answer2
 
 execute3 :: String -> [String]
