@@ -18,12 +18,11 @@ execute3 :: [String] -> [FormattedAnswer] -> [FormattedAnswer3]
 execute3 wordList formattedAnswers =
   let uniqueWords = nub wordList
       possibilities = makePossibilitiesPool formattedAnswers
-      candidates = nub $ filterCandidates possibilities
+      candidates = filterCandidates possibilities
       foldOnWordlist = fold3 wordList
       folded = concatMap foldOnWordlist candidates
       filtered = filter filterFolded3 folded
-      final = nub $ map formFinal3 filtered
-  in final
+  in nub $ map formFinal3 filtered
 
 makePossibilitiesPool :: [FormattedAnswer] -> [SetTwo]
 makePossibilitiesPool answer = liftM2 (,) answer answer
@@ -39,9 +38,6 @@ formFinal3 (t, b, _) = (t, b)
 
 prettyPrint3 :: FormattedAnswer3 -> String
 prettyPrint3 (t, b) = prettyPrintRow t ++ prettyPrintRow b ++ "\n"
-
-prettyPrintRow :: Row -> String
-prettyPrintRow (a, b, c) = a  ++ " " ++ b ++ " " ++ c ++ "\n"
 
 candidate :: SetTwo -> Bool
 candidate ((a, b, e, d), (b', c, f, e')) =

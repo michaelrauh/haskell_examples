@@ -16,8 +16,7 @@ execute2 :: [String] -> [FormattedAnswer]
 execute2 wordList =
   let uniqueWords = nub wordList
       answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
-      formattedAnswers = map formFinalAnswer $ nub answers
-  in formattedAnswers
+  in map formFinalAnswer $ nub answers
 
 foldWord :: [String] -> String -> [Answer]
 foldWord wordList a =
