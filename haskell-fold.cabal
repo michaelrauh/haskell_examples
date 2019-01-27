@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 526433e85b306e24cd141d39b6ccf301c3ea8d15e37e5da6350a2cfbcc3c8e3d
+-- hash: 45cffb95df79ab4755ac3af62de98458a40442ad2f79659ac9a5aedfe790f371
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -38,6 +38,7 @@ library
   build-depends:
       base >=4.7 && <5
     , matrix
+    , vector
   default-language: Haskell2010
 
 executable haskell-fold-exe
@@ -51,6 +52,7 @@ executable haskell-fold-exe
       base >=4.7 && <5
     , haskell-fold
     , matrix
+    , vector
   default-language: Haskell2010
 
 test-suite haskell-fold-test
@@ -67,4 +69,5 @@ test-suite haskell-fold-test
     , haskell-fold
     , hspec
     , matrix
+    , vector
   default-language: Haskell2010
