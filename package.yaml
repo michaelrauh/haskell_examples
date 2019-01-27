@@ -12,10 +12,12 @@ tests:
     - QuickCheck
     - haskell-fold
     - hspec
+    - matrix
 copyright: 2019 Author name here
 maintainer: example@example.com
 dependencies:
 - base >= 4.7 && < 5
+- matrix
 name: haskell-fold
 version: 0.1.0.0
 extra-source-files:
