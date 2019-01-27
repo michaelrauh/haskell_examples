@@ -58,5 +58,4 @@ fold3 wordList (l, r)  =
     return ((a, b, c),(d, e, f),(c', f'))
 
 filterFolded3 :: Answer3 -> Bool
-filterFolded3 ((a, b, c),(d, e, f),(c', f')) =
-  c' == c && f' == f
+filterFolded3 ((a, b, c),(d, e, f),(c', f')) = c' == c && f' == f
