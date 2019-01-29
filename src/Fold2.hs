@@ -1,22 +1,19 @@
 module Fold2
-    ( produceResult,
-    execute2
+    ( execute2
     ) where
 
 import Common
 import Data.List
+import qualified Data.Matrix as M
 
 type Answer = (String, String, String, String, String)
 type FormattedAnswer = (String, String, String, String)
 
-produceResult :: [FormattedAnswer] -> String
-produceResult = concatMap prettyPrint
+matrixfy (a, b, d, c, _) = M.fromList 2 2 [a, b, c, d]
 
-execute2 :: [String] -> [FormattedAnswer]
-execute2 wordList =
-  let uniqueWords = nub wordList
-      answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
-  in map formFinalAnswer $ nub answers
+execute2 wordList uniqueWords =
+  let answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
+  in map matrixfy $ nub answers
 
 foldWord :: [String] -> String -> [Answer]
 foldWord wordList a =
@@ -32,9 +29,3 @@ foldWord wordList a =
 
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
-
-formFinalAnswer :: Answer -> FormattedAnswer
-formFinalAnswer (a, b, d, c, _) = (a, b, d, c)
-
-prettyPrint :: FormattedAnswer -> String
-prettyPrint (a, b, d, c) = a  ++ " " ++ b ++ "\n" ++ c ++ " " ++ d ++ "\n\n"
