@@ -16,7 +16,8 @@ executeHorizontal :: [String] -> [Matrix] -> [Matrix]
 executeHorizontal wordList inputMatrices =
   let possiblePairs = liftM2 (,) inputMatrices inputMatrices
       answers = filterPairs possiblePairs wordList
-  in map combineMatrixPair answers
+      final = map combineMatrixPair answers
+  in nub final
 
 filterPairs :: [MatrixPair] -> [String] -> [MatrixPair]
 filterPairs matrixPairs wordList =
@@ -37,10 +38,12 @@ filterFoldable wordList (left, right) =
       froms = getLeftColumnList left
       possibilities = mapM nextWords froms
       targetWords = getRightColumnList right
-      correspondences = zip froms targetWords
-      
-      -- see if the possibilities happen to match what is in the RHS
-  in False
+      correspondences = zip targetWords possibilities
+      answers = map wordInList correspondences
+  in and answers
+
+wordInList :: (String, [String]) -> Bool
+wordInList (target, possibilities) = target `elem` possibilities
 
 combineMatrixPair :: MatrixPair -> Matrix
 combineMatrixPair (left, right) = left M.<|> getRightColumn right

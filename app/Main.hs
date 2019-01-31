@@ -17,6 +17,8 @@ main = do
   let answer32 = executeHorizontal wordList answer2
   putStrLn "2x2 results:"
   putStr $ show answer2
+  putStrLn "3x2 results:"
+  putStr $ show answer32
 
 rmdups :: (Ord a) => [a] -> [a]
 rmdups = map head . group . sort
