@@ -5,15 +5,18 @@ import Common
 import Data.List
 import Control.Monad
 import Fold2
-import Fold3
-import Fold4
 import qualified Data.Matrix as M
+import FoldHorizontal
 
 main :: IO ()
 main = do
   contents <- getContents
   let wordList = words contents
-  let uniqueWords = nub wordList
+  let uniqueWords = rmdups wordList
   let answer2 = execute2 wordList uniqueWords
+  let answer32 = executeHorizontal wordList answer2
   putStrLn "2x2 results:"
   putStr $ show answer2
+
+rmdups :: (Ord a) => [a] -> [a]
+rmdups = map head . group . sort
