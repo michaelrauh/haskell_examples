@@ -8,7 +8,6 @@ import qualified Data.Matrix as M
 import MatrixTools
 import Control.Monad
 
-
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
@@ -22,7 +21,7 @@ executeHorizontal wordList inputMatrices =
 filterPairs :: [MatrixPair] -> [String] -> [MatrixPair]
 filterPairs matrixPairs wordList =
   let candidates = filter filterCandidates matrixPairs
-  in  filter (filterFoldable wordList) matrixPairs
+  in  filter (filterFoldable wordList) candidates
 
 filterCandidates :: MatrixPair -> Bool
 filterCandidates (left, right) =
