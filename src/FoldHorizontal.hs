@@ -33,13 +33,13 @@ filterCandidates (left, right) =
 
 filterFoldable :: [String] -> MatrixPair -> Bool
 filterFoldable wordList (left, right) =
-  let nextWords = adjacentWords (M.ncols left) wordList
-      froms = getLeftColumnList left
+  let nextWords = adjacentFromPhrase 1 wordList
+      froms = getRows left
       possibilities = mapM nextWords froms
       targetWords = getRightColumnList right
       correspondences = zip targetWords possibilities
       answers = map wordInList correspondences
-  in and answers
+  in (length answers == M.ncols left) && and answers
 
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities

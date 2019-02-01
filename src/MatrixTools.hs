@@ -6,7 +6,8 @@ module MatrixTools
     getTopRight,
     getBottomLeft,
     getLeftColumnList,
-    getRightColumnList
+    getRightColumnList,
+    getRows
     ) where
 
 import Data.Matrix as M
@@ -37,3 +38,6 @@ getLeftColumnList m = V.toList $ M.getCol 1 m
 
 getRightColumnList :: StringMatrix -> [String]
 getRightColumnList m = V.toList $ M.getCol (ncols m) m
+
+getRows :: StringMatrix -> [[String]]
+getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
