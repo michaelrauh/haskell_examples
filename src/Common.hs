@@ -2,7 +2,8 @@ module Common
     ( adjacentWords,
     adjacentFromPhrase,
     buildMap,
-    nextWords
+    nextWords,
+    buildReverseMap
     ) where
 
 import Data.List
@@ -40,3 +41,13 @@ nextWords m key = S.toList (Map.findWithDefault S.empty key m)
 
 buildMap :: Ord a => [a] -> Map.Map a (S.Set a)
 buildMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
+
+reverseTuple :: (a1, S.Set a2) -> (a2, S.Set a1)
+reverseTuple (first, second) = (unwrapSingleton second, S.singleton first)
+
+unwrapSingleton :: S.Set a -> a
+unwrapSingleton s = head $ S.elems s
+
+buildReverseSlidingTuple = map reverseTuple
+
+buildReverseMap wordList = Map.fromListWith S.union $ buildReverseSlidingTuple $ buildSlidingTuple wordList
