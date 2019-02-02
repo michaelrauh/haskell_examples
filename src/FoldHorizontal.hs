@@ -13,15 +13,16 @@ type Matrix = M.Matrix String
 
 executeHorizontal :: [String] -> [Matrix] -> [Matrix]
 executeHorizontal wordList inputMatrices =
-  let possiblePairs = liftM2 (,) inputMatrices inputMatrices
-      answers = filterPairs possiblePairs wordList
+  let width = M.ncols $ head inputMatrices
+      phraseMap = buildPhraseMap wordList width
+      possiblePairs = liftM2 (,) inputMatrices inputMatrices
+      answers = filterPairs possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
-filterPairs :: [MatrixPair] -> [String] -> [MatrixPair]
-filterPairs matrixPairs wordList =
+filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
-  in  filter (filterFoldable wordList) candidates
+  in  filter (filterFoldable phraseMap) candidates
 
 filterCandidates :: MatrixPair -> Bool
 filterCandidates (left, right) =
@@ -31,11 +32,10 @@ filterCandidates (left, right) =
       bottomLeft = getBottomLeft left
   in topRight /= bottomLeft && overlapLeft == overlapRight
 
-filterFoldable :: [String] -> MatrixPair -> Bool
-filterFoldable wordList (left, right) =
-  let nextWords = adjacentFromPhrase 1 wordList
+filterFoldable phraseMap (left, right) =
+  let nextWords' = nextWords phraseMap
       froms = getRows left
-      possibilities = mapM nextWords froms
+      possibilities = mapM nextWords' froms
       targetWords = getRightColumnList right
       correspondences = zip targetWords possibilities
       answers = map wordInList correspondences
