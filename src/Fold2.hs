@@ -17,12 +17,12 @@ execute2 wordList uniqueWords =
 
 foldWord :: [String] -> String -> [Answer]
 foldWord wordList a =
-  let nextWords = adjacentWords 1 wordList
+  let nextWords' = nextWords $ buildMap wordList
       prevWords = adjacentWords (-1) wordList
   in
   do
-      b <- nextWords a
-      d <- nextWords b
+      b <- nextWords' a
+      d <- nextWords' b
       c <- prevWords d
       a' <- prevWords c
       return (a, b, d, c, a')

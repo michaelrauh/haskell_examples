@@ -1,7 +1,8 @@
 module Common
     ( adjacentWords,
     adjacentFromPhrase,
-    buildMap
+    buildMap,
+    nextWords
     ) where
 
 import Data.List
@@ -33,6 +34,9 @@ buildSlidingTuple [] = []
 buildSlidingTuple [first] = []
 buildSlidingTuple [first, second] = [(first, S.singleton second)]
 buildSlidingTuple (first:second:rest) = (first, S.singleton second) : buildSlidingTuple (second : rest)
+
+nextWords :: Ord k => Map.Map k (S.Set a) -> k -> [a]
+nextWords m key = S.toList (Map.findWithDefault S.empty key m)
 
 buildMap :: Ord a => [a] -> Map.Map a (S.Set a)
 buildMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
