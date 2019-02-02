@@ -1,7 +1,9 @@
 module Common
     (
     nextWords,
-    buildPhraseMap
+    buildPhraseMap,
+    wordInList,
+    rmdups
     ) where
 
 import Data.List
@@ -27,3 +29,9 @@ unsafeBuildTuple wordList phraseLength =
 
 buildPhraseMap :: Ord a => [a] -> Int -> Map.Map [a] (S.Set a)
 buildPhraseMap wordList phraseLength = Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
+
+wordInList :: (String, [String]) -> Bool
+wordInList (target, possibilities) = target `elem` possibilities
+
+rmdups :: (Ord a) => [a] -> [a]
+rmdups = map head . group . sort

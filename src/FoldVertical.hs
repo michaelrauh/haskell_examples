@@ -1,5 +1,5 @@
-module FoldHorizontal
-    ( executeHorizontal
+module FoldVertical
+    ( executeVertical
     ) where
 
 import Common
@@ -11,35 +11,35 @@ import Control.Monad
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-executeHorizontal :: [String] -> [Matrix] -> [Matrix]
-executeHorizontal wordList inputMatrices =
-  let width = M.ncols $ head inputMatrices
-      phraseMap = buildPhraseMap wordList width
+executeVertical :: [String] -> [Matrix] -> [Matrix]
+executeVertical wordList inputMatrices =
+  let height = M.nrows $ head inputMatrices
+      phraseMap = buildPhraseMap wordList height
       possiblePairs = liftM2 (,) inputMatrices inputMatrices
       answers = filterPairs possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
 filterCandidates :: MatrixPair -> Bool
-filterCandidates (left, right) =
-  let overlapLeft = removeLeftColumn left
-      overlapRight = removeRightColumn right
-      topRight = getTopRight right
-      bottomLeft = getBottomLeft left
-  in topRight /= bottomLeft && overlapLeft == overlapRight
+filterCandidates (top, bottom) =
+  let overlapTop = removeTopRow top
+      overlapBottom = removeBottomRow bottom
+      topRight = getTopRight top
+      bottomLeft = getBottomLeft bottom
+  in topRight /= bottomLeft && overlapTop == overlapBottom
 
-filterFoldable phraseMap (left, right) =
+filterFoldable phraseMap (top, bottom) =
   let nextWords' = nextWords phraseMap
-      froms = getRows left
+      froms = getColumns top
       possibilities = mapM nextWords' froms
-      targetWords = getRightColumnList right
+      targetWords = getBottomRowList bottom
       correspondences = zip targetWords possibilities
       answers = map wordInList correspondences
-  in (length answers == M.ncols left) && and answers
+  in (length answers == M.nrows top) && and answers
 
 filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
   in  filter (filterFoldable phraseMap) candidates
 
 combineMatrixPair :: MatrixPair -> Matrix
-combineMatrixPair (left, right) = left M.<|> getRightColumn right
+combineMatrixPair (top, bottom) = top M.<-> getBottomRow bottom

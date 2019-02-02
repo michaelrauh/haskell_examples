@@ -7,7 +7,12 @@ module MatrixTools
     getBottomLeft,
     getLeftColumnList,
     getRightColumnList,
-    getRows
+    getRows,
+    removeTopRow,
+    removeBottomRow,
+    getColumns,
+    getBottomRowList,
+    getBottomRow
     ) where
 
 import Data.Matrix as M
@@ -41,3 +46,18 @@ getRightColumnList m = V.toList $ M.getCol (ncols m) m
 
 getRows :: StringMatrix -> [[String]]
 getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
+
+removeTopRow :: StringMatrix -> StringMatrix
+removeTopRow m = M.submatrix 2 (nrows m) 1 (ncols m) m
+
+removeBottomRow :: StringMatrix -> StringMatrix
+removeBottomRow m = submatrix 1 (nrows m -1) 1 (ncols m) m
+
+getColumns :: StringMatrix -> [[String]]
+getColumns m = [V.toList (getCol x m) | x <- [1.. (ncols m)]]
+
+getBottomRowList :: StringMatrix -> [String]
+getBottomRowList m = V.toList $ M.getRow (nrows m) m
+
+getBottomRow :: StringMatrix -> StringMatrix
+getBottomRow m = submatrix (nrows m) (nrows m) 1 (ncols m) m
