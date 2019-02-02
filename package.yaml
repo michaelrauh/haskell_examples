@@ -17,6 +17,7 @@ tests:
 copyright: 2019 Author name here
 maintainer: example@example.com
 dependencies:
+- containers
 - base >= 4.7 && < 5
 - matrix
 - vector

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9079e5833c3f034ec5d85d2094ba7f7931dec6fd73b57cc44059ba5a11af870f
+-- hash: 0626acdb68dfd4f1247c99a716d5011e3c22bc075d8e2ac97871ea20f6c8707b
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -29,8 +29,6 @@ library
   exposed-modules:
       Common
       Fold2
-      Fold3
-      Fold4
       FoldHorizontal
       MatrixTools
   other-modules:
@@ -39,6 +37,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
     , matrix
     , vector
   default-language: Haskell2010
@@ -52,6 +51,7 @@ executable haskell-fold-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
     , haskell-fold
     , matrix
     , vector
@@ -68,6 +68,7 @@ test-suite haskell-fold-test
   build-depends:
       QuickCheck
     , base >=4.7 && <5
+    , containers
     , haskell-fold
     , hspec
     , matrix

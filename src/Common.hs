@@ -1,13 +1,13 @@
 module Common
     ( adjacentWords,
-    prettyPrintRow,
-    adjacentFromPhrase
+    adjacentFromPhrase,
+    buildMap
     ) where
 
 import Data.List
 import Control.Monad
-
-type Row = (String, String, String)
+import qualified Data.Set as S
+import qualified Data.Map.Strict as Map
 
 adjacentWords :: Int -> [String] -> String -> [String]
 adjacentWords offset wordList word =
@@ -23,11 +23,16 @@ adjacentFromPhrase offset wordList phrase =
         indices = elemIndices phrase allPossibilities
         offsetIndices = map (+ offset) indices
         remaining = filter (liftM2 (&&) (> 0) (< length wordList)) offsetIndices
-        finals = map (allPossibilities !!) remaining
-    in map last finals
-
-prettyPrintRow :: Row -> String
-prettyPrintRow (a, b, c) = a  ++ " " ++ b ++ " " ++ c ++ "\n"
+    in map (last . (allPossibilities !!)) remaining
 
 windows :: Int -> [a] -> [[a]]
 windows size = foldr (zipWith (:)) (repeat []) . take size . tails
+
+buildSlidingTuple :: [a] -> [(a, S.Set a)]
+buildSlidingTuple [] = []
+buildSlidingTuple [first] = []
+buildSlidingTuple [first, second] = [(first, S.singleton second)]
+buildSlidingTuple (first:second:rest) = (first, S.singleton second) : buildSlidingTuple (second : rest)
+
+buildMap :: Ord a => [a] -> Map.Map a (S.Set a)
+buildMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
