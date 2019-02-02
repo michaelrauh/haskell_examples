@@ -19,7 +19,7 @@ execute2 wordList uniqueWords =
   let nextMap = buildMap wordList
       prevMap = buildReverseMap wordList
       answers = concatMap (filterFoldedWords . foldWord nextMap prevMap) uniqueWords
-  in map matrixfy $ nub answers
+  in map matrixfy answers
 
 foldWord :: Ord e => Map.Map e (S.Set e) -> Map.Map e (S.Set e) -> e -> [(e, e, e, e, e)]
 foldWord wordMap prevMap a =
