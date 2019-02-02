@@ -12,12 +12,11 @@ type FormattedAnswer = (String, String, String, String)
 matrixfy (a, b, d, c, _) = M.fromList 2 2 [a, b, c, d]
 
 execute2 wordList uniqueWords =
-  let answers = concatMap (filterFoldedWords . foldWord wordList) uniqueWords
+  let answers = concatMap (filterFoldedWords . foldWord (buildMap wordList) wordList) uniqueWords
   in map matrixfy $ nub answers
 
-foldWord :: [String] -> String -> [Answer]
-foldWord wordList a =
-  let nextWords' = nextWords $ buildMap wordList
+foldWord wordMap wordList a =
+  let nextWords' = nextWords wordMap
       prevWords = adjacentWords (-1) wordList
   in
   do
