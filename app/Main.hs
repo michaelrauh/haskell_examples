@@ -23,3 +23,4 @@ main = do
   putStr $ show answer32
   putStrLn "3x3 results:\n\n"
   putStr $ show answer33
+  
