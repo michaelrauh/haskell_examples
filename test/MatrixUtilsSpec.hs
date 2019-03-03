@@ -86,3 +86,8 @@ spec = do
       let input = M.fromList 2 2 ["a", "b", "c", "d"]
           other = M.fromList 2 2 ["a", "c", "b", "d"]
       isTranspose input other `shouldBe` True
+
+    it "detects a non transpose" $ do
+      let input = M.fromList 2 2 ["a", "b", "c", "d"]
+          other = M.fromList 2 2 ["a", "b", "b", "d"]
+      isTranspose input other `shouldBe` False
