@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4772d69c111430afbd8576b646d10fd7bcad028adb8d471f8a6e637be1ee5b4c
+-- hash: f0b2c67a5d2fd472c1ac94951a7a41f00c0447e96bb3a417b54dbfc0af22d93d
 
 name:           haskell-fold
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/michaelrauh/haskell-fold#readme>
 homepage:       https://github.com/michaelrauh/haskell-fold#readme
 bug-reports:    https://github.com/michaelrauh/haskell-fold/issues
-author:         Author name here
+author:         Michael Rauh
 maintainer:     michaelrauh.github.io
 copyright:      2019 Michael Rauh
-license:        BSD3
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -56,6 +56,7 @@ test-suite haskell-fold-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      MatrixUtilsSpec
       Paths_haskell_fold
   hs-source-dirs:
       test
