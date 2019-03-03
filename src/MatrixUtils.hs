@@ -12,7 +12,8 @@ module MatrixUtils
     removeBottomRow,
     getColumns,
     getBottomRowList,
-    getBottomRow
+    getBottomRow,
+    isTranspose
     ) where
 
 import Data.Matrix as M
@@ -61,3 +62,6 @@ getTopRight m = m ! (1, ncols m)
 
 getBottomLeft :: StringMatrix -> String
 getBottomLeft m = m ! (nrows m, 1)
+
+isTranspose :: StringMatrix -> StringMatrix -> Bool
+isTranspose m1 m2 = M.transpose m1 == m2
