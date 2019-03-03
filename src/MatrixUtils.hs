@@ -32,17 +32,14 @@ removeRightColumn m = M.submatrix 1 (nrows m) 1 (ncols m - 1) m
 getRightColumn :: StringMatrix -> StringMatrix
 getRightColumn m = M.submatrix 1 (nrows m) (ncols m) (ncols m) m
 
-getTopRight :: StringMatrix -> String
-getTopRight m = m ! (1, ncols m)
+removeTopRow :: StringMatrix -> StringMatrix
+removeTopRow m = M.submatrix 2 (nrows m) 1 (ncols m) m
 
-getBottomLeft :: StringMatrix -> String
-getBottomLeft m = m ! (nrows m, 1)
+removeBottomRow :: StringMatrix -> StringMatrix
+removeBottomRow m = submatrix 1 (nrows m -1) 1 (ncols m) m
 
-getLeftColumnList :: StringMatrix -> [String]
-getLeftColumnList m = V.toList $ M.getCol 1 m
-
-getRightColumnList :: StringMatrix -> [String]
-getRightColumnList m = V.toList $ M.getCol (ncols m) m
+getBottomRow :: StringMatrix -> StringMatrix
+getBottomRow m = submatrix (nrows m) (nrows m) 1 (ncols m) m
 
 getRows :: StringMatrix -> [[String]]
 getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
@@ -50,14 +47,17 @@ getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
 getColumns :: StringMatrix -> [[String]]
 getColumns m = [V.toList (getCol x m) | x <- [1.. (ncols m)]]
 
-removeTopRow :: StringMatrix -> StringMatrix
-removeTopRow m = M.submatrix 2 (nrows m) 1 (ncols m) m
+getLeftColumnList :: StringMatrix -> [String]
+getLeftColumnList m = V.toList $ M.getCol 1 m
 
-removeBottomRow :: StringMatrix -> StringMatrix
-removeBottomRow m = submatrix 1 (nrows m -1) 1 (ncols m) m
+getRightColumnList :: StringMatrix -> [String]
+getRightColumnList m = V.toList $ M.getCol (ncols m) m
 
 getBottomRowList :: StringMatrix -> [String]
 getBottomRowList m = V.toList $ M.getRow (nrows m) m
 
-getBottomRow :: StringMatrix -> StringMatrix
-getBottomRow m = submatrix (nrows m) (nrows m) 1 (ncols m) m
+getTopRight :: StringMatrix -> String
+getTopRight m = m ! (1, ncols m)
+
+getBottomLeft :: StringMatrix -> String
+getBottomLeft m = m ! (nrows m, 1)
