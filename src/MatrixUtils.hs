@@ -23,20 +23,20 @@ type StringMatrix = M.Matrix String
 removeLeftColumn :: StringMatrix -> StringMatrix
 removeLeftColumn m = M.submatrix 1 (nrows m) 2 (ncols m) m
 
-getRightColumn :: StringMatrix -> StringMatrix
-getRightColumn m = M.fromList 1 1 ["1"]
-
 getLeftColumn :: StringMatrix -> StringMatrix
-getLeftColumn m = M.fromList 1 1 ["1"]
+getLeftColumn m = M.submatrix 1 (nrows m) 1 1 m
 
 removeRightColumn :: StringMatrix -> StringMatrix
-removeRightColumn m = M.fromList 1 1 ["1"]
+removeRightColumn m = M.submatrix 1 (nrows m) 1 (ncols m - 1) m
+
+getRightColumn :: StringMatrix -> StringMatrix
+getRightColumn m = M.submatrix 1 (nrows m) (ncols m) (ncols m) m
 
 getTopRight :: StringMatrix -> String
-getTopRight m = "foo"
+getTopRight m = m ! (1, ncols m)
 
 getBottomLeft :: StringMatrix -> String
-getBottomLeft m = "foo"
+getBottomLeft m = m ! (nrows m, 1)
 
 getLeftColumnList :: StringMatrix -> [String]
 getLeftColumnList m = ["foo"]
