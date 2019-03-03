@@ -41,3 +41,43 @@ spec = do
       let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
           expected = "g"
       getBottomLeft input `shouldBe` expected
+
+    it "gets left column as a list" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = ["a", "d", "g"]
+      getLeftColumnList input `shouldBe` expected
+
+    it "gets right column as a list" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = ["c", "f", "i"]
+      getRightColumnList input `shouldBe` expected
+
+    it "gets every row as a list of lists" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = [["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"]]
+      getRows input `shouldBe` expected
+
+    it "gets every column as a list of lists" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = [["a", "d", "g"], ["b", "e", "h"], ["c", "f", "i"]]
+      getColumns input `shouldBe` expected
+
+    it "removes the top row" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = M.fromList 2 3 ["d", "e", "f", "g", "h", "i"]
+      removeTopRow input `shouldBe` expected
+
+    it "removes the bottom row" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]
+      removeBottomRow input `shouldBe` expected
+
+    it "gets the bottom row as a list" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = ["g", "h", "i"]
+      getBottomRowList input `shouldBe` expected
+
+    it "gets the bottom row" $ do
+      let input = M.fromList 3 3 ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+          expected = M.fromList 1 3 ["g", "h", "i"]
+      getBottomRow input `shouldBe` expected
