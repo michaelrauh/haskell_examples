@@ -1,7 +1,8 @@
 module MapBuilder
     ( buildNextWordMap,
     buildPreviousWordMap,
-    buildPhraseMap
+    buildPhraseMap,
+    nextWords
     ) where
 
 import Data.List
@@ -17,6 +18,9 @@ buildPreviousWordMap wordList = Map.fromListWith S.union $ map reverseSingletonT
 
 buildPhraseMap :: Ord a => [a] -> Int -> Map.Map [a] (S.Set a)
 buildPhraseMap wordList phraseLength = Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
+
+nextWords :: Ord k => Map.Map k (S.Set a) -> k -> [a]
+nextWords m key = S.toList (Map.findWithDefault S.empty key m)
 
 buildSlidingPhraseTuple :: [a] -> Int -> [([a], S.Set a)]
 buildSlidingPhraseTuple wordList phraseLength

@@ -29,3 +29,18 @@ spec = do
       let input = ["a", "b", "a", "c", "d"]
           expected = Map.fromList [(["a", "b"], S.singleton "a"), (["b", "a"], S.singleton "c"), (["a", "c"], S.singleton "d")]
       buildPhraseMap input 2 `shouldBe` expected
+
+    it "allows lookup from a map" $ do
+      let input = Map.fromList [("a", S.fromList ["b", "c"]), ("b", S.singleton "a"), ("c", S.singleton "d")]
+          expected = ["b", "c"]
+      nextWords input "a" `shouldBe` expected
+
+    it "allows lookup from a map with a phrase" $ do
+      let input = Map.fromList [(["a", "b"], S.singleton "a"), (["b", "a"], S.singleton "c"), (["a", "c"], S.singleton "d")]
+          expected = ["a"]
+      nextWords input ["a", "b"] `shouldBe` expected
+
+    it "returns empty if nothing is found" $ do
+      let input = Map.fromList [("a", S.fromList ["b", "c"]), ("b", S.singleton "a"), ("c", S.singleton "d")]
+          expected = []
+      nextWords input "f" `shouldBe` expected
