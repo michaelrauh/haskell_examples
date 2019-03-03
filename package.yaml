@@ -14,8 +14,8 @@ tests:
     - hspec
     - matrix
     - vector
-copyright: 2019 Author name here
-maintainer: example@example.com
+copyright: 2019 Michael Rauh
+maintainer: michaelrauh.github.io
 dependencies:
 - containers
 - base >= 4.7 && < 5
@@ -26,9 +26,9 @@ version: 0.1.0.0
 extra-source-files:
 - README.md
 - ChangeLog.md
-author: Author name here
-github: githubuser/haskell-fold
-license: BSD3
+author: Michael Rauh
+github: michaelrauh/haskell-fold
+license: MIT
 executables:
   haskell-fold-exe:
     source-dirs: app
@@ -39,4 +39,4 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - haskell-fold
-description: Please see the README on GitHub at <https://github.com/githubuser/haskell-fold#readme>
+description: Please see the README on GitHub at <https://github.com/michaelrauh/haskell-fold#readme>

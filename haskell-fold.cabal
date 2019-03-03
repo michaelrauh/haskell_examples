@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a40a36515dd59d2c993e093433ba3ef56c889548522f8615b2617bc45beca870
+-- hash: 4772d69c111430afbd8576b646d10fd7bcad028adb8d471f8a6e637be1ee5b4c
 
 name:           haskell-fold
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/haskell-fold#readme>
-homepage:       https://github.com/githubuser/haskell-fold#readme
-bug-reports:    https://github.com/githubuser/haskell-fold/issues
+description:    Please see the README on GitHub at <https://github.com/michaelrauh/haskell-fold#readme>
+homepage:       https://github.com/michaelrauh/haskell-fold#readme
+bug-reports:    https://github.com/michaelrauh/haskell-fold/issues
 author:         Author name here
-maintainer:     example@example.com
-copyright:      2019 Author name here
+maintainer:     michaelrauh.github.io
+copyright:      2019 Michael Rauh
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -23,15 +23,9 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/haskell-fold
+  location: https://github.com/michaelrauh/haskell-fold
 
 library
-  exposed-modules:
-      Common
-      Fold2
-      FoldHorizontal
-      FoldVertical
-      MatrixTools
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:
