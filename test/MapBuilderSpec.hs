@@ -19,3 +19,8 @@ spec = do
       let input = ["a", "b", "a", "c", "d"]
           expected = Map.fromList [("a", S.fromList ["b", "c"]), ("b", S.singleton "a"), ("c", S.singleton "d")]
       buildNextWordMap input `shouldBe` expected
+
+    it "builds a map of previous words" $ do
+      let input = ["d", "c", "a", "b", "a"]
+          expected = Map.fromList [("a", S.fromList ["b", "c"]), ("b", S.singleton "a"), ("c", S.singleton "d")]
+      buildPreviousWordMap input `shouldBe` expected
