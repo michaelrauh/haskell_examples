@@ -60,3 +60,14 @@ spec = do
           secondMatrix = M.fromList 2 3 ["b", "c", "g", "e", "f", "h"]
           possiblePair = (firstMatrix, secondMatrix)
       filterCandidates possiblePair `shouldBe` True
+
+    it "finds left side phrases to stitch to the right side" $ do
+      let inputMatrix = M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]
+          expected = [["a", "b"], ["d", "e"]]
+      getFroms inputMatrix `shouldBe` expected
+
+    it "gets possible right hand side words by looking up froms in the map" $ do
+      let froms = [["a", "b"], ["d", "e"]]
+          nextPhrases = Map.fromList [(["a", "b"], S.fromList ["c", "x"]), (["d", "e"], S.singleton "f")]
+          expected = [["c", "x"], ["f"]]
+      getPossibilities froms nextPhrases `shouldBe` expected

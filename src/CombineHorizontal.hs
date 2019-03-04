@@ -4,7 +4,10 @@ module CombineHorizontal
     findPossiblePairs,
     cornersDoNotMatch,
     centersOverlap,
-    filterCandidates
+    filterCandidates,
+    filterFoldable,
+    getFroms,
+    getPossibilities
     ) where
 
 import Data.List
@@ -46,12 +49,16 @@ wordInList (target, possibilities) = target `elem` possibilities
 
 filterFoldable phraseMap (left, right) =
   let nextWords' = nextWords phraseMap
-      froms = getRows left
-      possibilities = mapM nextWords' froms
+      froms = getRows $ removeRightColumn left
+      possibilities = getPossibilities froms phraseMap
       targetWords = getRightColumnList right
       correspondences = zip targetWords possibilities
       answers = map wordInList correspondences
   in (length answers == M.ncols left) && and answers
+
+getFroms m = getRows $ removeRightColumn m
+
+getPossibilities m phraseMap = map (nextWords phraseMap) m
 
 filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
