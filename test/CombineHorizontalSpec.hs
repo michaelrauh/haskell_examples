@@ -67,9 +67,9 @@ spec = do
       getFroms inputMatrix `shouldBe` expected
 
     it "gets possible right hand side words by looking up froms in the map" $ do
-      let froms = [["a", "b"], ["d", "e"]]
+      let froms = [["a", "b"], ["d", "e"], ["x", "j"]]
           nextPhrases = Map.fromList [(["a", "b"], S.fromList ["c", "x"]), (["d", "e"], S.singleton "f")]
-          expected = [["c", "x"], ["f"]]
+          expected = [["c", "x"], ["f"], []]
       getPossibilities froms nextPhrases `shouldBe` expected
 
     it "gets correspondences between possibilities and the right hand side of the right column" $ do
@@ -84,6 +84,4 @@ spec = do
       getAnswers correspondences `shouldBe` expected
 
     it "checks the answers" $ do
-      let answers = [True, True]
-          leftMatrix = M.fromList 2 3 ["b", "c", "g", "e", "f", "h"]
-      checkAnswers answers leftMatrix `shouldBe` True
+      checkAnswers [True, True] `shouldBe` True

@@ -56,13 +56,13 @@ filterFoldable phraseMap (left, right) =
       possibilities = getPossibilities froms phraseMap
       correspondences = getZips possibilities right
       answers = getAnswers correspondences
-  in checkAnswers answers left
+  in checkAnswers answers
 
 getFroms m = getRows $ removeRightColumn m
 getPossibilities m phraseMap = map (nextWords phraseMap) m
 getZips possibilities right = zip (getRightColumnList right) possibilities
 getAnswers = map wordInList
-checkAnswers answers m = (length answers == M.nrows m) && and answers
+checkAnswers answers = and answers
 
 filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
