@@ -71,3 +71,19 @@ spec = do
           nextPhrases = Map.fromList [(["a", "b"], S.fromList ["c", "x"]), (["d", "e"], S.singleton "f")]
           expected = [["c", "x"], ["f"]]
       getPossibilities froms nextPhrases `shouldBe` expected
+
+    it "gets correspondences between possibilities and the right hand side of the right column" $ do
+      let possibilities = [["c", "x"], ["f"]]
+          rightMatrix = M.fromList 2 3 ["b", "c", "g", "e", "f", "h"]
+          expected = [("g", ["c", "x"]), ("h", ["f"])]
+      getZips possibilities rightMatrix `shouldBe` expected
+
+    it "gets a list of booleans to see if correspondences match" $ do
+      let correspondences = [("g", ["c", "g"]), ("h", ["f"])]
+          expected = [True, False]
+      getAnswers correspondences `shouldBe` expected
+
+    it "checks the answers" $ do
+      let answers = [True, True]
+          leftMatrix = M.fromList 2 3 ["b", "c", "g", "e", "f", "h"]
+      checkAnswers answers leftMatrix `shouldBe` True

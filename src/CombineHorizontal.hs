@@ -7,7 +7,10 @@ module CombineHorizontal
     filterCandidates,
     filterFoldable,
     getFroms,
-    getPossibilities
+    getZips,
+    getPossibilities,
+    getAnswers,
+    checkAnswers
     ) where
 
 import Data.List
@@ -51,14 +54,15 @@ filterFoldable phraseMap (left, right) =
   let nextWords' = nextWords phraseMap
       froms = getFroms left
       possibilities = getPossibilities froms phraseMap
-      targetWords = getRightColumnList right
-      correspondences = zip targetWords possibilities
-      answers = map wordInList correspondences
-  in (length answers == M.ncols left) && and answers
+      correspondences = getZips possibilities right
+      answers = getAnswers correspondences
+  in checkAnswers answers left
 
 getFroms m = getRows $ removeRightColumn m
-
 getPossibilities m phraseMap = map (nextWords phraseMap) m
+getZips possibilities right = zip (getRightColumnList right) possibilities
+getAnswers = map wordInList
+checkAnswers answers m = (length answers == M.nrows m) && and answers
 
 filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
