@@ -54,3 +54,9 @@ spec = do
           secondMatrix = M.fromList 2 3 ["j", "c", "g", "e", "f", "h"]
           possiblePair = (firstMatrix, secondMatrix)
       centersOverlap possiblePair `shouldBe` False
+
+    it "detects if corners and centers follow the rules" $ do
+      let firstMatrix = M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]
+          secondMatrix = M.fromList 2 3 ["b", "c", "g", "e", "f", "h"]
+          possiblePair = (firstMatrix, secondMatrix)
+      filterCandidates possiblePair `shouldBe` True

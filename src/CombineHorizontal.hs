@@ -3,7 +3,8 @@ module CombineHorizontal
     findWidth,
     findPossiblePairs,
     cornersDoNotMatch,
-    centersOverlap
+    centersOverlap,
+    filterCandidates
     ) where
 
 import Data.List
