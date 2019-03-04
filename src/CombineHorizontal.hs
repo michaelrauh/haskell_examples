@@ -58,7 +58,7 @@ filterFoldable phraseMap (left, right) =
       answers = getAnswers correspondences
   in checkAnswers answers
 
-getFroms m = getRows $ removeRightColumn m
+getFroms m = getRows m
 getPossibilities m phraseMap = map (nextWords phraseMap) m
 getZips possibilities right = zip (getRightColumnList right) possibilities
 getAnswers = map wordInList

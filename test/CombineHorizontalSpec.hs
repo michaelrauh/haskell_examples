@@ -63,7 +63,7 @@ spec = do
 
     it "finds left side phrases to stitch to the right side" $ do
       let inputMatrix = M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]
-          expected = [["a", "b"], ["d", "e"]]
+          expected = [["a", "b", "c"], ["d", "e", "f"]]
       getFroms inputMatrix `shouldBe` expected
 
     it "gets possible right hand side words by looking up froms in the map" $ do
@@ -85,3 +85,18 @@ spec = do
 
     it "checks the answers" $ do
       checkAnswers [True, True] `shouldBe` True
+
+    it "makes sure correspondence map has necessary phrases to stitch together edges" $ do
+      let nextPhrases = Map.fromList [(["a", "b"], S.singleton "c"), (["d", "e"], S.singleton "f")]
+          firstMatrix = M.fromList 2 2 ["a", "b", "d", "e"]
+          secondMatrix = M.fromList 2 2 ["b", "c", "e", "f"]
+      filterFoldable nextPhrases (firstMatrix, secondMatrix) `shouldBe` True
+
+    it "combines answers horizontally to form wider answers" $ do
+      --  a b     b c      a b c
+      --  d e  +  e f  ->  d e f
+      let inputCorpus = ["a", "b", "c", "d", "e", "f", "a", "d", "b", "e", "c", "f"]
+          inputMatrices = [M.fromList 2 2 ["a", "b", "d", "e"], M.fromList 2 2 ["b", "c", "e", "f"]]
+          expectedMatrices = [M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]]
+          nextPhrases = Map.fromList [(["a", "b"], S.singleton "c"), (["d", "e"], S.singleton "f")]
+      combineHorizontal nextPhrases inputMatrices `shouldBe` expectedMatrices
