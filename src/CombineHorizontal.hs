@@ -1,7 +1,9 @@
 module CombineHorizontal
     ( combineHorizontal,
     findWidth,
-    findPossiblePairs
+    findPossiblePairs,
+    cornersDoNotMatch,
+    centersOverlap
     ) where
 
 import Data.List
@@ -28,12 +30,15 @@ findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
 findWidth inputMatrices = M.ncols $ head inputMatrices
 
 filterCandidates :: MatrixPair -> Bool
-filterCandidates (left, right) =
-  let overlapLeft = removeLeftColumn left
-      overlapRight = removeRightColumn right
-      topRight = getTopRight right
-      bottomLeft = getBottomLeft left
-  in topRight /= bottomLeft && overlapLeft == overlapRight
+filterCandidates pair =
+  cornersDoNotMatch pair && centersOverlap pair
+
+cornersDoNotMatch :: MatrixPair -> Bool
+cornersDoNotMatch (left, right) =
+  getBottomLeft left /= getTopRight right
+
+centersOverlap (left, right) =
+  removeLeftColumn left == removeRightColumn right
 
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
