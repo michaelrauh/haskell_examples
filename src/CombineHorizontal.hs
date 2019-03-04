@@ -1,5 +1,7 @@
 module CombineHorizontal
-    ( combineHorizontal
+    ( combineHorizontal,
+    findWidth,
+    findPossiblePairs
     ) where
 
 import Data.List
