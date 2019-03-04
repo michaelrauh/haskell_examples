@@ -15,10 +15,9 @@ import FoldSquare
 spec :: Spec
 spec = do
   describe "fold square" $ do
-    it "folds a list of words into a square" $ do
+    it "folds a list of words into a square dropping transpose and obvious squares" $ do
       let wordList = ["a", "b", "c", "d", "a", "c", "b", "d"]
           uniqueWords = ["a", "b", "c", "d"]
           firstResult = M.fromList 2 2 ["a","b","c","d"]
-          secondResult = M.fromList 2 2 ["a","c","b","d"]
-          expected = [firstResult, secondResult]
+          expected = [firstResult]
       foldSquare wordList uniqueWords `shouldBe` expected

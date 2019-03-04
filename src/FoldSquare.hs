@@ -7,16 +7,18 @@ import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
+import MatrixUtils
 
 type Answer = (String, String, String, String, String)
 type FormattedAnswer = (String, String, String, String)
+type StringMatrix = M.Matrix String
 
 foldSquare :: Foldable t => [String] -> t String -> [M.Matrix String]
 foldSquare wordList uniqueWords =
   let nextMap = buildNextWordMap wordList
       prevMap = buildPreviousWordMap wordList
       answers = concatMap (filterFoldedWords . foldWord nextMap prevMap) uniqueWords
-  in map matrixfy answers
+  in removeEquivalentMatrices $ map matrixfy answers
 
 foldWord :: Ord e => Map.Map e (S.Set e) -> Map.Map e (S.Set e) -> e -> [(e, e, e, e, e)]
 foldWord wordMap prevMap a =
@@ -32,6 +34,8 @@ foldWord wordMap prevMap a =
 
 filterFoldedWords :: [Answer] -> [Answer]
 filterFoldedWords = filter(\(a, b, _, c, a') -> b /= c && a == a')
+
+removeEquivalentMatrices = map head . groupBy isTranspose
 
 matrixfy :: (a, a, a, a, e) -> M.Matrix a
 matrixfy (a, b, d, c, _) = M.fromList 2 2 [a, b, c, d]
