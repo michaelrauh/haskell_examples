@@ -49,7 +49,7 @@ wordInList (target, possibilities) = target `elem` possibilities
 
 filterFoldable phraseMap (left, right) =
   let nextWords' = nextWords phraseMap
-      froms = getRows $ removeRightColumn left
+      froms = getFroms left
       possibilities = getPossibilities froms phraseMap
       targetWords = getRightColumnList right
       correspondences = zip targetWords possibilities
