@@ -16,14 +16,12 @@ type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
 combineHorizontal phraseMap inputMatrices =
-  let width = findWidth inputMatrices
-      possiblePairs = findPossiblePairs inputMatrices
+  let possiblePairs = findPossiblePairs inputMatrices
       answers = filterPairs possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
-findWidth inputMatrices = M.ncols $ head inputMatrices
 
 filterCandidates :: MatrixPair -> Bool
 filterCandidates pair =
