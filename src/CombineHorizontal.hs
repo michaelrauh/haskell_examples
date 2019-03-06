@@ -28,8 +28,8 @@ filterCandidates pair =
   cornersDoNotMatch pair && centersOverlap pair
 
 cornersDoNotMatch :: MatrixPair -> Bool
-cornersDoNotMatch (left, right) =
-  getBottomLeft left /= getTopRight right
+cornersDoNotMatch (first, second) =
+  getBottomLeft first /= getTopRight second
 
 centersOverlap (left, right) =
   removeLeftColumn left == removeRightColumn right
@@ -37,23 +37,23 @@ centersOverlap (left, right) =
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
-filterFoldable phraseMap (left, right) =
+filterFoldable phraseMap (first, second) =
   let nextWords' = nextWords phraseMap
-      froms = getFroms left
+      froms = getFroms first
       possibilities = getPossibilities froms phraseMap
-      correspondences = getZips possibilities right
+      correspondences = getZips possibilities second
       answers = getAnswers correspondences
   in checkAnswers answers
 
-getFroms m = getRows m
+getFroms = getRows -- different
 getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips possibilities right = zip (getRightColumnList right) possibilities
+getZips possibilities m = zip (getRightColumnList m) possibilities -- different
 getAnswers = map wordInList
-checkAnswers answers = and answers
+checkAnswers = and
 
 filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
   in  filter (filterFoldable phraseMap) candidates
 
 combineMatrixPair :: MatrixPair -> Matrix
-combineMatrixPair (left, right) = left M.<|> getRightColumn right
+combineMatrixPair (first, second) = first M.<|> getRightColumn second --different
