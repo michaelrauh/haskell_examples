@@ -1,5 +1,5 @@
 module CombineHorizontal
-    ( combine
+    ( combineHorizontal
     ) where
 
 import Data.List
@@ -15,9 +15,12 @@ type StringMatrix = M.Matrix String
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combine phraseMap inputMatrices =
+combineHorizontal phraseMap inputMatrices =
+  combine getRows phraseMap inputMatrices
+
+combine op phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
-      answers = filterPairs getRows possiblePairs phraseMap
+      answers = filterPairs op possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
