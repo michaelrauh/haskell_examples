@@ -48,7 +48,7 @@ filterFoldable getOp op phraseMap (first, second) =
   in checkAnswers answers
 
 getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips getOp possibilities m = zip (getOp m) possibilities -- different
+getZips getOp possibilities m = zip (getOp m) possibilities
 getAnswers = map wordInList
 checkAnswers = and
 
