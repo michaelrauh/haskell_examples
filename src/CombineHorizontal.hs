@@ -15,12 +15,11 @@ type StringMatrix = M.Matrix String
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineHorizontal phraseMap inputMatrices =
-  combine getRows phraseMap inputMatrices
+combineHorizontal = combine getRightColumnList getRows
 
-combine op phraseMap inputMatrices =
+combine getOp op phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
-      answers = filterPairs op possiblePairs phraseMap
+      answers = filterPairs getOp op possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
@@ -40,22 +39,22 @@ centersOverlap (left, right) =
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
-filterFoldable op phraseMap (first, second) =
+filterFoldable getOp op phraseMap (first, second) =
   let nextWords' = nextWords phraseMap
       froms = op first
       possibilities = getPossibilities froms phraseMap
-      correspondences = getZips possibilities second
+      correspondences = getZips getOp possibilities second
       answers = getAnswers correspondences
   in checkAnswers answers
 
 getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips possibilities m = zip (getRightColumnList m) possibilities -- different
+getZips getOp possibilities m = zip (getOp m) possibilities -- different
 getAnswers = map wordInList
 checkAnswers = and
 
-filterPairs op matrixPairs phraseMap =
+filterPairs getOp op matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
-  in  filter (filterFoldable op phraseMap) candidates
+  in  filter (filterFoldable getOp op phraseMap) candidates
 
 combineMatrixPair :: MatrixPair -> Matrix
 combineMatrixPair (first, second) = first M.<|> getRightColumn second --different
