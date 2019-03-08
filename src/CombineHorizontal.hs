@@ -15,12 +15,12 @@ type StringMatrix = M.Matrix String
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineHorizontal = combine getRightColumnList getRows
+combineHorizontal = combine getRightColumnList (M.<|>) getRows
 
-combine getOp op phraseMap inputMatrices =
+combine getOp thingy op phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
       answers = filterPairs getOp op possiblePairs phraseMap
-      final = map combineMatrixPair answers
+      final = map (combineMatrixPair thingy) answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
@@ -56,5 +56,5 @@ filterPairs getOp op matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
   in  filter (filterFoldable getOp op phraseMap) candidates
 
-combineMatrixPair :: MatrixPair -> Matrix
-combineMatrixPair (first, second) = first M.<|> getRightColumn second --different
+combineMatrixPair :: (Matrix -> Matrix -> Matrix) -> MatrixPair -> Matrix
+combineMatrixPair op (first, second) = first `op` getRightColumn second
