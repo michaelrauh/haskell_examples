@@ -1,5 +1,5 @@
 module CombineHorizontal
-    ( combineHorizontal
+    ( combine
     ) where
 
 import Data.List
@@ -15,9 +15,9 @@ type StringMatrix = M.Matrix String
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineHorizontal phraseMap inputMatrices =
+combine phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
-      answers = filterPairs possiblePairs phraseMap
+      answers = filterPairs getRows possiblePairs phraseMap
       final = map combineMatrixPair answers
   in nub final
 
@@ -37,23 +37,22 @@ centersOverlap (left, right) =
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
-filterFoldable phraseMap (first, second) =
+filterFoldable op phraseMap (first, second) =
   let nextWords' = nextWords phraseMap
-      froms = getFroms first
+      froms = op first
       possibilities = getPossibilities froms phraseMap
       correspondences = getZips possibilities second
       answers = getAnswers correspondences
   in checkAnswers answers
 
-getFroms = getRows -- different
 getPossibilities m phraseMap = map (nextWords phraseMap) m
 getZips possibilities m = zip (getRightColumnList m) possibilities -- different
 getAnswers = map wordInList
 checkAnswers = and
 
-filterPairs matrixPairs phraseMap =
+filterPairs op matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
-  in  filter (filterFoldable phraseMap) candidates
+  in  filter (filterFoldable op phraseMap) candidates
 
 combineMatrixPair :: MatrixPair -> Matrix
 combineMatrixPair (first, second) = first M.<|> getRightColumn second --different

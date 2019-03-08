@@ -15,7 +15,7 @@ main = do
       uniqueWords = nub wordList
       answer2 = foldSquare wordList uniqueWords
       phraseMap = buildPhraseMap wordList 2
-      answer32 = combineHorizontal phraseMap answer2
+      answer32 = combine phraseMap answer2
       answer33 = combineVertical phraseMap answer32
   putStrLn "2x2 results:\n\n"
   putStr $ show answer2

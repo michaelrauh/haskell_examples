@@ -22,4 +22,4 @@ spec = do
           inputMatrices = [M.fromList 2 2 ["a", "b", "d", "e"], M.fromList 2 2 ["b", "c", "e", "f"]]
           expectedMatrices = [M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]]
           nextPhrases = Map.fromList [(["a", "b"], S.singleton "c"), (["d", "e"], S.singleton "f")]
-      combineHorizontal nextPhrases inputMatrices `shouldBe` expectedMatrices
+      combine nextPhrases inputMatrices `shouldBe` expectedMatrices
