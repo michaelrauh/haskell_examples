@@ -10,8 +10,12 @@ import Control.Applicative
 
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
+type PhraseMap = Map.Map [String] (S.Set String)
 
+combineHorizontal :: PhraseMap -> [Matrix] -> [Matrix]
 combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontally combineMatrixPairHorizontally
+
+combineVertical :: PhraseMap -> [Matrix] -> [Matrix]
 combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
