@@ -17,10 +17,10 @@ type Matrix = M.Matrix String
 
 combineHorizontal = combine getRightColumnList (M.<|>) getRows
 
-combine getOp thingy op phraseMap inputMatrices =
+combine getEdgeOfMatrix matrixCombineOperator matrixSlicingOperator phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
-      answers = filterPairs getOp op possiblePairs phraseMap
-      final = map (combineMatrixPair thingy) answers
+      answers = filterPairs getEdgeOfMatrix matrixSlicingOperator possiblePairs phraseMap
+      final = map (combineMatrixPair matrixCombineOperator) answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
@@ -39,22 +39,22 @@ centersOverlap (left, right) =
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
-filterFoldable getOp op phraseMap (first, second) =
+filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
   let nextWords' = nextWords phraseMap
-      froms = op first
+      froms = matrixSlicingOperator first
       possibilities = getPossibilities froms phraseMap
-      correspondences = getZips getOp possibilities second
+      correspondences = getZips getEdgeOfMatrix possibilities second
       answers = getAnswers correspondences
   in checkAnswers answers
 
 getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips getOp possibilities m = zip (getOp m) possibilities
+getZips getEdgeOfMatrix possibilities m = zip (getEdgeOfMatrix m) possibilities
 getAnswers = map wordInList
 checkAnswers = and
 
-filterPairs getOp op matrixPairs phraseMap =
+filterPairs getEdgeOfMatrix matrixSlicingOperator matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
-  in  filter (filterFoldable getOp op phraseMap) candidates
+  in  filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
 
 combineMatrixPair :: (Matrix -> Matrix -> Matrix) -> MatrixPair -> Matrix
-combineMatrixPair op (first, second) = first `op` getRightColumn second
+combineMatrixPair matrixCombineOperator (first, second) = first `matrixCombineOperator` getRightColumn second
