@@ -15,19 +15,17 @@ type StringMatrix = M.Matrix String
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineHorizontal = combine getRightColumnList (M.<|>) getRows
+combineHorizontal = combine getRightColumnList (M.<|>) getRows centersOverlap
 
-combine getEdgeOfMatrix matrixCombineOperator matrixSlicingOperator phraseMap inputMatrices =
+combine getEdgeOfMatrix matrixCombineOperator matrixSlicingOperator centersOverlapOperator phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
-      answers = filterPairs getEdgeOfMatrix matrixSlicingOperator possiblePairs phraseMap
+      answers = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
       final = map (combineMatrixPair matrixCombineOperator) answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
 
-filterCandidates :: MatrixPair -> Bool
-filterCandidates pair =
-  cornersDoNotMatch pair && centersOverlap pair
+filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair
 
 cornersDoNotMatch :: MatrixPair -> Bool
 cornersDoNotMatch (first, second) =
@@ -52,8 +50,9 @@ getZips getEdgeOfMatrix possibilities m = zip (getEdgeOfMatrix m) possibilities
 getAnswers = map wordInList
 checkAnswers = and
 
-filterPairs getEdgeOfMatrix matrixSlicingOperator matrixPairs phraseMap =
-  let candidates = filter filterCandidates matrixPairs
+filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixPairs phraseMap =
+  let candidateFilterer = filterCandidates centersOverlapOperator
+      candidates = filter candidateFilterer matrixPairs
   in  filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
 
 combineMatrixPair :: (Matrix -> Matrix -> Matrix) -> MatrixPair -> Matrix
