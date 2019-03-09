@@ -1,7 +1,4 @@
-module Combine
-    ( combineHorizontal,
-    combineVertical
-    ) where
+module Combine (combineHorizontal, combineVertical) where
 
 import Data.List
 import qualified Data.Matrix as M
@@ -17,47 +14,36 @@ type Matrix = M.Matrix String
 combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontally combineMatrixPairHorizontally
 combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
-centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
-
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
-  let possiblePairs = findPossiblePairs inputMatrices
+  let possiblePairs = liftM2 (,) inputMatrices inputMatrices
       answers = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
       final = map matrixCombiner answers
   in nub final
 
-findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
-
-filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair
-
 cornersDoNotMatch :: MatrixPair -> Bool
-cornersDoNotMatch (first, second) =
-  getBottomLeft first /= getTopRight second
-
-centersOverlapHorizontally (left, right) =
-  removeLeftColumn left == removeRightColumn right
+cornersDoNotMatch (first, second) = getBottomLeft first /= getTopRight second
 
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
 filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
-  let nextWords' = nextWords phraseMap
-      froms = matrixSlicingOperator first
-      possibilities = getPossibilities froms phraseMap
-      correspondences = getZips getEdgeOfMatrix possibilities second
-      answers = getAnswers correspondences
-  in checkAnswers answers
-
-getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips getEdgeOfMatrix possibilities m = zip (getEdgeOfMatrix m) possibilities
-getAnswers = map wordInList
-checkAnswers = and
+  let froms = matrixSlicingOperator first
+      possibilities = map (nextWords phraseMap) froms
+      correspondences = zip (getEdgeOfMatrix second) possibilities
+      answers = map wordInList correspondences
+  in and answers
 
 filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixPairs phraseMap =
-  let candidateFilterer = filterCandidates centersOverlapOperator
-      candidates = filter candidateFilterer matrixPairs
-  in  filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
+  filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
+  where candidates = filter (filterCandidates centersOverlapOperator) matrixPairs
 
 combineMatrixPairHorizontally :: MatrixPair -> Matrix
 combineMatrixPairHorizontally (first, second) = first M.<|> getRightColumn second
 
+combineMatrixPairVertically :: MatrixPair -> Matrix
 combineMatrixPairVertically (first, second) = first M.<-> getBottomRow second
+
+centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
+centersOverlapHorizontally (left, right) = removeLeftColumn left == removeRightColumn right
+
+filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair
