@@ -10,12 +10,12 @@ import MapBuilder
 import MatrixUtils
 import Control.Monad
 
-type StringMatrix = M.Matrix String
-
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineVertical phraseMap inputMatrices =
+combineVertical = combine
+
+combine phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
       answers = filterPairs possiblePairs phraseMap
       final = map combineMatrixPair answers
