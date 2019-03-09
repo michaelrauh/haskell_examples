@@ -6,7 +6,7 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
 import MatrixUtils
-import Control.Monad
+import Control.Applicative
 
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
@@ -15,7 +15,7 @@ combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontall
 combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
-  let possiblePairs = liftM2 (,) inputMatrices inputMatrices
+  let possiblePairs = liftA2 (,) inputMatrices inputMatrices
       answers = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
       final = map matrixCombiner answers
   in nub final
@@ -43,7 +43,11 @@ combineMatrixPairHorizontally (first, second) = first M.<|> getRightColumn secon
 combineMatrixPairVertically :: MatrixPair -> Matrix
 combineMatrixPairVertically (first, second) = first M.<-> getBottomRow second
 
+centersOverlapVertically :: MatrixPair -> Bool
 centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
+
+centersOverlapHorizontally :: MatrixPair -> Bool
 centersOverlapHorizontally (left, right) = removeLeftColumn left == removeRightColumn right
 
+filterCandidates :: (MatrixPair -> Bool) -> MatrixPair -> Bool
 filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair
