@@ -13,12 +13,12 @@ import Control.Monad
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineVertical = combine getBottomRowList getColumns centersOverlapVertically
+combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
-combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator phraseMap inputMatrices =
+combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
       answers = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
-      final = map combineMatrixPairVertically answers
+      final = map matrixCombiner answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
