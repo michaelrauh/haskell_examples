@@ -4,8 +4,7 @@ import Data.List
 import Control.Monad
 import FoldSquare
 import qualified Data.Matrix as M
-import CombineHorizontal
-import CombineVertical
+import Combine
 import MapBuilder
 
 main :: IO ()
