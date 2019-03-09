@@ -25,13 +25,13 @@ findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
 
 filterCandidates :: MatrixPair -> Bool
 filterCandidates pair =
-  cornersDoNotMatch pair && centersOverlap pair
+  cornersDoNotMatch pair && centersOverlapVertically pair
 
 cornersDoNotMatch :: MatrixPair -> Bool
 cornersDoNotMatch (first, second) =
   getBottomLeft first /= getTopRight second
 
-centersOverlap (top, bottom) =
+centersOverlapVertically (top, bottom) =
   removeTopRow top == removeBottomRow bottom
 
 wordInList :: (String, [String]) -> Bool
@@ -45,9 +45,9 @@ filterFoldable phraseMap (first, second) =
       answers = getAnswers correspondences
   in checkAnswers answers
 
-getFroms = getColumns -- different
+getFroms = getColumns
 getPossibilities m phraseMap = map (nextWords phraseMap) m
-getZips possibilities m = zip (getBottomRowList m) possibilities -- different
+getZips possibilities m = zip (getBottomRowList m) possibilities
 getAnswers = map wordInList
 checkAnswers = and
 
@@ -56,4 +56,4 @@ filterPairs matrixPairs phraseMap =
   in  filter (filterFoldable phraseMap) candidates
 
 combineMatrixPair :: MatrixPair -> Matrix
-combineMatrixPair (first, second) = first M.<-> getBottomRow second -- different
+combineMatrixPair (first, second) = first M.<-> getBottomRow second
