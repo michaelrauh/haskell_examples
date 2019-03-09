@@ -13,12 +13,12 @@ import Control.Monad
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineVertical = combine
+combineVertical = combine (M.<->)
 
-combine phraseMap inputMatrices =
+combine matrixCombineOperator phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
       answers = filterPairs possiblePairs phraseMap
-      final = map combineMatrixPair answers
+      final = map (combineMatrixPair matrixCombineOperator) answers
   in nub final
 
 findPossiblePairs inputMatrices = liftM2 (,) inputMatrices inputMatrices
@@ -55,5 +55,4 @@ filterPairs matrixPairs phraseMap =
   let candidates = filter filterCandidates matrixPairs
   in  filter (filterFoldable phraseMap) candidates
 
-combineMatrixPair :: MatrixPair -> Matrix
-combineMatrixPair (first, second) = first M.<-> getBottomRow second
+combineMatrixPair matrixCombineOperator (first, second) = first `matrixCombineOperator` getBottomRow second
