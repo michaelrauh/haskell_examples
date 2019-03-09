@@ -1,5 +1,6 @@
 module CombineHorizontal
-    ( combineHorizontal
+    ( combineHorizontal,
+    combineVertical2
     ) where
 
 import Data.List
@@ -14,6 +15,9 @@ type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
 combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontally combineMatrixPairHorizontally
+combineVertical2 = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
+
+centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
 
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
@@ -55,3 +59,5 @@ filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixP
 
 combineMatrixPairHorizontally :: MatrixPair -> Matrix
 combineMatrixPairHorizontally (first, second) = first M.<|> getRightColumn second
+
+combineMatrixPairVertically (first, second) = first M.<-> getBottomRow second

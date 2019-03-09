@@ -23,3 +23,12 @@ spec = do
           expectedMatrices = [M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]]
           nextPhrases = Map.fromList [(["a", "b"], S.singleton "c"), (["d", "e"], S.singleton "f")]
       combineHorizontal nextPhrases inputMatrices `shouldBe` expectedMatrices
+
+    it "combines answers vertically to form taller answers" $ do
+--        a b     c d      a b
+--        c d  +  e f  ->  c d
+--                         e f
+      let inputMatrices = [M.fromList 2 2 ["a", "b", "c", "d"], M.fromList 2 2 ["c", "d", "e", "f"]]
+          expectedMatrices = [M.fromList 3 2 ["a", "b", "c", "d", "e", "f"]]
+          nextPhrases = Map.fromList [(["a", "c"], S.singleton "e"), (["b", "d"], S.singleton "f")]
+      combineVertical2 nextPhrases inputMatrices `shouldBe` expectedMatrices

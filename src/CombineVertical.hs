@@ -29,8 +29,7 @@ cornersDoNotMatch :: MatrixPair -> Bool
 cornersDoNotMatch (first, second) =
   getBottomLeft first /= getTopRight second
 
-centersOverlapVertically (top, bottom) =
-  removeTopRow top == removeBottomRow bottom
+centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
 
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
