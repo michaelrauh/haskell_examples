@@ -10,12 +10,10 @@ import MapBuilder
 import MatrixUtils
 import Control.Monad
 
-type StringMatrix = M.Matrix String
-
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 
-combineHorizontal = combine getRightColumnList (M.<|>) getRows centersOverlap
+combineHorizontal = combine getRightColumnList (M.<|>) getRows centersOverlapHorizontally
 
 combine getEdgeOfMatrix matrixCombineOperator matrixSlicingOperator centersOverlapOperator phraseMap inputMatrices =
   let possiblePairs = findPossiblePairs inputMatrices
@@ -31,7 +29,7 @@ cornersDoNotMatch :: MatrixPair -> Bool
 cornersDoNotMatch (first, second) =
   getBottomLeft first /= getTopRight second
 
-centersOverlap (left, right) =
+centersOverlapHorizontally (left, right) =
   removeLeftColumn left == removeRightColumn right
 
 wordInList :: (String, [String]) -> Bool
