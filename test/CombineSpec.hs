@@ -18,8 +18,7 @@ spec = do
     it "combines answers horizontally to form wider answers" $ do
       --  a b     b c      a b c
       --  d e  +  e f  ->  d e f
-      let inputCorpus = ["a", "b", "c", "d", "e", "f", "a", "d", "b", "e", "c", "f"]
-          inputMatrices = [M.fromList 2 2 ["a", "b", "d", "e"], M.fromList 2 2 ["b", "c", "e", "f"]]
+      let inputMatrices = [M.fromList 2 2 ["a", "b", "d", "e"], M.fromList 2 2 ["b", "c", "e", "f"]]
           expectedMatrices = [M.fromList 2 3 ["a", "b", "c", "d", "e", "f"]]
           nextPhrases = Map.fromList [(["a", "b"], S.singleton "c"), (["d", "e"], S.singleton "f")]
       combineHorizontal nextPhrases inputMatrices `shouldBe` expectedMatrices

@@ -18,6 +18,5 @@ spec = do
     it "folds a list of words into a square dropping transpose and obvious squares" $ do
       let wordList = ["a", "b", "c", "d", "a", "c", "b", "d"]
           uniqueWords = ["a", "b", "c", "d"]
-          firstResult = M.fromList 2 2 ["a","b","c","d"]
-          expected = [firstResult]
+          expected = [M.fromList 2 2 ["a","b","c","d"]]
       foldSquare wordList uniqueWords `shouldBe` expected
