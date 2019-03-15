@@ -30,6 +30,7 @@ cornersDoNotMatch (first, second) = getBottomLeft first /= getTopRight second
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
+filterFoldable :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> PhraseMap -> MatrixPair -> Bool
 filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
   let mappingKey = matrixSlicingOperator first
       potentialRightHandSide = map (nextWords phraseMap) mappingKey
@@ -37,6 +38,7 @@ filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
       matchRecords = map wordInList correspondences
   in and matchRecords
 
+filterPairs  :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> (MatrixPair -> Bool) -> [MatrixPair] -> PhraseMap -> [MatrixPair]
 filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixPairs phraseMap =
   filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
   where candidates = filter (filterCandidates centersOverlapOperator) matrixPairs
