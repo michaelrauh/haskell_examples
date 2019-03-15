@@ -18,6 +18,7 @@ combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontall
 combineVertical :: PhraseMap -> [Matrix] -> [Matrix]
 combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
+combine :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> (MatrixPair -> Bool) -> (MatrixPair -> Matrix) -> PhraseMap -> [Matrix] -> [Matrix]
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
   let possiblePairs = liftA2 (,) inputMatrices inputMatrices
       validCombinations = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
