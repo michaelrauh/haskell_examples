@@ -20,9 +20,8 @@ combineVertical = combine getBottomRowList getColumns centersOverlapVertically c
 
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
   let possiblePairs = liftA2 (,) inputMatrices inputMatrices
-      answers = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
-      final = map matrixCombiner answers
-  in nub final
+      validCombinations = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
+  in nub $ map matrixCombiner validCombinations
 
 cornersDoNotMatch :: MatrixPair -> Bool
 cornersDoNotMatch (first, second) = getBottomLeft first /= getTopRight second
@@ -31,11 +30,11 @@ wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
 filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
-  let froms = matrixSlicingOperator first
-      possibilities = map (nextWords phraseMap) froms
-      correspondences = zip (getEdgeOfMatrix second) possibilities
-      answers = map wordInList correspondences
-  in and answers
+  let mappingKey = matrixSlicingOperator first
+      potentialRightHandSide = map (nextWords phraseMap) mappingKey
+      correspondences = zip (getEdgeOfMatrix second) potentialRightHandSide
+      matchRecords = map wordInList correspondences
+  in and matchRecords
 
 filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixPairs phraseMap =
   filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
