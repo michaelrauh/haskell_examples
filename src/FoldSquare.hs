@@ -6,7 +6,7 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
 import MatrixUtils
-import CombineNextDimension
+import Orthotope
 
 type Answer = (String, String, String, String, String)
 type StringMatrix = M.Matrix String

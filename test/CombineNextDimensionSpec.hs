@@ -8,6 +8,7 @@ import Data.List
 import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
+import Orthotope
 import CombineNextDimension
 
 {-# ANN module "HLint: ignore Redundant do" #-}

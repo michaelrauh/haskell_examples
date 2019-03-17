@@ -13,12 +13,12 @@ module MatrixUtils
     getColumns,
     getBottomRowList,
     getBottomRow,
-    isTranspose,
-    unrollMatrix
+    isTranspose
     ) where
 
 import Data.Matrix as M
 import qualified Data.Vector as V
+import Orthotope
 
 type StringMatrix = M.Matrix String
 
@@ -43,23 +43,20 @@ removeBottomRow m = submatrix 1 (nrows m -1) 1 (ncols m) m
 getBottomRow :: StringMatrix -> StringMatrix
 getBottomRow m = submatrix (nrows m) (nrows m) 1 (ncols m) m
 
-getRows :: StringMatrix -> [[String]]
-getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
+getRows :: Box -> [[String]]
+getRows m = [[]] -- [V.toList (getRow x m) | x <- [1.. (nrows m)]]
 
-unrollMatrix :: StringMatrix -> [String]
-unrollMatrix m = concat $ getRows m
-
-getColumns :: StringMatrix -> [[String]]
-getColumns m = [V.toList (getCol x m) | x <- [1.. (ncols m)]]
+getColumns :: Box -> [[String]]
+getColumns m = [[]] -- [V.toList (getCol x m) | x <- [1.. (ncols m)]]
 
 getLeftColumnList :: StringMatrix -> [String]
 getLeftColumnList m = V.toList $ M.getCol 1 m
 
-getRightColumnList :: StringMatrix -> [String]
-getRightColumnList m = V.toList $ M.getCol (ncols m) m
+getRightColumnList :: Box -> [String]
+getRightColumnList m = [] -- V.toList $ M.getCol (ncols m) m
 
-getBottomRowList :: StringMatrix -> [String]
-getBottomRowList m = V.toList $ M.getRow (nrows m) m
+getBottomRowList :: Box -> [String]
+getBottomRowList m = [] -- V.toList $ M.getRow (nrows m) m
 
 getTopRight :: StringMatrix -> String
 getTopRight m = m ! (1, ncols m)

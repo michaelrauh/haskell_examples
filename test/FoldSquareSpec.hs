@@ -9,7 +9,7 @@ import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import FoldSquare
-import CombineNextDimension
+import Orthotope
 
 {-# ANN module "HLint: ignore Redundant do" #-}
 

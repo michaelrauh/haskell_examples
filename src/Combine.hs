@@ -7,18 +7,20 @@ import qualified Data.Map.Strict as Map
 import MapBuilder
 import MatrixUtils
 import Control.Applicative
+import Orthotope
 
 type MatrixPair = (Matrix, Matrix)
 type Matrix = M.Matrix String
 type PhraseMap = Map.Map [String] (S.Set String)
+type BoxPair = (Box, Box)
 
-combineHorizontal :: PhraseMap -> [Matrix] -> [Matrix]
+combineHorizontal :: PhraseMap -> [Box] -> [Box]
 combineHorizontal = combine getRightColumnList getRows centersOverlapHorizontally combineMatrixPairHorizontally
 
-combineVertical :: PhraseMap -> [Matrix] -> [Matrix]
+combineVertical :: PhraseMap -> [Box] -> [Box]
 combineVertical = combine getBottomRowList getColumns centersOverlapVertically combineMatrixPairVertically
 
-combine :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> (MatrixPair -> Bool) -> (MatrixPair -> Matrix) -> PhraseMap -> [Matrix] -> [Matrix]
+combine :: (Box -> [String]) -> (Box -> [[String]]) -> (BoxPair -> Bool) -> (BoxPair -> Box) -> PhraseMap -> [Box] -> [Box]
 combine getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixCombiner phraseMap inputMatrices =
   let possiblePairs = liftA2 (,) inputMatrices inputMatrices
       validCombinations = filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator possiblePairs phraseMap
@@ -30,7 +32,7 @@ cornersDoNotMatch (first, second) = getBottomLeft first /= getTopRight second
 wordInList :: (String, [String]) -> Bool
 wordInList (target, possibilities) = target `elem` possibilities
 
-filterFoldable :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> PhraseMap -> MatrixPair -> Bool
+filterFoldable :: (Box -> [String]) -> (Box -> [[String]]) -> PhraseMap -> BoxPair -> Bool
 filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
   let mappingKey = matrixSlicingOperator first
       potentialRightHandSide = map (nextWords phraseMap) mappingKey
@@ -38,22 +40,27 @@ filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap (first, second) =
       matchRecords = map wordInList correspondences
   in and matchRecords
 
-filterPairs  :: (Matrix -> [String]) -> (Matrix -> [[String]]) -> (MatrixPair -> Bool) -> [MatrixPair] -> PhraseMap -> [MatrixPair]
+filterPairs  :: (Box -> [String]) -> (Box -> [[String]]) -> (BoxPair -> Bool) -> [BoxPair] -> PhraseMap -> [BoxPair]
 filterPairs getEdgeOfMatrix matrixSlicingOperator centersOverlapOperator matrixPairs phraseMap =
   filter (filterFoldable getEdgeOfMatrix matrixSlicingOperator phraseMap) candidates
   where candidates = filter (filterCandidates centersOverlapOperator) matrixPairs
 
-combineMatrixPairHorizontally :: MatrixPair -> Matrix
-combineMatrixPairHorizontally (first, second) = first M.<|> getRightColumn second
+combineMatrixPairHorizontally :: BoxPair -> Box
+combineMatrixPairHorizontally p = Square $ M.fromList  1 1 ["1"]
+-- combineMatrixPairHorizontally (first, second) = first M.<|> getRightColumn second
 
-combineMatrixPairVertically :: MatrixPair -> Matrix
-combineMatrixPairVertically (first, second) = first M.<-> getBottomRow second
+combineMatrixPairVertically :: BoxPair -> Box
+combineMatrixPairVertically p = Square $ M.fromList  1 1 ["1"]
+-- combineMatrixPairVertically (first, second) = first M.<-> getBottomRow second
 
-centersOverlapVertically :: MatrixPair -> Bool
-centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
+centersOverlapVertically :: BoxPair -> Bool
+centersOverlapVertically p = False
+-- centersOverlapVertically (top, bottom) = removeTopRow top == removeBottomRow bottom
 
-centersOverlapHorizontally :: MatrixPair -> Bool
-centersOverlapHorizontally (left, right) = removeLeftColumn left == removeRightColumn right
+centersOverlapHorizontally :: BoxPair -> Bool
+centersOverlapHorizontally p = False
+-- centersOverlapHorizontally (left, right) = removeLeftColumn left == removeRightColumn right
 
-filterCandidates :: (MatrixPair -> Bool) -> MatrixPair -> Bool
-filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair
+filterCandidates :: (BoxPair -> Bool) -> BoxPair -> Bool
+filterCandidates op p = False
+-- filterCandidates centersOverlapOperator pair = cornersDoNotMatch pair && centersOverlapOperator pair

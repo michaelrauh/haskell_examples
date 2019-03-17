@@ -1,13 +1,15 @@
-module CombineNextDimension (combineNextDimension, Box (Square, Hyper)) where
+module CombineNextDimension (combineNextDimension) where
 import qualified Data.Matrix as M
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as S
 import Control.Applicative
 import MapBuilder
 import MatrixUtils
+import Orthotope
+import qualified Data.Vector as V
 
 type Matrix = M.Matrix String
-data Box = Square Matrix | Hyper Box Box deriving (Show, Eq)
+
 type MapToSet = Map.Map String (S.Set String)
 
 combineNextDimension :: MapToSet -> [Box] -> [Box]
@@ -37,3 +39,9 @@ wordInList (target, possibilities) = target `elem` possibilities
 unroll :: Box -> [String]
 unroll (Square b) = unrollMatrix b
 unroll (Hyper b1 b2) = unroll b1 ++ unroll b2
+
+unrollMatrix :: Matrix -> [String]
+unrollMatrix m = concat $ getMatrixRows m
+
+getMatrixRows :: Matrix -> [[String]]
+getMatrixRows m = [V.toList (M.getRow x m) | x <- [1.. (M.nrows m)]]
