@@ -6,17 +6,19 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
 import MatrixUtils
+import CombineNextDimension
 
 type Answer = (String, String, String, String, String)
 type StringMatrix = M.Matrix String
 type MapToSet = Map.Map String (S.Set String)
 
-foldSquare :: [String] -> [String] -> [M.Matrix String]
+foldSquare :: [String] -> [String] -> [Box]
 foldSquare wordList uniqueWords =
   let nextMap = buildNextWordMap wordList
       prevMap = buildPreviousWordMap wordList
       answers = concatMap (filterFoldedWords . foldWord nextMap prevMap) uniqueWords
-  in removeEquivalentMatrices $ map matrixfy answers
+      finalMatrices = removeEquivalentMatrices $ map matrixfy answers
+  in map Square finalMatrices
 
 foldWord :: MapToSet -> MapToSet -> String -> [Answer]
 foldWord wordMap prevMap a =

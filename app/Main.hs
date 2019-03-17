@@ -13,12 +13,12 @@ main = do
   let wordList = words contents
       uniqueWords = nub wordList
       answer2 = foldSquare wordList uniqueWords
-      phraseMap = buildPhraseMap wordList 2
-      answer32 = combineHorizontal phraseMap answer2
-      answer33 = combineVertical phraseMap answer32
+  --     phraseMap = buildPhraseMap wordList 2
+  --     answer32 = combineHorizontal phraseMap answer2
+  --     answer33 = combineVertical phraseMap answer32
   putStrLn "2x2 results:\n\n"
   putStr $ show answer2
-  putStrLn "3x2 results:\n\n"
-  putStr $ show answer32
-  putStrLn "3x3 results:\n\n"
-  putStr $ show answer33
+  -- putStrLn "3x2 results:\n\n"
+  -- putStr $ show answer32
+  -- putStrLn "3x3 results:\n\n"
+  -- putStr $ show answer33
