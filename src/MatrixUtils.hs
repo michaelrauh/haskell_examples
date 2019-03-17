@@ -13,7 +13,8 @@ module MatrixUtils
     getColumns,
     getBottomRowList,
     getBottomRow,
-    isTranspose
+    isTranspose,
+    unrollMatrix
     ) where
 
 import Data.Matrix as M
@@ -44,6 +45,9 @@ getBottomRow m = submatrix (nrows m) (nrows m) 1 (ncols m) m
 
 getRows :: StringMatrix -> [[String]]
 getRows m = [V.toList (getRow x m) | x <- [1.. (nrows m)]]
+
+unrollMatrix :: StringMatrix -> [String]
+unrollMatrix m = concat $ getRows m
 
 getColumns :: StringMatrix -> [[String]]
 getColumns m = [V.toList (getCol x m) | x <- [1.. (ncols m)]]

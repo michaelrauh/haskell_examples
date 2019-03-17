@@ -22,5 +22,5 @@ spec = do
           secondBox = Square secondMatrix
           inputBoxes = [firstBox, secondBox]
           expectedBoxes = [Hyper firstBox secondBox]
-          nextPhrases = Map.fromList [(["a"], S.singleton "e"), (["b"], S.singleton "f"), (["c"], S.singleton "g"), (["d"], S.singleton "h")]
+          nextPhrases = Map.fromList [("a", S.singleton "e"), ("b", S.singleton "f"), ("c", S.singleton "g"), ("d", S.singleton "h")]
       combineNextDimension nextPhrases inputBoxes `shouldBe` expectedBoxes
