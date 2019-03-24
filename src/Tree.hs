@@ -1,9 +1,9 @@
 module Tree (
-            Orthotope (Word, Sentence, Square),
+            Orthotope (Point, Line, Orthotope),
             getTopRightCorner) where
 import Data.Sequence
 
-data Orthotope = Word String | Sentence (Seq Orthotope) | Square (Seq Orthotope) deriving (Show)
+data Orthotope = Point String | Line (Seq Orthotope) | Orthotope (Seq Orthotope) deriving (Show)
 
 getTopRightCorner :: Orthotope -> String
-getTopRightCorner (Word w) = w
+getTopRightCorner (Point w) = w

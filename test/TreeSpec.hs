@@ -11,6 +11,7 @@ import Tree
 spec :: Spec
 spec = do
   describe "Orthotope" $ do
-    it "finds the top right corner" $ do
-      let input = Word "foo"
-      getTopRightCorner input `shouldBe` "foo"
+    describe "get top right corner" $ do
+      it "returns the word when a word is passed in" $ do
+        let input = Point "foo"
+        getTopRightCorner input `shouldBe` "foo"
