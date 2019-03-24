@@ -7,3 +7,7 @@ data Orthotope = Point String | Line (Seq Orthotope) | Orthotope (Seq Orthotope)
 
 getTopRightCorner :: Orthotope -> String
 getTopRightCorner (Point w) = w
+getTopRightCorner (Line s) = getTopRightCorner $ getLastElement $ viewr s
+
+getLastElement :: ViewR Orthotope -> Orthotope
+getLastElement (xs :> x) = x
