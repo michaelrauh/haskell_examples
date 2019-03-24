@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 02bda01b4210d2fd9e0feb8aa9d02adf35868b2b6002c15d8e9b8144d3292a00
+-- hash: 6ddc933eb161d13c8d32d933b7c9aa069daf20b476e56b69741ffc7112eecbca
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       MapBuilder
+      Tree
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:
@@ -59,6 +60,7 @@ test-suite haskell-fold-test
   main-is: Spec.hs
   other-modules:
       MapBuilderSpec
+      TreeSpec
       Paths_haskell_fold
   hs-source-dirs:
       test
