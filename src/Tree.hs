@@ -1,8 +1,9 @@
 module Tree (
-            Orthotope (Point, Line, Orthotope),
-            growDimension) where
+            Orthotope (Point, Orthotope),
+            upDimension) where
 
-data Orthotope = Point String | Line [Orthotope] | Orthotope [Orthotope] deriving (Show, Eq)
+data Orthotope = Point String | Orthotope [Orthotope] deriving (Show, Eq)
 
-growDimension :: Orthotope -> Orthotope -> Orthotope
-growDimension (Point a) (Point b) = Line [Point a, Point b]
+upDimension :: Orthotope -> Orthotope -> Orthotope
+upDimension (Point a) (Point b) = Orthotope [Point a, Point b]
+upDimension (Orthotope a) (Orthotope b) = Orthotope [Orthotope a, Orthotope b]
