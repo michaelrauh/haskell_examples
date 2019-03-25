@@ -1,13 +1,8 @@
 module Tree (
             Orthotope (Point, Line, Orthotope),
-            getTopRightCorner) where
-import Data.Sequence
+            growDimension) where
 
-data Orthotope = Point String | Line (Seq Orthotope) | Orthotope (Seq Orthotope) deriving (Show)
+data Orthotope = Point String | Line [Orthotope] | Orthotope [Orthotope] deriving (Show, Eq)
 
-getTopRightCorner :: Orthotope -> String
-getTopRightCorner (Point w) = w
-getTopRightCorner (Line s) = getTopRightCorner $ getLastElement $ viewr s
-
-getLastElement :: ViewR Orthotope -> Orthotope
-getLastElement (xs :> x) = x
+growDimension :: Orthotope -> Orthotope -> Orthotope
+growDimension (Point a) (Point b) = Line [Point a, Point b]
