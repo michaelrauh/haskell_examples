@@ -5,5 +5,4 @@ module Tree (
 data Orthotope = Point String | Orthotope [Orthotope] deriving (Show, Eq)
 
 upDimension :: Orthotope -> Orthotope -> Orthotope
-upDimension (Point a) (Point b) = Orthotope [Point a, Point b]
-upDimension (Orthotope a) (Orthotope b) = Orthotope [Orthotope a, Orthotope b]
+upDimension a b = Orthotope [a, b]
