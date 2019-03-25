@@ -11,15 +11,21 @@ import Tree
 spec :: Spec
 spec = do
   describe "Orthotope" $ do
-    describe "up dimension" $ do
+    describe "upDimension" $ do
       it "makes an orthotope of two points" $ do
-        let first = Point "foo"
-            second = Point "bar"
-            expected = Orthotope [first, second]
-        upDimension first second `shouldBe` expected
+         let first = Point "foo"
+             second = Point "bar"
+             expected = Orthotope [first, second]
+         upDimension first second `shouldBe` expected
 
       it "makes an orthotope of two orthotopes" $ do
         let first = Orthotope [Point "foo", Point "bar"]
             second = Orthotope [Point "bigfoot", Point "sasquatch"]
             expected = Orthotope [first, second]
         upDimension first second `shouldBe` expected
+  describe "Box" $ do
+    describe "from string" $ do
+      it "makes a box from a string" $ do
+        let input = "foo"
+            expected = Box (Point "foo") "foo"
+        fromString input `shouldBe` expected
