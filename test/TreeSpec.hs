@@ -37,3 +37,17 @@ spec = do
             second = fromString "bar"
             expected = Box (Orthotope [Point "foo", Point "bar"]) "bar"
         upBoxDimension first second `shouldBe` expected
+      it "combines two boxes that hold lines" $ do
+        let firstOrtho = Orthotope [Point "foo", Point "bar"]
+            secondOrtho = Orthotope [Point "baz", Point "bang"]
+            firstBox = Box firstOrtho "bar"
+            secondBox = Box secondOrtho "bang"
+            expected = Box (Orthotope [firstOrtho, secondOrtho]) "bang"
+        upBoxDimension firstBox secondBox `shouldBe` expected
+      it "combines two boxes that hold squares" $ do
+        let firstOrtho = Orthotope [Orthotope [Point "foo", Point "bar"], Orthotope [Point "baz", Point "bang"]]
+            secondOrtho = Orthotope [Orthotope [Point "sas", Point "quatch"], Orthotope [Point "is", Point "real"]]
+            firstBox = Box firstOrtho "bang"
+            secondBox = Box secondOrtho "real"
+            expected = Box (Orthotope [firstOrtho, secondOrtho]) "real"
+        upBoxDimension firstBox secondBox `shouldBe` expected
