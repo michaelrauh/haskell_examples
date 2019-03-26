@@ -1,8 +1,9 @@
 module Tree (
             Orthotope (Point, Orthotope),
-            Box(Box),
+            Box (Box),
             upDimension,
-            fromString) where
+            fromString,
+            upBoxDimension) where
 
 data Orthotope = Point String | Orthotope [Orthotope] deriving (Show, Eq)
 data Box = Box { getOrthotope :: Orthotope,
@@ -13,7 +14,7 @@ upDimension :: Orthotope -> Orthotope -> Orthotope
 upDimension a b = Orthotope [a, b]
 
 upBoxDimension :: Box -> Box -> Box
-upBoxDimension a b = Box (Point "foo") "bar"
+upBoxDimension (Box o1 tr1) (Box o2 tr2) = Box (upDimension o1 o2) tr2
 
 fromString :: String -> Box
 fromString s = Box (Point s) s
