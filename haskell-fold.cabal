@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6ddc933eb161d13c8d32d933b7c9aa069daf20b476e56b69741ffc7112eecbca
+-- hash: 4b5fd11f301fa168f011a235477b750a39cb2aa6a7715c8949e8fcd503f4729f
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -27,8 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      Box
       MapBuilder
-      Tree
+      Orthotope
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:
@@ -59,8 +60,8 @@ test-suite haskell-fold-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      BoxSpec
       MapBuilderSpec
-      TreeSpec
       Paths_haskell_fold
   hs-source-dirs:
       test
