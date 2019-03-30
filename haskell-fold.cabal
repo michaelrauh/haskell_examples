@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 825be5477e948070e6378051209471ad7c97087737b525fa512193f519c2257f
+-- hash: d781a79e7f3b14162b3b7cd9df5d69b8ceadcee8aa583e48fa2b30b2227470ad
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Box
+      BoxData
       MapBuilder
       Orthotope
   other-modules:
