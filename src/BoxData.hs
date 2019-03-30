@@ -4,5 +4,6 @@ import Orthotope
 data Box = Box { getOrthotope :: Orthotope,
                  getBottomLeftCorner :: String,
                  getTopRightCorner :: String,
-                 getRightColumn :: Orthotope
+                 getRightColumn :: Orthotope,
+                 getLines :: Orthotope
                 } deriving (Show, Eq)
