@@ -12,11 +12,11 @@ import qualified Orthotope as O
 spec :: Spec
 spec = do
   describe "Box" $ do
-    describe "from string" $ do
-      it "makes a box from a string" $ do
-        let input = "foo"
-            expected = B.Box (O.Point "foo") "foo" "foo" (O.Point "foo")
-        B.fromString input `shouldBe` expected
+    describe "from string pair" $ do
+      it "makes a box from a string pair" $ do
+        let input = ("foo", "bar")
+            expected = B.Box (O.Orthotope [O.Point "foo", O.Point "bar"]) "foo" "bar" (O.Point "bar")
+        B.fromStringPair input `shouldBe` expected
 
     describe "upDimension" $ do
       it "combines two boxes cross-dimensionally" $ do
