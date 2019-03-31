@@ -26,3 +26,7 @@ spec = do
     describe "fmap" $ do
       it "applies a function into a point" $ do
         fmap succ (Point 1) `shouldBe` Point 2
+      it "returns empty orthotope if the orthotope is empty" $ do
+        fmap (+1) (Orthotope []) `shouldBe` Orthotope []
+      it "applies a function to the point inside an orthotope if there is one point" $ do
+        fmap succ (Orthotope [Point 1]) `shouldBe` Orthotope [Point 2]

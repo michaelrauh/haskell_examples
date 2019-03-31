@@ -9,3 +9,5 @@ upDimension a b = Orthotope [a, b]
 
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)
+  fmap f (Orthotope []) = Orthotope []
+  fmap f (Orthotope [l]) = Orthotope [fmap f l]
