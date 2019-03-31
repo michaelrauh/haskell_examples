@@ -1,6 +1,11 @@
 module Orthotope (Orthotope (Point, Orthotope), upDimension) where
 
-data Orthotope = Point String | Orthotope [Orthotope] deriving (Show, Eq)
+data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Show, Eq)
 
-upDimension :: Orthotope -> Orthotope -> Orthotope
+type Ortho = Orthotope String
+
+upDimension :: Ortho -> Ortho -> Ortho
 upDimension a b = Orthotope [a, b]
+
+instance Functor Orthotope where
+  fmap f (Point a) = Point (f a)

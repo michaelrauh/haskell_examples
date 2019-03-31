@@ -23,3 +23,6 @@ spec = do
             second = Orthotope [Point "bigfoot", Point "sasquatch"]
             expected = Orthotope [first, second]
         upDimension first second `shouldBe` expected
+    describe "fmap" $ do
+      it "applies a function into a point" $ do
+        fmap succ (Point 1) `shouldBe` Point 2
