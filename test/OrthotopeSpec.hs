@@ -30,3 +30,7 @@ spec = do
         fmap (+1) (Orthotope []) `shouldBe` Orthotope []
       it "applies a function to the point inside an orthotope if there is one point" $ do
         fmap succ (Orthotope [Point 1]) `shouldBe` Orthotope [Point 2]
+      it "applies a function to all points inside an orthotope" $ do
+        fmap succ (Orthotope [Point 1, Point 2]) `shouldBe` Orthotope [Point 2, Point 3]
+      it "applies a function to nested orthotopes" $ do
+        fmap succ (Orthotope [Orthotope [Point 1, Point 2], Orthotope [Point 3]]) `shouldBe` Orthotope [Orthotope [Point 2, Point 3], Orthotope [Point 4]]
