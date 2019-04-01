@@ -14,3 +14,7 @@ instance Functor Orthotope where
 instance Foldable Orthotope where
   foldMap f (Point a) = f a
   foldMap f (Orthotope l) = foldMap (foldMap f) l
+
+instance Traversable Orthotope where
+  traverse f (Point a) = Point <$> f a
+  traverse f (Orthotope l) = Orthotope <$> traverse (traverse f) l

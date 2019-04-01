@@ -37,3 +37,6 @@ spec = do
     describe "folding orthotopes" $ do
       it "produces a single value that is in folding order" $ do
         concat (Orthotope [Orthotope [Point "a"], Point "b", Point "c", Orthotope [Point "d", Point "e"]]) `shouldBe` "abcde"
+    describe "traversing orthotopes" $ do
+      it "allows mapping monadically" $ do
+        mapM (\x -> [x, x + 1]) (Orthotope [Point 5, Point 6]) `shouldBe` [Orthotope [Point 5,Point 6],Orthotope [Point 5,Point 7],Orthotope [Point 6,Point 6],Orthotope [Point 6,Point 7]]
