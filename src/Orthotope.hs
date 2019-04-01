@@ -10,3 +10,7 @@ upDimension a b = Orthotope [a, b]
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)
   fmap f (Orthotope l) = Orthotope (map (fmap f) l)
+
+instance Foldable Orthotope where
+  foldMap f (Point a) = f a
+  foldMap f (Orthotope l) = foldMap (foldMap f) l

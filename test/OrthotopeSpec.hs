@@ -34,3 +34,6 @@ spec = do
         fmap succ (Orthotope [Point 1, Point 2]) `shouldBe` Orthotope [Point 2, Point 3]
       it "applies a function to nested orthotopes" $ do
         fmap succ (Orthotope [Orthotope [Point 1, Point 2], Orthotope [Point 3]]) `shouldBe` Orthotope [Orthotope [Point 2, Point 3], Orthotope [Point 4]]
+    describe "folding orthotopes" $ do
+      it "produces a single value that is in folding order" $ do
+        concat (Orthotope [Orthotope [Point "a"], Point "b", Point "c", Orthotope [Point "d", Point "e"]]) `shouldBe` "abcde"
