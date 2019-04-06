@@ -40,3 +40,6 @@ spec = do
     describe "traversing orthotopes" $ do
       it "allows mapping monadically" $ do
         mapM (\x -> [x, x + 1]) (Orthotope [Point 5, Point 6]) `shouldBe` [Orthotope [Point 5,Point 6],Orthotope [Point 5,Point 7],Orthotope [Point 6,Point 6],Orthotope [Point 6,Point 7]]
+    describe "addlength" $ do
+      it "combines two orthotopes by taking the head of one orthotope and making it the tail of the other" $ do
+        addLength (Orthotope [Point "a", Point "b"]) (Orthotope [Point "c", Point "d"]) `shouldBe` (Orthotope [Point "a", Point "b", Point "c"])
