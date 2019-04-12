@@ -1,4 +1,4 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho) where
 
 data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Show, Eq)
 

@@ -6,13 +6,16 @@ module Box (
 import qualified Orthotope as O
 import BoxData
 
+type Combiner =  O.Ortho -> O.Ortho -> O.Ortho
+
 upDimension :: Box -> Box -> Box
-upDimension (Box o1 bl1 tr1 rc1 l1) (Box o2 bl2 tr2 rc2 l2) =
-  Box (O.upDimension o1 o2) bl1 tr2 (O.upDimension rc1 rc2) (O.upDimension l1 l2)
+upDimension = mix O.upDimension
 
 addLength :: Box -> Box -> Box
-addLength (Box o1 bl1 tr1 rc1 l1) (Box o2 bl2 tr2 rc2 l2) =
-  Box (O.addLength o1 o2) bl1 tr2 (O.addLength rc1 rc2) (O.addLength l1 l2)
+addLength = mix O.addLength
+
+mix :: Combiner -> Box -> Box -> Box
+mix c (Box o1 bl1 tr1 rc1 l1) (Box o2 bl2 tr2 rc2 l2) = Box (c o1 o2) bl1 tr2 (c rc1 rc2) (c l1 l2)
 
 fromStringPair :: (String, String) -> Box
 fromStringPair (f, s) =
