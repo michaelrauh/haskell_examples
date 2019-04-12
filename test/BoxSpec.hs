@@ -27,3 +27,13 @@ spec = do
             secondBox = D.Box secondOrtho "sas" "real" (O.Orthotope [O.Point "quatch", O.Point "real"]) (O.Orthotope [O.Point "sasquatch", O.Point "isreal"])
             expected = D.Box (O.Orthotope [firstOrtho, secondOrtho]) "foo" "real" (O.Orthotope [O.Orthotope [O.Point "bar", O.Point "bang"], O.Orthotope [O.Point "quatch", O.Point "real"]]) (O.Orthotope [O.Orthotope [O.Point "foobar", O.Point "bazbang"], O.Orthotope [O.Point "sasquatch", O.Point "isreal"]])
         B.upDimension firstBox secondBox `shouldBe` expected
+
+    describe "addLength" $ do
+      it "combines two boxes in the most recently added dimension" $ do
+        let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
+            secondOrtho = O.Orthotope [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
+            resultOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
+            firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "bar", O.Point "bang"]) (O.Orthotope [O.Point "foobar", O.Point "bazbang"])
+            secondBox = D.Box secondOrtho "baz" "real" (O.Orthotope [O.Point "bang", O.Point "real"]) (O.Orthotope [O.Point "bazbang", O.Point "isreal"])
+            expected = D.Box resultOrtho "foo" "real" (O.Orthotope [O.Point "bar", O.Point "bang", O.Point "real"]) (O.Orthotope [O.Point "foobar", O.Point "bazbang", O.Point "isreal"])
+        B.addLength firstBox secondBox `shouldBe` expected
