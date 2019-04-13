@@ -16,16 +16,16 @@ spec = do
     describe "from string pair" $ do
       it "makes a box from a string pair" $ do
         let input = ("foo", "bar")
-            expected = D.Box (O.Orthotope [O.Point "foo", O.Point "bar"]) "foo" "bar" (O.Point "bar") (O.Point "foobar")
+            expected = D.Box (O.Orthotope [O.Point "foo", O.Point "bar"]) "foo" "bar"
         B.fromStringPair input `shouldBe` expected
 
     describe "upDimension" $ do
       it "combines two boxes cross-dimensionally" $ do
         let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
             secondOrtho = O.Orthotope [O.Orthotope [O.Point "sas", O.Point "quatch"], O.Orthotope [O.Point "is", O.Point "real"]]
-            firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "bar", O.Point "bang"]) (O.Orthotope [O.Point "foobar", O.Point "bazbang"])
-            secondBox = D.Box secondOrtho "sas" "real" (O.Orthotope [O.Point "quatch", O.Point "real"]) (O.Orthotope [O.Point "sasquatch", O.Point "isreal"])
-            expected = D.Box (O.Orthotope [firstOrtho, secondOrtho]) "foo" "real" (O.Orthotope [O.Orthotope [O.Point "bar", O.Point "bang"], O.Orthotope [O.Point "quatch", O.Point "real"]]) (O.Orthotope [O.Orthotope [O.Point "foobar", O.Point "bazbang"], O.Orthotope [O.Point "sasquatch", O.Point "isreal"]])
+            firstBox = D.Box firstOrtho "foo" "bang"
+            secondBox = D.Box secondOrtho "sas" "real"
+            expected = D.Box (O.Orthotope [firstOrtho, secondOrtho]) "foo" "real"
         B.upDimension firstBox secondBox `shouldBe` expected
 
     describe "addLength" $ do
@@ -33,7 +33,7 @@ spec = do
         let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
             secondOrtho = O.Orthotope [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
             resultOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
-            firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "bar", O.Point "bang"]) (O.Orthotope [O.Point "foobar", O.Point "bazbang"])
-            secondBox = D.Box secondOrtho "baz" "real" (O.Orthotope [O.Point "bang", O.Point "real"]) (O.Orthotope [O.Point "bazbang", O.Point "isreal"])
-            expected = D.Box resultOrtho "foo" "real" (O.Orthotope [O.Point "bar", O.Point "bang", O.Point "real"]) (O.Orthotope [O.Point "foobar", O.Point "bazbang", O.Point "isreal"])
+            firstBox = D.Box firstOrtho "foo" "bang"
+            secondBox = D.Box secondOrtho "baz" "real"
+            expected = D.Box resultOrtho "foo" "real"
         B.addLength firstBox secondBox `shouldBe` expected
