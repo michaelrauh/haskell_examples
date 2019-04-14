@@ -57,3 +57,6 @@ spec = do
         zipWithOrtho (+) (Point 3) (Point 4) `shouldBe` Point 7
       it "applies a binary function to two orthotopes that are the same exact shape" $ do
         zipWithOrtho (+) (Orthotope [Point 3, Point 7]) (Orthotope [Point 11, Point 13]) `shouldBe` Orthotope [Point 14, Point 20]
+    describe "zipConcat" $ do
+      it "concatenates each string in an orthotope" $ do
+        zipConcat (Orthotope [Point "a", Point "b"]) (Orthotope [Point "c", Point "d"]) `shouldBe` Orthotope [Point "ac", Point "bd"]

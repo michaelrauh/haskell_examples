@@ -1,4 +1,4 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho, zipConcat) where
 
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
@@ -8,6 +8,9 @@ data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Show, Eq)
 
 type Ortho = Orthotope String
 type WordMap = Map.Map String (S.Set String)
+
+zipConcat :: Ortho -> Ortho -> Ortho
+zipConcat = zipWithOrtho (++)
 
 getNext :: WordMap -> Ortho -> [Ortho]
 getNext = mapM . nextWords
@@ -21,6 +24,7 @@ addLength (Orthotope l1) (Orthotope l2) = Orthotope (head l1 : l2)
 zipWithOrtho :: (a -> b -> c) -> Orthotope a -> Orthotope b -> Orthotope c
 zipWithOrtho f (Point a) (Point b) = Point (f a b)
 zipWithOrtho f (Orthotope l1) (Orthotope l2) = Orthotope (zipWith (zipWithOrtho f) l1 l2)
+
 
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)
