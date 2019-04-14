@@ -10,7 +10,7 @@ type Ortho = Orthotope String
 type WordMap = Map.Map String (S.Set String)
 
 getNext :: WordMap -> Ortho -> [Ortho]
-getNext wordMap = mapM (nextWords wordMap)
+getNext = mapM . nextWords
 
 upDimension :: Ortho -> Ortho -> Ortho
 upDimension a b = Orthotope [a, b]
