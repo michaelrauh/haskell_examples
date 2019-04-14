@@ -18,7 +18,9 @@ upDimension a b = Orthotope [a, b]
 addLength :: Ortho -> Ortho -> Ortho
 addLength (Orthotope l1) (Orthotope l2) = Orthotope (head l1 : l2)
 
+zipWithOrtho :: (a -> b -> c) -> Orthotope a -> Orthotope b -> Orthotope c
 zipWithOrtho f (Point a) (Point b) = Point (f a b)
+zipWithOrtho f (Orthotope l1) (Orthotope l2) = Orthotope (zipWith (zipWithOrtho f) l1 l2)
 
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)

@@ -55,3 +55,5 @@ spec = do
     describe "zipWithOrtho" $ do
       it "applies a binary function to two points" $ do
         zipWithOrtho (+) (Point 3) (Point 4) `shouldBe` Point 7
+      it "applies a binary function to two orthotopes that are the same exact shape" $ do
+        zipWithOrtho (+) (Orthotope [Point 3, Point 7]) (Orthotope [Point 11, Point 13]) `shouldBe` Orthotope [Point 14, Point 20]
