@@ -3,5 +3,6 @@ import Orthotope
 
 data Box = Box { getOrthotope :: Orthotope String,
                  getBottomLeftCorner :: String,
-                 getTopRightCorner :: String
+                 getTopRightCorner :: String,
+                 getLines :: Orthotope String
                 } deriving (Show, Eq)
