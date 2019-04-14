@@ -1,8 +1,16 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext) where
+
+import qualified Data.Set as S
+import qualified Data.Map.Strict as Map
+import MapBuilder
 
 data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Show, Eq)
 
 type Ortho = Orthotope String
+type WordMap = Map.Map String (S.Set String)
+
+getNext :: WordMap -> Ortho -> [Ortho]
+getNext wordMap = mapM (nextWords wordMap)
 
 upDimension :: Ortho -> Ortho -> Ortho
 upDimension a b = Orthotope [a, b]

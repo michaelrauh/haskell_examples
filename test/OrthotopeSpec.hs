@@ -5,6 +5,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 import Orthotope
+import MapBuilder
 
 {-# ANN module "HLint: ignore Redundant do" #-}
 
@@ -43,3 +44,11 @@ spec = do
     describe "addlength" $ do
       it "combines two orthotopes by taking the head of one orthotope and making it the head of the other" $ do
         addLength (Orthotope [Point "a", Point "b"]) (Orthotope [Point "c", Point "d"]) `shouldBe` Orthotope [Point "a", Point "c", Point "d"]
+    describe "getNext" $ do
+      it "gets all possible mixes of next words for each position in the orthotope" $ do
+        let fromOrtho = Orthotope [Point "a", Point "b"]
+            wordList = ["a", "c", "b", "d", "a", "e"]
+            wordMap = buildNextWordMap wordList
+            expected = [(Orthotope [Point "c", Point "d"]), (Orthotope [Point "e", Point "d"])]
+            actual = getNext wordMap fromOrtho
+        actual `shouldBe` expected
