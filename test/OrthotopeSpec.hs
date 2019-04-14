@@ -49,6 +49,9 @@ spec = do
         let fromOrtho = Orthotope [Point "a", Point "b"]
             wordList = ["a", "c", "b", "d", "a", "e"]
             wordMap = buildNextWordMap wordList
-            expected = [(Orthotope [Point "c", Point "d"]), (Orthotope [Point "e", Point "d"])]
+            expected = [Orthotope [Point "c", Point "d"], Orthotope [Point "e", Point "d"]]
             actual = getNext wordMap fromOrtho
         actual `shouldBe` expected
+    describe "zipWithOrtho" $ do
+      it "applies a binary function to two points" $ do
+        zipWithOrtho (+) (Point 3) (Point 4) `shouldBe` Point 7

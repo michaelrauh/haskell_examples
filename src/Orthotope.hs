@@ -1,4 +1,4 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho) where
 
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
@@ -17,6 +17,8 @@ upDimension a b = Orthotope [a, b]
 
 addLength :: Ortho -> Ortho -> Ortho
 addLength (Orthotope l1) (Orthotope l2) = Orthotope (head l1 : l2)
+
+zipWithOrtho f (Point a) (Point b) = Point (f a b)
 
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)
