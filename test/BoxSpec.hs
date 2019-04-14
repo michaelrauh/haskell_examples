@@ -37,3 +37,17 @@ spec = do
             secondBox = D.Box secondOrtho "sas" "real" (O.Orthotope [O.Point "bazis", O.Point "bangreal"]) (O.Orthotope [O.Point "is", O.Point "real"])
             expected = D.Box resultOrtho "foo" "real" (O.Orthotope [O.Point "foobazis", O.Point "barbangreal"]) (O.Orthotope [O.Point "is", O.Point "real"])
         B.addLength firstBox secondBox `shouldBe` expected
+
+    describe "getCenter1" $ do
+      it "is the same as the column being tracked for the box" $ do
+        let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
+            firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
+            expected = O.Orthotope [O.Point "baz", O.Point "bang"]
+        B.getCenter1 firstBox `shouldBe` expected
+
+    describe "getCenter2" $ do
+      it "is the same as the column being tracked for the box" $ do
+        let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
+            firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
+            expected = O.Orthotope [O.Point "foo", O.Point "bar"]
+        B.getCenter2 firstBox `shouldBe` expected

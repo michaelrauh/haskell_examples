@@ -1,4 +1,4 @@
-module BoxData (Box (Box)) where
+module BoxData (Box (Box, getColumn)) where
 import Orthotope
 
 data Box = Box { getOrthotope :: Orthotope String,
