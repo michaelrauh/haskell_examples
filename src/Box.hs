@@ -11,8 +11,7 @@ module Box (
 import qualified Orthotope as O
 import BoxData
 
-getPossibleNextBoxes :: O.WordMap -> [Box] -> Box -> [Box]
-getPossibleNextBoxes wordMap allBoxes box = filter ((`elem` getPossibleNextOrthotopes wordMap box) . getOrthotope) allBoxes
+getPossibleNextBoxes wordMap allBoxes box = filter (\ x -> elem (getOrthotope x) (getPossibleNextOrthotopes wordMap box)) allBoxes;
 
 cornersDoNotMatch :: Box -> Box -> Bool
 cornersDoNotMatch b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
