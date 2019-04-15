@@ -5,7 +5,7 @@ module Box (
             getCenter1,
             getCenter2,
             cornersDoNotMatch,
-            getPossibleNext) where
+            getPossibleNextOrthotopes) where
 
 import qualified Orthotope as O
 import BoxData
@@ -13,8 +13,8 @@ import BoxData
 cornersDoNotMatch :: Box -> Box -> Bool
 cornersDoNotMatch b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
 
-getPossibleNext :: O.WordMap -> Box -> [O.Ortho]
-getPossibleNext wordMap b = O.getNext wordMap (getOrthotope b)
+getPossibleNextOrthotopes :: O.WordMap -> Box -> [O.Ortho]
+getPossibleNextOrthotopes wordMap b = O.getNext wordMap (getOrthotope b)
 
 getCenter1 :: Box -> O.Ortho
 getCenter1 = getColumn
