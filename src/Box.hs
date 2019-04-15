@@ -8,13 +8,18 @@ module Box (
             getPossibleNextOrthotopes,
             getPossibleNextBoxes,
             eligibleToCombine,
-            getNextElegibleBoxes) where
+            getNexteligibleBoxes,
+            combineNextDimension) where
 
 import qualified Orthotope as O
 import BoxData
+import Control.Applicative
 
-getNextElegibleBoxes :: O.WordMap -> [Box] -> Box -> [Box]
-getNextElegibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
+combineNextDimension :: O.WordMap -> [Box] -> Box -> [Box]
+combineNextDimension = (liftA2 map upDimension .) . getNexteligibleBoxes
+
+getNexteligibleBoxes :: O.WordMap -> [Box] -> Box -> [Box]
+getNexteligibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
 
 eligibleToCombine :: [Box] -> Box -> [Box]
 eligibleToCombine nextBoxes box = filter (cornersDoNotMatch box) nextBoxes;

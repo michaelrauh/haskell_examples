@@ -11,6 +11,7 @@ import qualified Data.Map.Strict as Map
 import qualified Data.Set as S
 
 {-# ANN module "HLint: ignore Redundant do" #-}
+{-# ANN module "HLint: ignore Reduce duplication" #-}
 
 spec :: Spec
 spec = do
@@ -90,7 +91,7 @@ spec = do
             nonMatchingBox = D.Box (O.Point "foo") "diff" "erent" (O.Point "") (O.Point "")
         B.eligibleToCombine [nonMatchingBox, matchingBox] firstBox `shouldBe` [nonMatchingBox]
 
-    describe "getNextElegibleBoxes" $ do
+    describe "getNextEligibleBoxes" $ do
       it "returns all known boxes adjacent to the input box which don't have matching corners" $ do
         let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
             firstBox = D.Box firstOrtho "match" "" (O.Point "unrealistic") (O.Point "unrealistic")
@@ -100,4 +101,14 @@ spec = do
             matchingBoxWithMatchingCorners = D.Box matchingOrtho "" "match" (O.Point "") (O.Point "")
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "")
-        B.getNextElegibleBoxes wordMap [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
+        B.getNexteligibleBoxes wordMap [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
+
+    describe "combineNextDimension" $ do
+      it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
+        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+            firstBox = D.Box firstOrtho "foo" "bar" (O.Point "foobar") (O.Point "bar")
+            wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+            matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
+            matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang")
+            expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
+        B.combineNextDimension wordMap [matchingBox] firstBox `shouldBe` [expected]
