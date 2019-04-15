@@ -7,6 +7,8 @@ import Test.QuickCheck
 import qualified Box as B
 import qualified BoxData as D
 import qualified Orthotope as O
+import qualified Data.Map.Strict as Map
+import qualified Data.Set as S
 
 {-# ANN module "HLint: ignore Redundant do" #-}
 
@@ -61,3 +63,10 @@ spec = do
         let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still")
             secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same")
         B.cornersDoNotMatch firstBox secondBox `shouldBe` True
+
+    describe "getPossibleNext" $ do
+      it "returns a list of orthotopes by getting an orthotope out of the box, and mapping it across the wordMap" $ do
+        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+            firstBox = D.Box firstOrtho "wrong" "irrelevant" (O.Point "unrealistic") (O.Point "unrealistic")
+            wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+        B.getPossibleNext wordMap firstBox `shouldBe` ([O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]])

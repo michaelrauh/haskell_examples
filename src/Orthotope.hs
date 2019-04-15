@@ -1,4 +1,4 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho, zipConcat) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho, zipConcat, WordMap) where
 
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
