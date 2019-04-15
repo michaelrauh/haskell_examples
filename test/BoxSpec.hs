@@ -101,7 +101,7 @@ spec = do
             matchingBoxWithMatchingCorners = D.Box matchingOrtho "" "match" (O.Point "") (O.Point "")
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "")
-        B.getNexteligibleBoxes wordMap [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
+        B.getNextEligibleBoxes wordMap [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
 
     describe "combineNextDimension" $ do
       it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
