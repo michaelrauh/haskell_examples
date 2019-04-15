@@ -15,8 +15,6 @@ import qualified Orthotope as O
 import BoxData
 import Control.Applicative
 
-combineAllNextDimension wordMap allBoxes = concatMap (combineNextDimension wordMap allBoxes)
-
 combineNextDimension :: O.WordMap -> [Box] -> Box -> [Box]
 combineNextDimension = (liftA2 map upDimension .) . getNextEligibleBoxes
 
