@@ -46,8 +46,18 @@ spec = do
         B.getCenter1 firstBox `shouldBe` expected
 
     describe "getCenter2" $ do
-      it "is the same as the column being tracked for the box" $ do
+      it "is the same as the head of the underlying orthotope for the box" $ do
         let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
             firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
             expected = O.Orthotope [O.Point "foo", O.Point "bar"]
         B.getCenter2 firstBox `shouldBe` expected
+
+    describe "cornersDoNotMatch" $ do
+      it "returns false when the bottom left corner of the first box matches the top right corner of the second box" $ do
+        let firstBox = D.Box (O.Point "lol") "match" "notimportant" (O.Point "irrelevant") (O.Point "still")
+            secondBox = D.Box (O.Point "no") "stillnot" "match" (O.Point "different") (O.Point "not the same")
+        B.cornersDoNotMatch firstBox secondBox `shouldBe` False
+      it "returns true otherwise" $ do
+        let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still")
+            secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same")
+        B.cornersDoNotMatch firstBox secondBox `shouldBe` True

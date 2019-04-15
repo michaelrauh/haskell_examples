@@ -3,16 +3,20 @@ module Box (
             upDimension,
             addLength,
             getCenter1,
-            getCenter2) where
+            getCenter2,
+            cornersDoNotMatch) where
 
 import qualified Orthotope as O
 import BoxData
+
+cornersDoNotMatch :: Box -> Box -> Bool
+cornersDoNotMatch b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
 
 getCenter1 :: Box -> O.Ortho
 getCenter1 = getColumn
 
 getCenter2 :: Box -> O.Ortho
-getCenter2 (Box (O.Orthotope ol1) _ _ _ _) = head ol1
+getCenter2 (Box (O.Orthotope ol) _ _ _ _) = head ol
 
 upDimension :: Box -> Box -> Box
 upDimension (Box o1 bl1 tr1 l1 c1) (Box o2 bl2 tr2 l2 c2) =
