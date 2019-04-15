@@ -17,10 +17,10 @@ getNextElegibleBoxes :: O.WordMap -> [Box] -> Box -> [Box]
 getNextElegibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
 
 eligibleToCombine :: [Box] -> Box -> [Box]
-eligibleToCombine nextBoxes box = filter (\x -> cornersDoNotMatch box x) nextBoxes;
+eligibleToCombine nextBoxes box = filter (cornersDoNotMatch box) nextBoxes;
 
 getPossibleNextBoxes :: O.WordMap -> [Box] -> Box -> [Box]
-getPossibleNextBoxes wordMap allBoxes box = filter (\x -> elem (getOrthotope x) (getPossibleNextOrthotopes wordMap box)) allBoxes
+getPossibleNextBoxes wordMap allBoxes box = filter (\x -> getOrthotope x `elem` getPossibleNextOrthotopes wordMap box) allBoxes
 
 cornersDoNotMatch :: Box -> Box -> Bool
 cornersDoNotMatch b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
