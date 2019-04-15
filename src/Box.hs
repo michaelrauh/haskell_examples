@@ -7,13 +7,17 @@ module Box (
             cornersDoNotMatch,
             getPossibleNextOrthotopes,
             getPossibleNextBoxes,
-            eligibleToCombine) where
+            eligibleToCombine,
+            getNextElegibleBoxes) where
 
 import qualified Orthotope as O
 import BoxData
 
+getNextElegibleBoxes :: O.WordMap -> [Box] -> Box -> [Box]
+getNextElegibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
+
 eligibleToCombine :: [Box] -> Box -> [Box]
-eligibleToCombine nextBoxes box = filter (\x -> cornersDoNotMatch x box) nextBoxes;
+eligibleToCombine nextBoxes box = filter (\x -> cornersDoNotMatch box x) nextBoxes;
 
 getPossibleNextBoxes :: O.WordMap -> [Box] -> Box -> [Box]
 getPossibleNextBoxes wordMap allBoxes box = filter (\x -> elem (getOrthotope x) (getPossibleNextOrthotopes wordMap box)) allBoxes
