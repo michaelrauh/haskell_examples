@@ -112,3 +112,13 @@ spec = do
             matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang")
             expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
         B.combineNextDimension wordMap [matchingBox] firstBox `shouldBe` [expected]
+
+    describe "combineAllNextDimension" $ do
+      it "attempts to combine all boxes with all boxes into the next dimension" $ do
+        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+            firstBox = D.Box firstOrtho "foo" "bar" (O.Point "foobar") (O.Point "bar")
+            wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+            matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
+            matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang")
+            expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
+        B.combineAllNextDimension wordMap [firstBox, matchingBox] `shouldBe` [expected]

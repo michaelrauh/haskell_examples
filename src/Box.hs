@@ -9,11 +9,15 @@ module Box (
             getPossibleNextBoxes,
             eligibleToCombine,
             getNextEligibleBoxes,
-            combineNextDimension) where
+            combineNextDimension,
+            combineAllNextDimension) where
 
 import qualified Orthotope as O
 import BoxData
 import Control.Applicative
+
+combineAllNextDimension :: O.WordMap -> [Box] -> [Box]
+combineAllNextDimension wordMap allBoxes = concatMap (combineNextDimension wordMap allBoxes) allBoxes
 
 combineNextDimension :: O.WordMap -> [Box] -> Box -> [Box]
 combineNextDimension = (liftA2 map upDimension .) . getNextEligibleBoxes
