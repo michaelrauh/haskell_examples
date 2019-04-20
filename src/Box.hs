@@ -16,11 +16,13 @@ import qualified Orthotope as O
 import BoxData
 import Control.Applicative
 
+data Combinable = NextDimension Box | Add Box
+
 combineAllNextDimension :: O.WordMap -> [Box] -> [Box]
 combineAllNextDimension wordMap allBoxes = concatMap (combineNextDimension wordMap allBoxes) allBoxes
 
 combineNextDimension :: O.WordMap -> [Box] -> Box -> [Box]
-combineNextDimension = (liftA2 map upDimension .) . getNextEligibleBoxes
+combineNextDimension wordMap allBoxes box = map (upDimension box) (getNextEligibleBoxes wordMap allBoxes box)
 
 getNextEligibleBoxes :: O.WordMap -> [Box] -> Box -> [Box]
 getNextEligibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
@@ -44,13 +46,10 @@ getCenter2 :: Box -> O.Ortho
 getCenter2 (Box (O.Orthotope ol) _ _ _ _) = head ol
 
 upDimension :: Box -> Box -> Box
-upDimension (Box o1 bl1 tr1 l1 c1) (Box o2 bl2 tr2 l2 c2) =
-  Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2
+upDimension (Box o1 bl1 tr1 l1 c1) (Box o2 bl2 tr2 l2 c2) = Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2
 
 addLength :: Box -> Box -> Box
-addLength (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1) (Box o2 bl2 tr2 l2 c2) =
-  Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2
+addLength (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1) (Box o2 bl2 tr2 l2 c2) = Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2
 
 fromStringPair :: (String, String) -> Box
-fromStringPair (f, s) =
-  Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)
+fromStringPair (f, s) = Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)
