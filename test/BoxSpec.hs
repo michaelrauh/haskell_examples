@@ -72,7 +72,7 @@ spec = do
             matchingBox = D.Box matchingOrtho "" "" (O.Point "") (O.Point "")
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "")
-        B.getPossibleNextBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox] (B.Next firstBox) `shouldBe` [B.Next (matchingBox)]
+        B.getPossibleNextBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox] (B.Next firstBox) `shouldBe` [B.Next matchingBox]
 
     describe "eligibleToCombine" $ do
       it "returns a list of boxes that do not match corners with the input box" $ do
