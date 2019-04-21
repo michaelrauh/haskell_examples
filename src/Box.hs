@@ -9,13 +9,14 @@ module Box (
             eligibleToCombine,
             getNextEligibleBoxes,
             combine,
-            combineAll) where
+            combineAll,
+            Combinable (Next, In)) where
 
 import qualified Orthotope as O
 import BoxData
 import Control.Applicative
 
-data Combinable = Next Box | In Box
+data Combinable = Next Box | In Box deriving (Show, Eq)
 
 combineAll :: O.WordMap -> [Combinable] -> [Box]
 combineAll wordMap allBoxes = concatMap (combine wordMap allBoxes) allBoxes
