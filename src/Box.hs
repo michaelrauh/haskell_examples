@@ -50,6 +50,7 @@ getCenter2 (Box (O.Orthotope ol) _ _ _ _) = head ol
 
 combineBoxes :: Combinable -> Combinable -> Box
 combineBoxes (Next (Box o1 bl1 tr1 l1 c1)) (Next (Box o2 bl2 tr2 l2 c2)) = Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2
+combineBoxes (In (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1)) (In (Box o2 bl2 tr2 l2 c2)) = Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2
 
 fromStringPair :: (String, String) -> Box
 fromStringPair (f, s) = Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)
