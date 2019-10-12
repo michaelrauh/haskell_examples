@@ -49,29 +49,32 @@ spec = do
             expectedCenter2 = O.Orthotope [firstCenter2, secondCenter2]
             expectedBox = D.Box expectedOrtho expectedBLC expectedTRC expectedLines expectedColumn expectedCenter1 expectedCenter2
         B.combineBoxes (B.Next firstBox) (B.Next secondBox) `shouldBe` expectedBox 
-    --   it "combines two boxes in the most recent dimension" $ do
-    --     let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
-    --         secondOrtho = O.Orthotope [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
-    --         resultOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
-    --         firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
-    --         secondBox = D.Box secondOrtho "sas" "real" (O.Orthotope [O.Point "bazis", O.Point "bangreal"]) (O.Orthotope [O.Point "is", O.Point "real"])
-    --         expected = D.Box resultOrtho "foo" "real" (O.Orthotope [O.Point "foobazis", O.Point "barbangreal"]) (O.Orthotope [O.Point "is", O.Point "real"])
-    --     B.combineBoxes (B.In firstBox) (B.In secondBox) `shouldBe` expected
-    --
-    -- describe "getCenter1" $ do
-    --   it "is the same as the column being tracked for the box" $ do
-    --     let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
-    --         firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
-    --         expected = O.Orthotope [O.Point "baz", O.Point "bang"]
-    --     B.getCenter1 firstBox `shouldBe` expected
-    --
-    -- describe "getCenter2" $ do
-    --   it "is the same as the head of the underlying orthotope for the box" $ do
-    --     let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
-    --         firstBox = D.Box firstOrtho "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
-    --         expected = O.Orthotope [O.Point "foo", O.Point "bar"]
-    --     B.getCenter2 firstBox `shouldBe` expected
-    --
+      it "combines two boxes in the most recent dimension" $ do
+        let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
+            secondOrtho = O.Orthotope [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
+            firstBLC = "foo"
+            firstTRC = "bang"
+            firstLines = O.Orthotope [O.Point "foobaz", O.Point "barbang"]
+            firstColumn = O.Orthotope [O.Point "baz", O.Point "bang"]
+            firstCenter1 = O.Orthotope [O.Orthotope [O.Point "bar"], O.Orthotope [O.Point "bang"]]
+            firstCenter2 = O.Orthotope [O.Orthotope [O.Point "foo"], O.Orthotope [O.Point "baz"]]
+            firstBox = D.Box firstOrtho firstBLC firstTRC firstLines firstColumn firstCenter1 firstCenter2
+            secondBLC = "baz"
+            secondTRC = "real"
+            secondLines = O.Orthotope [O.Point "bazis", O.Point "bangreal"]
+            secondColumn = O.Orthotope [O.Point "is", O.Point "real"]
+            secondCenter1 = O.Orthotope [O.Orthotope [O.Point "bang"], O.Orthotope [O.Point "real"]]
+            secondCenter2 = O.Orthotope [O.Orthotope [O.Point "baz"], O.Orthotope [O.Point "is"]]
+            secondBox = D.Box secondOrtho secondBLC secondTRC secondLines secondColumn secondCenter1 secondCenter2
+            expectedOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]
+            expectedBLC = firstBLC
+            expectedTRC = secondTRC
+            expectedLines = O.Orthotope [O.Point "foobazis", O.Point "barbangreal"]
+            expectedColumn = secondColumn 
+            expectedCenter1 = O.Orthotope [O.Orthotope [O.Point "bar"], O.Orthotope [O.Point "bang"], O.Orthotope [O.Point "real"]]
+            expectedCenter2 = O.Orthotope [O.Orthotope [O.Point "foo"], O.Orthotope [O.Point "baz"], O.Orthotope [O.Point "is"]]
+            expectedBox = D.Box expectedOrtho expectedBLC expectedTRC expectedLines expectedColumn expectedCenter1 expectedCenter2
+        B.combineBoxes (B.In firstBox) (B.In secondBox) `shouldBe` expectedBox 
     -- describe "eligible" $ do
     --   it "returns false when the bottom left corner of the first box matches the top right corner of the second box" $ do
     --     let firstBox = D.Box (O.Point "lol") "match" "notimportant" (O.Point "irrelevant") (O.Point "still")
