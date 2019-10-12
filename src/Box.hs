@@ -48,8 +48,28 @@ getPossibleNext wordMap (In b) = O.getNext wordMap (getLines b)
 
 combineBoxes :: Combinable -> Combinable -> Box
 combineBoxes (Next (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (Next (Box o2 bl2 tr2 l2 c2 cen21 cen22)) =
-  Box (O.upDimension o1 o2) (B.bottomLeftCorner bl1 bl2) (B.topRightCorner tr1 tr2) (B.nextLines o1 o2 l1 l2) (B.nextColumn o1 o2 c1 c2) (B.nextCenter cen11 cen21) (B.nextCenter cen12 cen22)
-combineBoxes (In (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (In (Box o2 bl2 tr2 l2 c2 cen21 cen22)) = Box (O.addLength o1 o2) (B.bottomLeftCorner bl1 bl2) (B.topRightCorner tr1 tr2) (B.inLines o1 o2 l1 l2) (B.inColumn o1 o2 c1 c2) (B.inCenter cen11 cen21) (B.inCenter cen12 cen22)
+  Box (O.upDimension o1 o2)
+  (B.bottomLeftCorner bl1 bl2)
+  (B.topRightCorner tr1 tr2)
+  (B.nextLines o1 o2 l1 l2)
+  (B.nextColumn o1 o2 c1 c2)
+  (B.nextCenter cen11 cen21)
+  (B.nextCenter cen12 cen22)
+combineBoxes (In (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (In (Box o2 bl2 tr2 l2 c2 cen21 cen22)) =
+  Box (O.addLength o1 o2)
+  (B.bottomLeftCorner bl1 bl2)
+  (B.topRightCorner tr1 tr2)
+  (B.inLines o1 o2 l1 l2)
+  (B.inColumn o1 o2 c1 c2)
+  (B.inCenter cen11 cen21)
+  (B.inCenter cen12 cen22)
 
 fromStringPair :: (String, String) -> Box
-fromStringPair (f, s) = Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)  (O.Orthotope [O.Point s]) (O.Orthotope [O.Point f])
+fromStringPair (f, s) =
+  Box (O.Orthotope [O.Point f, O.Point s])
+  f
+  s
+  (O.Point (f ++ s))
+  (O.Point s)
+  (O.Orthotope [O.Point s])
+  (O.Orthotope [O.Point f])
