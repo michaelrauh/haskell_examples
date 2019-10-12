@@ -3,7 +3,7 @@ module Box (
             combineBoxes,
             getCenter1,
             getCenter2,
-            cornersDoNotMatch,
+            eligible,
             getPossibleNext,
             getPossibleNextBoxes,
             eligibleToCombine,
@@ -28,29 +28,26 @@ getNextEligibleBoxes :: O.WordMap -> [Combinable] -> Combinable -> [Combinable]
 getNextEligibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
 
 eligibleToCombine :: [Combinable] -> Combinable -> [Combinable]
-eligibleToCombine nextBoxes box = filter (cornersDoNotMatch box) nextBoxes;
+eligibleToCombine nextBoxes box = filter (eligible box) nextBoxes;
 
 getPossibleNextBoxes :: O.WordMap -> [Combinable] -> Combinable -> [Combinable]
 getPossibleNextBoxes wordMap allBoxes box = filter (filterFunction wordMap box) allBoxes
 
 filterFunction :: O.WordMap -> Combinable -> Combinable -> Bool
 filterFunction wordMap n@(Next box) (Next x) = getOrthotope x `elem` getPossibleNext wordMap n
+filterFunction wordMap n@(In box) (In x) = getColumn x `elem` getPossibleNext wordMap n
 
-cornersDoNotMatch :: Combinable -> Combinable -> Bool
-cornersDoNotMatch (Next b1) (Next b2) = getBottomLeftCorner b1 /= getTopRightCorner b2
+eligible :: Combinable -> Combinable -> Bool
+eligible (Next b1) (Next b2) = getBottomLeftCorner b1 /= getTopRightCorner b2
+eligible (In b1) (In b2) = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2)
 
 getPossibleNext :: O.WordMap -> Combinable -> [O.Ortho]
 getPossibleNext wordMap (Next b) = O.getNext wordMap (getOrthotope b)
+getPossibleNext wordMap (In b) = O.getNext wordMap (getLines b)
 
-getCenter1 :: Box -> O.Ortho
-getCenter1 = getColumn
-
-getCenter2 :: Box -> O.Ortho
-getCenter2 (Box (O.Orthotope ol) _ _ _ _) = head ol
-
-combineBoxes :: Combinable -> Combinable -> Box
-combineBoxes (Next (Box o1 bl1 tr1 l1 c1)) (Next (Box o2 bl2 tr2 l2 c2)) = Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2
-combineBoxes (In (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1)) (In (Box o2 bl2 tr2 l2 c2)) = Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2
+combineBoxes :: Combinable -> Combinable -> Box -- lines tracking is wrong.
+combineBoxes (Next (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (Next (Box o2 bl2 tr2 l2 c2 cen21 cen22)) = Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2 (O.upDimension cen11 cen21) (O.upDimension cen12 cen22)
+combineBoxes (In (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1 cen11 cen12)) (In (Box o2 bl2 tr2 l2 c2 cen21 cen22)) = Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2 (O.addLength cen11 cen21) (O.addLength cen12 cen22)
 
 fromStringPair :: (String, String) -> Box
-fromStringPair (f, s) = Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)
+fromStringPair (f, s) = Box (O.Orthotope [O.Point f, O.Point s]) f s (O.Point (f ++ s)) (O.Point s)  (O.Orthotope [O.Point s]) (O.Orthotope [O.Point f])

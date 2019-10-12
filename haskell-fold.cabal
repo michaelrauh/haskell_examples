@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d781a79e7f3b14162b3b7cd9df5d69b8ceadcee8aa583e48fa2b30b2227470ad
+-- hash: 01e84aa51e4d867c98989230aa7f7f5afa778c18bc7a576d1b6b3e298fe80751
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Box
       BoxData
+      BoxJoiner
       MapBuilder
       Orthotope
   other-modules:
@@ -61,6 +62,7 @@ test-suite haskell-fold-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      BoxJoinerSpec
       BoxSpec
       MapBuilderSpec
       OrthotopeSpec
