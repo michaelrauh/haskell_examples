@@ -60,4 +60,14 @@ spec = do
             col2 = O.Orthotope [O.Point "g", O.Point "h"]
         B.nextColumn o1 o2 col1 col2 `shouldBe` O.Orthotope [O.Orthotope [O.Point "e", O.Point "f"], O.Orthotope [O.Point "g", O.Point "h"]]
 
-  -- describe center1, center2
+    describe "inCenter" $ do
+      it "takes the orthotope + of each center" $ do
+        let oc1 = O.Orthotope [O.Point "a"]
+            oc2 = O.Orthotope [O.Point "b"]
+        B.inCenter oc1 oc2 `shouldBe` O.Orthotope [O.Point "a", O.Point "b"]
+
+    describe "nextCenter" $ do
+      it "takes the orthotope x of each center" $ do
+        let oc1 = O.Orthotope [O.Point "a"]
+            oc2 = O.Orthotope [O.Point "b"]
+        B.nextCenter oc1 oc2 `shouldBe` O.Orthotope [O.Orthotope [O.Point "a"], O.Orthotope [O.Point "b"]]

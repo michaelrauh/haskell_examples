@@ -43,14 +43,12 @@ spec = do
             expectedOrtho = O.Orthotope [firstOrtho, secondOrtho]
             expectedBLC = firstBLC
             expectedTRC = secondTRC
-            expectedLines = O.Orthotope [firstLines, secondLines]
-            expectedColumn = O.Orthotope [firstColumn, secondColumn]
+            expectedLines = O.Orthotope [O.Orthotope [O.Point "foosas", O.Point "barquatch"], O.Orthotope [O.Point "bazis", O.Point "bangreal"]]
+            expectedColumn = secondOrtho 
             expectedCenter1 = O.Orthotope [firstCenter1, secondCenter1]
             expectedCenter2 = O.Orthotope [firstCenter2, secondCenter2]
             expectedBox = D.Box expectedOrtho expectedBLC expectedTRC expectedLines expectedColumn expectedCenter1 expectedCenter2
-        True `shouldBe` True
-
-        -- B.combineBoxes (B.Next firstBox) (B.Next secondBox) `shouldBe` expected
+        B.combineBoxes (B.Next firstBox) (B.Next secondBox) `shouldBe` expectedBox 
     --   it "combines two boxes in the most recent dimension" $ do
     --     let firstOrtho = O.Orthotope [O.Orthotope [O.Point "foo", O.Point "bar"], O.Orthotope [O.Point "baz", O.Point "bang"]]
     --         secondOrtho = O.Orthotope [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "is", O.Point "real"]]

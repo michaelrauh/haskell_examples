@@ -4,7 +4,9 @@ module BoxJoiner (
             inLines,
             nextLines,
             inColumn,
-            nextColumn
+            nextColumn,
+            inCenter,
+            nextCenter
             ) where
 
 
@@ -27,3 +29,9 @@ inColumn o1 o2 col1 col2 = col2
 
 nextColumn :: O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho
 nextColumn o1 o2 col1 col2 = o2
+
+inCenter :: O.Ortho -> O.Ortho -> O.Ortho
+inCenter = O.addLength
+
+nextCenter :: O.Ortho -> O.Ortho -> O.Ortho
+nextCenter = O.upDimension
