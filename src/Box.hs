@@ -13,6 +13,7 @@ module Box (
             Combinable (Next, In)) where
 
 import qualified Orthotope as O
+import qualified BoxJoiner as B
 import BoxData
 import Control.Applicative
 
@@ -45,8 +46,9 @@ getPossibleNext :: O.WordMap -> Combinable -> [O.Ortho]
 getPossibleNext wordMap (Next b) = O.getNext wordMap (getOrthotope b)
 getPossibleNext wordMap (In b) = O.getNext wordMap (getLines b)
 
-combineBoxes :: Combinable -> Combinable -> Box -- lines tracking is wrong.
-combineBoxes (Next (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (Next (Box o2 bl2 tr2 l2 c2 cen21 cen22)) = Box (O.upDimension o1 o2) bl1 tr2 (O.zipConcat o1 o2) o2 (O.upDimension cen11 cen21) (O.upDimension cen12 cen22)
+combineBoxes :: Combinable -> Combinable -> Box
+combineBoxes (Next (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (Next (Box o2 bl2 tr2 l2 c2 cen21 cen22)) =
+  Box (O.upDimension o1 o2) (B.bottomLeftCorner bl1 bl2) (B.topRightCorner tr1 tr2) (B.nextLines o1 o2 l1 l2) (B.nextColumn o1 o2 c1 c2) (B.nextCenter cen11 cen21) (B.nextCenter cen12 cen22)
 combineBoxes (In (Box o1@(O.Orthotope ol1) bl1 tr1 l1 c1 cen11 cen12)) (In (Box o2 bl2 tr2 l2 c2 cen21 cen22)) = Box (O.addLength o1 o2) bl1 tr2 (O.zipConcat (head ol1) l2) c2 (O.addLength cen11 cen21) (O.addLength cen12 cen22)
 
 fromStringPair :: (String, String) -> Box
