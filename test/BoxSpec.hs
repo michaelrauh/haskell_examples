@@ -75,16 +75,29 @@ spec = do
             expectedCenter2 = O.Orthotope [O.Orthotope [O.Point "foo"], O.Orthotope [O.Point "baz"], O.Orthotope [O.Point "is"]]
             expectedBox = D.Box expectedOrtho expectedBLC expectedTRC expectedLines expectedColumn expectedCenter1 expectedCenter2
         B.combineBoxes (B.In firstBox) (B.In secondBox) `shouldBe` expectedBox 
-    -- describe "eligible" $ do
-    --   it "returns false when the bottom left corner of the first box matches the top right corner of the second box" $ do
-    --     let firstBox = D.Box (O.Point "lol") "match" "notimportant" (O.Point "irrelevant") (O.Point "still")
-    --         secondBox = D.Box (O.Point "no") "stillnot" "match" (O.Point "different") (O.Point "not the same")
-    --     B.eligible (B.Next firstBox) (B.Next secondBox) `shouldBe` False
-    --   it "returns true otherwise" $ do
-    --     let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still")
-    --         secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same")
-    --     B.eligible (B.Next firstBox) (B.Next secondBox) `shouldBe` True
-    --
+    describe "eligible next" $ do
+      it "returns false when the bottom left corner of the first box matches the top right corner of the second box" $ do
+        let firstBox = D.Box (O.Point "lol") "match" "notimportant" (O.Point "irrelevant") (O.Point "still") (O.Point "still no") (O.Point "also no")
+            secondBox = D.Box (O.Point "no") "stillnot" "match" (O.Point "different") (O.Point "not the same") (O.Point "ignore") (O.Point "me")
+        B.eligible (B.Next firstBox) (B.Next secondBox) `shouldBe` False
+      it "returns true otherwise" $ do
+        let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still") (O.Point "still no") (O.Point "also no")
+            secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same") (O.Point "still no") (O.Point "also no")
+        B.eligible (B.Next firstBox) (B.Next secondBox) `shouldBe` True
+    describe "eligible in" $ do
+      it "returns false when the bottom left corner of the first box matches the top right corner of the second box" $ do
+        let firstBox = D.Box (O.Point "lol") "match" "notimportant" (O.Point "irrelevant") (O.Point "still") (O.Point "still no") (O.Point "also no")
+            secondBox = D.Box (O.Point "no") "stillnot" "match" (O.Point "different") (O.Point "not the same") (O.Point "ignore") (O.Point "me")
+        B.eligible (B.In firstBox) (B.In secondBox) `shouldBe` False
+      it "returns false when center1 of the first box does not match center2 of the second box" $ do
+        let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still") (O.Point "center1") (O.Point "also no")
+            secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same") (O.Point "still no") (O.Point "center2")
+        B.eligible (B.In firstBox) (B.In secondBox) `shouldBe` False
+      it "returns true otherwise" $ do
+        let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still") (O.Point "match center") (O.Point "also no")
+            secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same") (O.Point "still no") (O.Point "match center")
+        B.eligible (B.In firstBox) (B.In secondBox) `shouldBe` True
+      
     -- describe "getPossibleNext" $ do
     --   it "returns a list of orthotopes by getting an orthotope out of the box, and mapping it across the wordMap" $ do
     --     let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
