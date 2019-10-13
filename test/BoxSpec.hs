@@ -137,16 +137,15 @@ spec = do
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
         B.getNextEligibleBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox, B.Next matchingBoxWithMatchingCorners] (B.Next firstBox) `shouldBe` [B.Next matchingBox]
-    --
-    -- describe "combine" $ do
-    --   it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
-    --     let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
-    --         firstBox = D.Box firstOrtho "foo" "bar" (O.Point "foobar") (O.Point "bar")
-    --         wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
-    --         matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
-    --         matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang")
-    --         expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])
-    --     B.combine wordMap [B.Next matchingBox] (B.Next firstBox) `shouldBe` [expected]
+    describe "combine" $ do
+     it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
+       let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+           firstBox = D.Box firstOrtho "foo" "bar" (O.Point "foobar") (O.Point "bar") (O.Point "") (O.Point "")
+           wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+           matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
+           matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang") (O.Point "") (O.Point "")
+           expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])  (O.Orthotope [O.Point "", O.Point ""]) (O.Orthotope [O.Point "", O.Point ""])
+       B.combine wordMap [B.Next matchingBox] (B.Next firstBox) `shouldBe` [expected]
     --
     -- describe "combineAll" $ do
     --   it "attempts to combine all boxes with all boxes into the next dimension" $ do
