@@ -12,10 +12,10 @@ module Box (
             combineAll,
             Combinable (Next, In)) where
 
-import qualified Orthotope as O
-import qualified BoxJoiner as B
-import BoxData
-import Control.Applicative
+import           BoxData
+import qualified BoxJoiner           as B
+import           Control.Applicative
+import qualified Orthotope           as O
 
 data Combinable = Next Box | In Box deriving (Show, Eq)
 
@@ -29,7 +29,7 @@ getNextEligibleBoxes :: O.WordMap -> [Combinable] -> Combinable -> [Combinable]
 getNextEligibleBoxes wordMap allBoxes box = eligibleToCombine (getPossibleNextBoxes wordMap allBoxes box) box
 
 eligibleToCombine :: [Combinable] -> Combinable -> [Combinable]
-eligibleToCombine nextBoxes box = filter (eligible box) nextBoxes;
+eligibleToCombine nextBoxes box = filter (eligible box) nextBoxes
 
 getPossibleNextBoxes :: O.WordMap -> [Combinable] -> Combinable -> [Combinable]
 getPossibleNextBoxes wordMap allBoxes box = filter (filterFunction wordMap box) allBoxes
@@ -44,7 +44,7 @@ eligible (In b1) (In b2) = getBottomLeftCorner b1 /= getTopRightCorner b2 && (ge
 
 getPossibleNext :: O.WordMap -> Combinable -> [O.Ortho]
 getPossibleNext wordMap (Next b) = O.getNext wordMap (getOrthotope b)
-getPossibleNext wordMap (In b) = O.getNext wordMap (getLines b)
+getPossibleNext wordMap (In b)   = O.getNext wordMap (getLines b)
 
 combineBoxes :: Combinable -> Combinable -> Box
 combineBoxes (Next (Box o1 bl1 tr1 l1 c1 cen11 cen12)) (Next (Box o2 bl2 tr2 l2 c2 cen21 cen22)) =

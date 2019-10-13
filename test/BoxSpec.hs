@@ -97,14 +97,12 @@ spec = do
         let firstBox = D.Box (O.Point "lol") "no" "match" (O.Point "irrelevant") (O.Point "still") (O.Point "match center") (O.Point "also no")
             secondBox = D.Box (O.Point "no") "match" "match" (O.Point "different") (O.Point "not the same") (O.Point "still no") (O.Point "match center")
         B.eligible (B.In firstBox) (B.In secondBox) `shouldBe` True
-      
-    -- describe "getPossibleNext" $ do
-    --   it "returns a list of orthotopes by getting an orthotope out of the box, and mapping it across the wordMap" $ do
-    --     let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
-    --         firstBox = D.Box firstOrtho "wrong" "irrelevant" (O.Point "unrealistic") (O.Point "unrealistic")
-    --         wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
-    --     B.getPossibleNext wordMap (B.Next firstBox) `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
-    --
+    describe "getPossibleNext" $ do
+      it "returns a list of orthotopes by getting an orthotope out of the box, and mapping it across the wordMap" $ do
+        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+            firstBox = D.Box firstOrtho "wrong" "irrelevant" (O.Point "unrealistic") (O.Point "unrealistic") (O.Point "center1") (O.Point "center2")
+            wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+        B.getPossibleNext wordMap (B.Next firstBox) `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
     --
     -- describe "getPossibleNextBoxes" $ do
     --   it "returns a list of known boxes containing the next orthotope for a given box, using a wordMap and a list of of all boxes of appropriate shape" $ do
