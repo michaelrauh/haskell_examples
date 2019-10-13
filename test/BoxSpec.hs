@@ -120,25 +120,23 @@ spec = do
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
         B.getPossibleNextBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox] (B.Next firstBox) `shouldBe` [B.Next matchingBox]
-    --
-    -- describe "eligibleToCombine" $ do
-    --   it "returns a list of boxes that do not match corners with the input box" $ do
-    --     let firstBox = D.Box (O.Point "foo")  "match" "" (O.Point "unrealistic") (O.Point "unrealistic")
-    --         matchingBox = D.Box (O.Point "foo") "" "match" (O.Point "") (O.Point "")
-    --         nonMatchingBox = D.Box (O.Point "foo") "diff" "erent" (O.Point "") (O.Point "")
-    --     B.eligibleToCombine [B.Next nonMatchingBox, B.Next matchingBox] (B.Next firstBox) `shouldBe` [B.Next nonMatchingBox]
-    --
-    -- describe "getNextEligibleBoxes" $ do
-    --   it "returns all known boxes adjacent to the input box which don't have matching corners" $ do
-    --     let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
-    --         firstBox = D.Box firstOrtho "match" "" (O.Point "unrealistic") (O.Point "unrealistic")
-    --         wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
-    --         matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
-    --         matchingBox = D.Box matchingOrtho "diff" "stilldiff" (O.Point "") (O.Point "")
-    --         matchingBoxWithMatchingCorners = D.Box matchingOrtho "" "match" (O.Point "") (O.Point "")
-    --         nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
-    --         nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "")
-    --     B.getNextEligibleBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox, B.Next matchingBoxWithMatchingCorners] (B.Next firstBox) `shouldBe` [B.Next matchingBox]
+    describe "eligibleToCombine" $ do
+      it "returns a list of boxes that do not match corners with the input box" $ do
+        let firstBox = D.Box (O.Point "foo")  "match" "" (O.Point "unrealistic") (O.Point "unrealistic") (O.Point "") (O.Point "")
+            matchingBox = D.Box (O.Point "foo") "" "match" (O.Point "") (O.Point "") (O.Point "") (O.Point "")
+            nonMatchingBox = D.Box (O.Point "foo") "diff" "erent" (O.Point "") (O.Point "") (O.Point "") (O.Point "")
+        B.eligibleToCombine [B.Next nonMatchingBox, B.Next matchingBox] (B.Next firstBox) `shouldBe` [B.Next nonMatchingBox]
+    describe "getNextEligibleBoxes" $ do
+      it "returns all known boxes adjacent to the input box which are considered eligible" $ do
+        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
+            firstBox = D.Box firstOrtho "match" "" (O.Point "unrealistic") (O.Point "unrealistic") (O.Point "center1") (O.Point "center2")
+            wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
+            matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
+            matchingBox = D.Box matchingOrtho "diff" "stilldiff" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
+            matchingBoxWithMatchingCorners = D.Box matchingOrtho "" "match" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
+            nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
+            nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
+        B.getNextEligibleBoxes wordMap [B.Next nonMatchingBox, B.Next matchingBox, B.Next matchingBoxWithMatchingCorners] (B.Next firstBox) `shouldBe` [B.Next matchingBox]
     --
     -- describe "combine" $ do
     --   it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
