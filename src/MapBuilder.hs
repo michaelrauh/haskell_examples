@@ -9,26 +9,26 @@ import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 
-buildNextWordMap :: Ord a => [a] -> Map.Map a (S.Set a)
+buildNextWordMap :: [String] -> Map.Map String (S.Set String)
 buildNextWordMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
 
-buildPhraseMap :: Ord a => [a] -> Int -> Map.Map [a] (S.Set a)
+buildPhraseMap :: [String] -> Int -> Map.Map String (S.Set String)
 buildPhraseMap wordList phraseLength = Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
 
-nextWords :: Ord k => Map.Map k (S.Set a) -> k -> [a]
+nextWords :: Map.Map String (S.Set String) -> String -> [String]
 nextWords m key = S.toList (Map.findWithDefault S.empty key m)
 
-buildSlidingPhraseTuple :: [a] -> Int -> [([a], S.Set a)]
+buildSlidingPhraseTuple :: [String] -> Int -> [(String, S.Set String)]
 buildSlidingPhraseTuple wordList phraseLength
   | length wordList > phraseLength = unsafeBuildTuple wordList phraseLength
   | otherwise = []
 
-unsafeBuildTuple :: [a] -> Int -> [([a], S.Set a)]
+unsafeBuildTuple :: [String] -> Int -> [(String, S.Set String)]
 unsafeBuildTuple wordList phraseLength =
-  (take phraseLength wordList, nextWord) : buildSlidingPhraseTuple (drop 1 wordList) phraseLength
+  (concat $ take phraseLength wordList, nextWord) : buildSlidingPhraseTuple (drop 1 wordList) phraseLength
   where nextWord = S.singleton(head $ drop phraseLength wordList)
 
-buildSlidingTuple :: [a] -> [(a, S.Set a)]
+buildSlidingTuple :: [String] -> [(String, S.Set String)]
 buildSlidingTuple [] = []
 buildSlidingTuple [first] = []
 buildSlidingTuple [first, second] = [(first, S.singleton second)]
