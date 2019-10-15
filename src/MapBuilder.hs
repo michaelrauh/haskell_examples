@@ -11,14 +11,15 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 data AdjacentMap = Word (Map.Map String (S.Set String)) | Phrase (Map.Map String (S.Set String)) deriving (Show, Eq)
 
-buildNextWordMap :: [String] -> Map.Map String (S.Set String)
-buildNextWordMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
+buildNextWordMap :: [String] -> AdjacentMap
+buildNextWordMap wordList = Word $ Map.fromListWith S.union $ buildSlidingTuple wordList
 
-buildPhraseMap :: [String] -> Int -> Map.Map String (S.Set String)
-buildPhraseMap wordList phraseLength = Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
+buildPhraseMap :: [String] -> Int -> AdjacentMap
+buildPhraseMap wordList phraseLength = Phrase $ Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
 
-nextWords :: Map.Map String (S.Set String) -> String -> [String]
-nextWords m key = S.toList (Map.findWithDefault S.empty key m)
+nextWords :: AdjacentMap -> String -> [String]
+nextWords (Word m) key = S.toList (Map.findWithDefault S.empty key m)
+nextWords (Phrase m) key = S.toList (Map.findWithDefault S.empty key m)
 
 buildSlidingPhraseTuple :: [String] -> Int -> [(String, S.Set String)]
 buildSlidingPhraseTuple wordList phraseLength

@@ -12,7 +12,7 @@ type WordMap = Map.Map String (S.Set String)
 zipConcat :: Ortho -> Ortho -> Ortho
 zipConcat = zipWithOrtho (++)
 
-getNext :: WordMap -> Ortho -> [Ortho]
+getNext :: AdjacentMap -> Ortho -> [Ortho]
 getNext = mapM . nextWords
 
 upDimension :: Ortho -> Ortho -> Ortho

@@ -52,8 +52,8 @@ eligibleIn :: Box -> Box -> Bool
 eligibleIn b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2)
 
 getPossibleNext :: AdjacentMap -> Box -> [O.Ortho]
-getPossibleNext am@(Word wordMap) b = O.getNext wordMap (getOrthotope b)
-getPossibleNext am@(Phrase wordMap) b = O.getNext wordMap (getLines b)
+getPossibleNext am@(Word wordMap) b = O.getNext am (getOrthotope b)
+getPossibleNext am@(Phrase wordMap) b = O.getNext am (getLines b)
 
 combineBoxesNext :: Box -> Box -> Box
 combineBoxesNext (Box o1 bl1 tr1 l1 c1 cen11 cen12) (Box o2 bl2 tr2 l2 c2 cen21 cen22) =
