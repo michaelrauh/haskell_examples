@@ -12,15 +12,14 @@ module Box (
             eligibleToCombineIn,
             getNextEligibleBoxes,
             combine,
-            combineAll,
-            AdjacentMap (Word, Phrase)) where
+            combineAll) where
 
 import           BoxData
 import qualified BoxJoiner           as B
 import           Control.Applicative
 import qualified Orthotope           as O
+import MapBuilder
 
-data AdjacentMap = Word O.WordMap | Phrase O.WordMap deriving (Show, Eq)
 
 combineAll :: AdjacentMap -> [Box] -> [Box]
 combineAll adjacentMap allBoxes = concatMap (combine adjacentMap allBoxes) allBoxes

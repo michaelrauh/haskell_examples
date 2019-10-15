@@ -1,13 +1,15 @@
 module MapBuilder
     ( buildNextWordMap,
     buildPhraseMap,
-    nextWords
+    nextWords,
+    AdjacentMap (Word, Phrase)
     ) where
 
 import Data.List
 import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
+data AdjacentMap = Word (Map.Map String (S.Set String)) | Phrase (Map.Map String (S.Set String)) deriving (Show, Eq)
 
 buildNextWordMap :: [String] -> Map.Map String (S.Set String)
 buildNextWordMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList

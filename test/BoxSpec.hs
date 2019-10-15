@@ -9,6 +9,7 @@ import qualified BoxData           as D
 import qualified Data.Map.Strict   as Map
 import qualified Data.Set          as S
 import qualified Orthotope         as O
+import MapBuilder
 
 {-# ANN module "HLint: ignore Redundant do" #-}
 {-# ANN module "HLint: ignore Reduce duplication" #-}
@@ -102,14 +103,14 @@ spec = do
         let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
             firstBox = D.Box firstOrtho "wrong" "irrelevant" (O.Point "unrealistic") (O.Point "unrealistic") (O.Point "center1") (O.Point "center2")
             wordMap = Map.fromList [("foo", S.fromList["baz", "biz"]), ("bar", S.singleton "bang")]
-        B.getPossibleNext (B.Word wordMap) firstBox `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
+        B.getPossibleNext (Word wordMap) firstBox `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
     describe "getPossibleNext for current dimension" $ do
       it "returns a list of orthotopes by getting lines out of the box, and mapping it across the wordMap" $ do
         let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
             firstLines = O.Orthotope [O.Point "one", O.Point "two"]
             firstBox = D.Box firstOrtho "wrong" "irrelevant" firstLines (O.Point "unrealistic") (O.Point "center1") (O.Point "center2")
             wordMap = Map.fromList [("one", S.fromList["baz", "biz"]), ("two", S.singleton "bang")]
-        B.getPossibleNext (B.Phrase wordMap) firstBox `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
+        B.getPossibleNext (Phrase wordMap) firstBox `shouldBe` [O.Orthotope [O.Point "baz", O.Point "bang"], O.Orthotope [O.Point "biz", O.Point "bang"]]
     describe "getPossibleNextBoxes" $ do
       it "returns a list of known boxes containing the next orthotope for a given box, using a wordMap and a list of of all boxes of appropriate shape" $ do
         let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
@@ -119,7 +120,7 @@ spec = do
             matchingBox = D.Box matchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
-        B.getPossibleNextBoxes (B.Word wordMap) [nonMatchingBox, matchingBox] (firstBox) `shouldBe` [matchingBox]
+        B.getPossibleNextBoxes (Word wordMap) [nonMatchingBox, matchingBox] (firstBox) `shouldBe` [matchingBox]
     describe "eligibleToCombine" $ do
       it "returns a list of boxes that do not match corners with the input box" $ do
         let firstBox = D.Box (O.Point "foo")  "match" "" (O.Point "unrealistic") (O.Point "unrealistic") (O.Point "") (O.Point "")
@@ -136,7 +137,7 @@ spec = do
             matchingBoxWithMatchingCorners = D.Box matchingOrtho "" "match" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
             nonMatchingOrtho = O.Orthotope [O.Point "not", O.Point "matching"]
             nonMatchingBox = D.Box nonMatchingOrtho "" "" (O.Point "") (O.Point "") (O.Point "center1") (O.Point "center2")
-        B.getNextEligibleBoxes (B.Word wordMap) [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
+        B.getNextEligibleBoxes (Word wordMap) [nonMatchingBox, matchingBox, matchingBoxWithMatchingCorners] firstBox `shouldBe` [matchingBox]
     describe "combine" $ do
      it "searches for adjacent eligible boxes and combines with them cross-dimensionally for a given box" $ do
        let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
@@ -145,7 +146,7 @@ spec = do
            matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
            matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang") (O.Point "") (O.Point "")
            expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"])  (O.Orthotope [O.Point "", O.Point ""]) (O.Orthotope [O.Point "", O.Point ""])
-       B.combine (B.Word wordMap) [matchingBox] firstBox `shouldBe` [expected]
+       B.combine (Word wordMap) [matchingBox] firstBox `shouldBe` [expected]
     describe "combineAll" $ do
       it "attempts to combine all boxes with all boxes into the next dimension" $ do
         let firstOrtho = O.Orthotope [O.Point "foo", O.Point "bar"]
@@ -154,4 +155,4 @@ spec = do
             matchingOrtho = O.Orthotope [O.Point "baz", O.Point "bang"]
             matchingBox = D.Box matchingOrtho "baz" "bang" (O.Point "bazbang") (O.Point "bang") (O.Point "bar") (O.Point "bar")
             expected = D.Box (O.Orthotope [firstOrtho, matchingOrtho]) "foo" "bang" (O.Orthotope [O.Point "foobaz", O.Point "barbang"]) (O.Orthotope [O.Point "baz", O.Point "bang"]) (O.Orthotope [O.Point "bar", O.Point "bar"])  (O.Orthotope [O.Point "bar", O.Point "bar"]) 
-        B.combineAll (B.Word wordMap) [firstBox, matchingBox] `shouldBe` [expected]
+        B.combineAll (Word wordMap) [firstBox, matchingBox] `shouldBe` [expected]
