@@ -4,10 +4,11 @@ import MapBuilder
 import Box
 import BoxData
 
-buildFirstBoxes :: String -> [Box] -- todo filter shiftedwords to remove repeated words
+buildFirstBoxes :: String -> [Box]
 buildFirstBoxes corpus =
   let wordList = words corpus
       shiftedWords = drop 1 wordList
       stringTuples = zip wordList shiftedWords
-      initialBoxes = map fromStringPair stringTuples
+      safeStringtuples = filter (\(a, b) -> a /= b) stringTuples
+      initialBoxes = map fromStringPair safeStringtuples
       in initialBoxes
