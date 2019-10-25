@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 01e84aa51e4d867c98989230aa7f7f5afa778c18bc7a576d1b6b3e298fe80751
+-- hash: 2668bdbdad3fe49527939197cdc3a850e6f45e7cbc3a1a03afb29b91865936eb
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       BoxJoiner
       MapBuilder
       Orthotope
+      Search
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:

@@ -8,4 +8,4 @@ data Box = Box { getOrthotope :: Orthotope String,
                  getColumn :: Orthotope String,
                  getCenter1 :: Orthotope String,
                  getCenter2 :: Orthotope String
-                } deriving (Show, Eq)
+                } deriving (Eq)

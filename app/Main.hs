@@ -1,6 +1,7 @@
 module Main where
+import Search
 
 main :: IO ()
 main = do
   contents <- getContents
-  putStr contents
+  putStr $ show $ buildFirstBoxes contents

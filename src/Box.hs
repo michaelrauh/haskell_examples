@@ -84,3 +84,6 @@ fromStringPair (f, s) =
   (O.Point s)
   (O.Orthotope [O.Point s])
   (O.Orthotope [O.Point f])
+
+instance Show Box where
+  show (Box o bl tr l c cen1 cen2) = show o

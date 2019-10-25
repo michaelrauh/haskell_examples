@@ -4,7 +4,7 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
 
-data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Show, Eq)
+data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Eq)
 
 type Ortho = Orthotope String
 type WordMap = Map.Map String (S.Set String)
@@ -37,3 +37,7 @@ instance Foldable Orthotope where
 instance Traversable Orthotope where
   traverse f (Point a) = Point <$> f a
   traverse f (Orthotope l) = Orthotope <$> traverse (traverse f) l
+
+instance (Show a) => Show (Orthotope a) where
+  show (Point a) = show a
+  show (Orthotope l) = show l
