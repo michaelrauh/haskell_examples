@@ -4,4 +4,7 @@ import Search
 main :: IO ()
 main = do
   contents <- getContents
-  putStr $ show $ buildFirstBoxes (words contents)
+  let firstBoxes = buildFirstBoxes $ words contents
+  putStr $ show firstBoxes
+
+
