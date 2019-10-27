@@ -1,4 +1,4 @@
-module Search (buildFirstBoxes) where
+module Search (buildFirstBoxes, getAllNextDimension) where
 
 import MapBuilder
 import Box
@@ -11,3 +11,8 @@ buildFirstBoxes wordList =
       safeStringtuples = filter (\(a, b) -> a /= b) stringTuples
       initialBoxes = map fromStringPair safeStringtuples
       in initialBoxes
+
+getAllNextDimension :: [String] -> [Box] -> [Box]
+getAllNextDimension wordList boxes =
+  let wordMap = buildNextWordMap wordList
+      in combineAll wordMap boxes
