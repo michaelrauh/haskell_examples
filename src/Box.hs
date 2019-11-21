@@ -14,6 +14,7 @@ module Box (
             combine,
             combineAll) where
 
+import Data.List
 import           BoxData
 import qualified BoxJoiner           as B
 import           Control.Applicative
@@ -46,10 +47,17 @@ filterFunction am@(Word wordMap) n x = getOrthotope x `elem` getPossibleNext am 
 filterFunction am@(Phrase wordMap) n x = getColumn x `elem` getPossibleNext am n
 
 eligibleNext :: Box -> Box -> Bool
-eligibleNext b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
+eligibleNext b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (noDuplicates b1 b2)
 
 eligibleIn :: Box -> Box -> Bool
-eligibleIn b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2)
+eligibleIn b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2) && (noDuplicates b1 b2)
+
+noDuplicates :: Box -> Box -> Bool
+noDuplicates b1 b2 = allWords == nub allWords
+  where allWords = (listify b1) ++ (listify b2)
+
+listify :: Box -> [String]
+listify b = O.toList $ getOrthotope b
 
 getPossibleNext :: AdjacentMap -> Box -> [O.Ortho]
 getPossibleNext am@(Word wordMap) b = O.getNext am (getOrthotope b)

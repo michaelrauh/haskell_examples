@@ -60,3 +60,6 @@ spec = do
     describe "zipConcat" $ do
       it "concatenates each string in an orthotope" $ do
         zipConcat (Orthotope [Point "a", Point "b"]) (Orthotope [Point "c", Point "d"]) `shouldBe` Orthotope [Point "ac", Point "bd"]
+    describe "toList" $ do
+      it "converts an orthotope to a list" $ do
+        toList (Orthotope [Point "a", Point "b"]) `shouldBe` ["a", "b"]

@@ -1,4 +1,4 @@
-module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho, zipConcat, WordMap) where
+module Orthotope (Orthotope (Point, Orthotope), upDimension, addLength, Ortho, getNext, zipWithOrtho, zipConcat, WordMap, toList) where
 
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
@@ -25,6 +25,9 @@ zipWithOrtho :: (a -> b -> c) -> Orthotope a -> Orthotope b -> Orthotope c
 zipWithOrtho f (Point a) (Point b) = Point (f a b)
 zipWithOrtho f (Orthotope l1) (Orthotope l2) = Orthotope (zipWith (zipWithOrtho f) l1 l2)
 
+toList :: Orthotope a -> [a]
+toList (Point a) = [a]
+toList (Orthotope l) = concatMap toList l
 
 instance Functor Orthotope where
   fmap f (Point a) = Point (f a)

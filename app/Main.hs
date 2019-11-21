@@ -1,6 +1,6 @@
 module Main where
 import Search
-
+import Control.Parallel
 main :: IO ()
 main = do
   contents <- getContents
