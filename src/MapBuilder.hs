@@ -1,42 +1,38 @@
 module MapBuilder
     ( buildNextWordMap,
-    buildPreviousWordMap,
     buildPhraseMap,
-    nextWords
+    nextWords,
+    AdjacentMap (Word, Phrase)
     ) where
 
 import Data.List
 import qualified Data.Matrix as M
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
+data AdjacentMap = Word (Map.Map String (S.Set String)) | Phrase (Map.Map String (S.Set String)) deriving (Show, Eq)
 
-buildNextWordMap :: Ord a => [a] -> Map.Map a (S.Set a)
-buildNextWordMap wordList = Map.fromListWith S.union $ buildSlidingTuple wordList
+buildNextWordMap :: [String] -> AdjacentMap
+buildNextWordMap wordList = Word $ Map.fromListWith S.union $ buildSlidingTuple wordList
 
-buildPreviousWordMap :: Ord a => [a] -> Map.Map a (S.Set a)
-buildPreviousWordMap wordList = Map.fromListWith S.union $ map reverseSingletonTuple $ buildSlidingTuple wordList
+buildPhraseMap :: [String] -> Int -> AdjacentMap
+buildPhraseMap wordList phraseLength = Phrase $ Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
 
-buildPhraseMap :: Ord a => [a] -> Int -> Map.Map [a] (S.Set a)
-buildPhraseMap wordList phraseLength = Map.fromListWith S.union $ buildSlidingPhraseTuple wordList phraseLength
+nextWords :: AdjacentMap -> String -> [String]
+nextWords (Word m) key = S.toList (Map.findWithDefault S.empty key m)
+nextWords (Phrase m) key = S.toList (Map.findWithDefault S.empty key m)
 
-nextWords :: Ord k => Map.Map k (S.Set a) -> k -> [a]
-nextWords m key = S.toList (Map.findWithDefault S.empty key m)
-
-buildSlidingPhraseTuple :: [a] -> Int -> [([a], S.Set a)]
+buildSlidingPhraseTuple :: [String] -> Int -> [(String, S.Set String)]
 buildSlidingPhraseTuple wordList phraseLength
   | length wordList > phraseLength = unsafeBuildTuple wordList phraseLength
   | otherwise = []
 
-unsafeBuildTuple :: [a] -> Int -> [([a], S.Set a)]
+unsafeBuildTuple :: [String] -> Int -> [(String, S.Set String)]
 unsafeBuildTuple wordList phraseLength =
-  (take phraseLength wordList, nextWord) : buildSlidingPhraseTuple (drop 1 wordList) phraseLength
+  (concat $ take phraseLength wordList, nextWord) : buildSlidingPhraseTuple (drop 1 wordList) phraseLength
   where nextWord = S.singleton(head $ drop phraseLength wordList)
 
-buildSlidingTuple :: [a] -> [(a, S.Set a)]
+buildSlidingTuple :: [String] -> [(String, S.Set String)]
 buildSlidingTuple [] = []
 buildSlidingTuple [first] = []
 buildSlidingTuple [first, second] = [(first, S.singleton second)]
 buildSlidingTuple (first:second:rest) = (first, S.singleton second) : buildSlidingTuple (second : rest)
-
-reverseSingletonTuple :: (a1, S.Set a2) -> (a2, S.Set a1)
-reverseSingletonTuple (first, second) = (head $ S.elems second, S.singleton first)

@@ -1,0 +1,75 @@
+
+./Setup.hs,15
+main main1,2
+
+./app/Main.hs,37
+module Main Main0,1
+main main2,3
+
+./test/MapBuilderSpec.hs,59
+module MapBuilderSpec MapBuilderSpec0,1
+spec spec14,15
+
+./test/OrthotopeSpec.hs,57
+module OrthotopeSpec OrthotopeSpec0,1
+spec spec11,12
+
+./test/Spec.hs,0
+
+./test/BoxSpec.hs,45
+module BoxSpec BoxSpec0,1
+spec spec15,16
+
+./src/BoxData.hs,409
+module BoxData BoxData0,1
+data Box Box3,4
+data Box = Box Box3,4
+data Box = Box { getOrthotope getOrthotope3,4
+                 getBottomLeftCorner getBottomLeftCorner4,5
+                 getTopRightCorner getTopRightCorner5,6
+                 getLines getLines6,7
+                 getColumn getColumn7,8
+                 getCenter1 getCenter18,9
+                 getCenter2 getCenter29,10
+
+./src/MapBuilder.hs,277
+module MapBuilderMapBuilder0,1
+buildNextWordMap buildNextWordMap11,12
+buildPhraseMap buildPhraseMap14,15
+nextWords nextWords17,18
+buildSlidingPhraseTuple buildSlidingPhraseTuple20,21
+unsafeBuildTuple unsafeBuildTuple25,26
+buildSlidingTuple buildSlidingTuple30,31
+
+./src/Box.hs,495
+module Box Box0,1
+data Combinable Combinable18,19
+data Combinable = Next Next18,19
+data Combinable = Next Box | In In18,19
+combineAll combineAll20,21
+combine combine23,24
+getNextEligibleBoxes getNextEligibleBoxes26,27
+eligibleToCombine eligibleToCombine29,30
+getPossibleNextBoxes getPossibleNextBoxes32,33
+filterFunction filterFunction35,36
+eligible eligible39,40
+getPossibleNext getPossibleNext43,44
+combineBoxes combineBoxes47,48
+fromStringPair fromStringPair51,52
+
+./src/Orthotope.hs,487
+data Orthotope a = Point Point6,7
+data Orthotope a = Point a | Orthotope Orthotope6,7
+type Ortho Ortho8,9
+type WordMap WordMap9,10
+zipConcat zipConcat11,12
+getNext getNext14,15
+upDimension upDimension17,18
+addLength addLength20,21
+zipWithOrtho zipWithOrtho23,24
+instance Functor Functor Orthotope28,29
+  fmap fmap29,30
+instance Foldable Foldable Orthotope32,33
+  foldMap foldMap33,34
+instance Traversable Traversable Orthotope36,37
+  traverse traverse37,38

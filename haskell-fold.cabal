@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 43e39bd4eb730e99eabff79cd7720a564b51ea7917b3494a51d5fd290125747a
+-- hash: 2668bdbdad3fe49527939197cdc3a850e6f45e7cbc3a1a03afb29b91865936eb
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -27,11 +27,12 @@ source-repository head
 
 library
   exposed-modules:
-      Combine
-      CombineNextDimension
-      FoldSquare
+      Box
+      BoxData
+      BoxJoiner
       MapBuilder
-      MatrixUtils
+      Orthotope
+      Search
   other-modules:
       Paths_haskell_fold
   hs-source-dirs:
@@ -62,11 +63,10 @@ test-suite haskell-fold-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      CombineNextDimensionSpec
-      CombineSpec
-      FoldSquareSpec
+      BoxJoinerSpec
+      BoxSpec
       MapBuilderSpec
-      MatrixUtilsSpec
+      OrthotopeSpec
       Paths_haskell_fold
   hs-source-dirs:
       test
