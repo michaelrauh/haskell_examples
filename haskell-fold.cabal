@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.1.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2668bdbdad3fe49527939197cdc3a850e6f45e7cbc3a1a03afb29b91865936eb
+-- hash: 0b4fd44453395ecdcce4c1bba7395dc9e0e5b362fa50c73ece37f7ea27fb7116
 
 name:           haskell-fold
 version:        0.1.0.0
@@ -41,7 +41,6 @@ library
       base >=4.7 && <5
     , containers
     , matrix
-    , vector
   default-language: Haskell2010
 
 executable haskell-fold-exe
@@ -56,7 +55,6 @@ executable haskell-fold-exe
     , containers
     , haskell-fold
     , matrix
-    , vector
   default-language: Haskell2010
 
 test-suite haskell-fold-test
@@ -78,5 +76,4 @@ test-suite haskell-fold-test
     , haskell-fold
     , hspec
     , matrix
-    , vector
   default-language: Haskell2010

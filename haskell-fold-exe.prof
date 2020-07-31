@@ -1,0 +1,95 @@
+	Fri Jul 31 19:41 2020 Time and Allocation Profiling Report  (Final)
+
+	   haskell-fold-exe +RTS -N -p -RTS
+
+	total time  =        0.49 secs   (1798 ticks @ 1000 us, 8 processors)
+	total alloc =  23,612,744 bytes  (excludes profiling overheads)
+
+COST CENTRE    MODULE    SRC                              %time %alloc
+
+==             Orthotope src/Orthotope.hs:7:64-65          79.1    0.0
+filterFunction Box       src/Box.hs:(45,1)-(46,80)         20.4   12.6
+show           Orthotope src/Orthotope.hs:(42,3)-(43,29)    0.2   46.1
+traverse       Orthotope src/Orthotope.hs:(38,3)-(39,66)    0.0   18.1
+combine        Box       src/Box.hs:(28,1)-(29,106)         0.0    3.6
+main           Main      app/Main.hs:(5,1)-(11,22)          0.0   13.2
+
+
+                                                                                                                     individual      inherited
+COST CENTRE                             MODULE                  SRC                               no.     entries  %time %alloc   %time %alloc
+
+MAIN                                    MAIN                    <built-in>                        187          0    0.0    0.7   100.0  100.0
+ CAF                                    GHC.Conc.Signal         <entire-module>                   287          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.IO.Encoding         <entire-module>                   268          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.IO.Encoding.Iconv   <entire-module>                   266          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.IO.Exception        <entire-module>                   260          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.IO.Handle.FD        <entire-module>                   257          0    0.0    0.2     0.0    0.2
+ CAF                                    GHC.IO.Handle.Internals <entire-module>                   256          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.TopHandler          <entire-module>                   233          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.Event.Poll          <entire-module>                   205          0    0.0    0.0     0.0    0.0
+ CAF                                    GHC.Event.Thread        <entire-module>                   204          0    0.0    0.0     0.0    0.0
+ CAF:getNext                            Orthotope               src/Orthotope.hs:16:1-7           335          0    0.0    0.0     0.0    0.0
+  getNext                               Orthotope               src/Orthotope.hs:16:1-26          394          1    0.0    0.0     0.0    0.0
+ CAF:lvl_racM                           Box                     <no location info>                345          0    0.0    0.0     0.0    0.0
+ CAF:main1                              Main                    <no location info>                372          0    0.0    0.0     0.0    0.0
+  main                                  Main                    app/Main.hs:(5,1)-(11,22)         374          1    0.0    0.0     0.0    0.0
+ main                                   Main                    app/Main.hs:(5,1)-(11,22)         375          0    0.0   13.2   100.0   99.1
+  show                                  Box                     src/Box.hs:89:3-43                433        787    0.0    0.0     0.2   46.1
+   show                                 Orthotope               src/Orthotope.hs:(42,3)-(43,29)   434      11805    0.2   46.1     0.2   46.1
+  main.b2x2                             Main                    app/Main.hs:9:7-52                384          1    0.0    0.0     4.3   18.3
+   getAllNextDimension                  Search                  src/Search.hs:(16,1)-(18,33)      385          1    0.0    0.0     4.3   18.3
+    combineAll                          Box                     src/Box.hs:25:1-83                386          1    0.0    0.4     4.3   17.7
+     combine                            Box                     src/Box.hs:(28,1)-(29,106)        387        292    0.0    2.3     4.3   17.4
+      combineBoxesNext                  Box                     src/Box.hs:(59,1)-(66,28)         420       1333    0.0    0.1     0.0    0.1
+       upDimension                      Orthotope               src/Orthotope.hs:19:1-34          421       1333    0.0    0.0     0.0    0.0
+       topRightCorner                   BoxJoiner               src/BoxJoiner.hs:19:1-22          429        259    0.0    0.0     0.0    0.0
+       bottomLeftCorner                 BoxJoiner               src/BoxJoiner.hs:16:1-24          431         29    0.0    0.0     0.0    0.0
+      getNextEligibleBoxes              Box                     src/Box.hs:(32,1)-(33,118)        390        292    0.0    0.1     4.3   15.0
+       eligibleToCombineNext            Box                     src/Box.hs:36:1-73                403        292    0.0    0.3     0.0    0.3
+        eligibleNext                    Box                     src/Box.hs:49:1-67                404       1333    0.0    0.0     0.0    0.0
+         getBottomLeftCorner            BoxData                 src/BoxData.hs:5:18-36            406       1333    0.0    0.0     0.0    0.0
+         getTopRightCorner              BoxData                 src/BoxData.hs:6:18-34            405       1333    0.0    0.0     0.0    0.0
+       getPossibleNextBoxes             Box                     src/Box.hs:42:1-96                391        292    0.1    0.4     4.3   14.6
+        filterFunction                  Box                     src/Box.hs:(45,1)-(46,80)         392      85264    1.2    8.7     4.2   14.2
+         ==                             Orthotope               src/Orthotope.hs:7:64-65          401    2188224    3.0    0.0     3.0    0.0
+         getPossibleNext                Box                     src/Box.hs:(55,1)-(56,65)         393      85264    0.0    0.0     0.0    5.5
+          getOrthotope                  BoxData                 src/BoxData.hs:4:18-29            397        292    0.0    0.0     0.0    0.0
+          getNext                       Orthotope               src/Orthotope.hs:16:1-26          395          0    0.0    0.0     0.0    5.5
+           traverse                     Orthotope               src/Orthotope.hs:(38,3)-(39,66)   396        876    0.0    5.0     0.0    5.5
+            nextWords                   MapBuilder              src/MapBuilder.hs:(21,1)-(22,71)  399        584    0.0    0.5     0.0    0.5
+         getOrthotope                   BoxData                 src/BoxData.hs:4:18-29            402      84972    0.0    0.0     0.0    0.0
+    getAllNextDimension.wordMap         Search                  src/Search.hs:17:7-41             388          1    0.0    0.0     0.0    0.6
+     buildNextWordMap                   MapBuilder              src/MapBuilder.hs:15:1-88         389          1    0.0    0.5     0.0    0.6
+      buildSlidingTuple                 MapBuilder              src/MapBuilder.hs:(35,1)-(38,103) 400        292    0.0    0.2     0.0    0.2
+  main.b2x2x2                           Main                    app/Main.hs:10:7-48               407          1    0.0    0.0    95.5   20.0
+   getAllNextDimension                  Search                  src/Search.hs:(16,1)-(18,33)      408          1    0.0    0.0    95.5   20.0
+    combineAll                          Box                     src/Box.hs:25:1-83                409          1    0.0    0.2    95.5   19.4
+     combine                            Box                     src/Box.hs:(28,1)-(29,106)        410         30    0.0    1.3    95.5   19.2
+      combineBoxesNext                  Box                     src/Box.hs:(59,1)-(66,28)         432        787    0.1    0.1     0.1    0.1
+       upDimension                      Orthotope               src/Orthotope.hs:19:1-34          435        787    0.0    0.0     0.0    0.0
+      getNextEligibleBoxes              Box                     src/Box.hs:(32,1)-(33,118)        413         30    0.0    0.0    95.4   17.8
+       getPossibleNextBoxes             Box                     src/Box.hs:42:1-96                414         30    0.1    0.2    95.4   17.6
+        filterFunction                  Box                     src/Box.hs:(45,1)-(46,80)         415      39084   19.1    4.0    95.4   17.4
+         ==                             Orthotope               src/Orthotope.hs:7:64-65          424   52296097   76.1    0.0    76.1    0.0
+         getOrthotope                   BoxData                 src/BoxData.hs:4:18-29            425      39084    0.1    0.0     0.1    0.0
+         getPossibleNext                Box                     src/Box.hs:(55,1)-(56,65)         416      39084    0.0    0.0     0.0   13.4
+          getOrthotope                  BoxData                 src/BoxData.hs:4:18-29            419         30    0.0    0.0     0.0    0.0
+          getNext                       Orthotope               src/Orthotope.hs:16:1-26          417          0    0.0    0.0     0.0   13.4
+           traverse                     Orthotope               src/Orthotope.hs:(38,3)-(39,66)   418        210    0.0   13.1     0.0   13.4
+            nextWords                   MapBuilder              src/MapBuilder.hs:(21,1)-(22,71)  422        120    0.0    0.2     0.0    0.2
+       eligibleToCombineNext            Box                     src/Box.hs:36:1-73                426         29    0.0    0.2     0.0    0.2
+        eligibleNext                    Box                     src/Box.hs:49:1-67                427        955    0.0    0.0     0.0    0.0
+         getBottomLeftCorner            BoxData                 src/BoxData.hs:5:18-36            430        955    0.0    0.0     0.0    0.0
+         getTopRightCorner              BoxData                 src/BoxData.hs:6:18-34            428        955    0.0    0.0     0.0    0.0
+    getAllNextDimension.wordMap         Search                  src/Search.hs:17:7-41             411          1    0.0    0.0     0.0    0.6
+     buildNextWordMap                   MapBuilder              src/MapBuilder.hs:15:1-88         412          1    0.0    0.5     0.0    0.6
+      buildSlidingTuple                 MapBuilder              src/MapBuilder.hs:(35,1)-(38,103) 423        292    0.0    0.2     0.0    0.2
+  main.firstBoxes                       Main                    app/Main.hs:8:7-43                377          1    0.0    0.0     0.0    0.6
+   buildFirstBoxes                      Search                  src/Search.hs:(8,1)-(13,21)       378          1    0.0    0.0     0.0    0.6
+    buildFirstBoxes.initialBoxes        Search                  src/Search.hs:12:7-56             383          1    0.0    0.4     0.0    0.4
+     fromStringPair                     Box                     src/Box.hs:(79,1)-(86,27)         398        292    0.0    0.0     0.0    0.0
+    buildFirstBoxes.safeStringtuples    Search                  src/Search.hs:11:7-64             381          1    0.0    0.1     0.0    0.1
+     buildFirstBoxes.safeStringtuples.\ Search                  src/Search.hs:11:45-50            382        292    0.0    0.0     0.0    0.0
+    buildFirstBoxes.shiftedWords        Search                  src/Search.hs:9:7-36              380          1    0.0    0.0     0.0    0.0
+    buildFirstBoxes.stringTuples        Search                  src/Search.hs:10:7-46             379          1    0.0    0.1     0.0    0.1
+  main.wordList                         Main                    app/Main.hs:7:7-31                376          1    0.0    0.9     0.0    0.9
