@@ -1,4 +1,4 @@
-module Search (buildFirstBoxes, getAllNextDimension) where
+module Search (buildFirstBoxes, getAllNextDimension, getAllCurrentDimension) where
 
 import MapBuilder
 import Box
@@ -16,3 +16,8 @@ getAllNextDimension :: [String] -> [Box] -> [Box]
 getAllNextDimension wordList boxes =
   let wordMap = buildNextWordMap wordList
       in combineAll wordMap boxes
+
+getAllCurrentDimension :: [String] -> Int -> [Box] -> [Box]
+getAllCurrentDimension wordList phraseLength boxes =
+  let phraseMap = buildPhraseMap wordList phraseLength
+      in combineAll phraseMap boxes 

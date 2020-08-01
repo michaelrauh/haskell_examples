@@ -7,8 +7,5 @@ main = do
   let wordList = words contents
       firstBoxes = buildFirstBoxes wordList
       b2x2 = getAllNextDimension wordList firstBoxes
-      b2x2x2 = getAllNextDimension wordList b2x2
-      b2x2x2x2 = getAllNextDimension wordList b2x2x2
-  putStr $ show $ head b2x2x2x2
-
-
+      answer = getAllCurrentDimension wordList 2 b2x2
+  print answer
