@@ -8,7 +8,7 @@ buildFirstBoxes :: [String] -> [Box]
 buildFirstBoxes wordList =
   let shiftedWords = drop 1 wordList
       stringTuples = zip wordList shiftedWords
-      safeStringtuples = filter (\(a, b) -> a /= b) stringTuples
+      safeStringtuples = filter (uncurry (/=)) stringTuples
       initialBoxes = map fromStringPair safeStringtuples
       in initialBoxes
 

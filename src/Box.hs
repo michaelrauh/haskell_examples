@@ -19,6 +19,7 @@ import qualified BoxJoiner           as B
 import           Control.Applicative
 import qualified Orthotope           as O
 import MapBuilder
+import qualified Data.Set as S
 
 
 combineAll :: AdjacentMap -> [Box] -> [Box]
@@ -42,8 +43,8 @@ getPossibleNextBoxes :: AdjacentMap -> [Box] -> Box -> [Box]
 getPossibleNextBoxes adjacentMap allBoxes box = filter (filterFunction adjacentMap box) allBoxes
 
 filterFunction :: AdjacentMap -> Box -> Box -> Bool
-filterFunction am@(Word wordMap) n x = getOrthotope x `elem` getPossibleNext am n
-filterFunction am@(Phrase wordMap) n x = getColumn x `elem` getPossibleNext am n
+filterFunction am@(Word wordMap) n x = getOrthotope x `S.member` getPossibleNext am n
+filterFunction am@(Phrase wordMap) n x = getColumn x `S.member` getPossibleNext am n
 
 eligibleNext :: Box -> Box -> Bool
 eligibleNext b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
@@ -51,9 +52,9 @@ eligibleNext b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
 eligibleIn :: Box -> Box -> Bool
 eligibleIn b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2)
 
-getPossibleNext :: AdjacentMap -> Box -> [O.Ortho]
-getPossibleNext am@(Word wordMap) b = O.getNext am (getOrthotope b)
-getPossibleNext am@(Phrase wordMap) b = O.getNext am (getLines b)
+getPossibleNext :: AdjacentMap -> Box -> S.Set O.Ortho
+getPossibleNext am@(Word wordMap) b = S.fromList $ O.getNext am (getOrthotope b)
+getPossibleNext am@(Phrase wordMap) b = S.fromList $ O.getNext am (getLines b)
 
 combineBoxesNext :: Box -> Box -> Box
 combineBoxesNext (Box o1 bl1 tr1 l1 c1 cen11 cen12) (Box o2 bl2 tr2 l2 c2 cen21 cen22) =
