@@ -4,7 +4,7 @@ import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import MapBuilder
 
-data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Eq)
+data Orthotope a = Point a | Orthotope [Orthotope a] deriving (Eq, Ord)
 
 type Ortho = Orthotope String
 type WordMap = Map.Map String (S.Set String)

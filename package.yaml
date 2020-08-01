@@ -13,14 +13,12 @@ tests:
     - haskell-fold
     - hspec
     - matrix
-    - vector
 copyright: 2019 Michael Rauh
 maintainer: michaelrauh.github.io
 dependencies:
 - containers
 - base >= 4.7 && < 5
 - matrix
-- vector
 name: haskell-fold
 version: 0.1.0.0
 extra-source-files:
