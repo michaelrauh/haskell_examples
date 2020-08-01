@@ -6,6 +6,7 @@ main = do
   contents <- getContents
   let wordList = words contents
       firstBoxes = buildFirstBoxes wordList
-      b2x2 = getAllNextDimension wordList firstBoxes
-      answer = getAllCurrentDimension wordList 2 b2x2
-  print answer
+      b3 = getAllCurrentDimension wordList 2 firstBoxes
+      b3x2 = getAllNextDimension wordList b3
+      b3x3 = getAllCurrentDimension wordList 2 b3x2
+  print $ head b3x3
