@@ -47,30 +47,26 @@ filterFunction am@(Word wordMap) n x = getOrthotope x `S.member` getPossibleNext
 filterFunction am@(Phrase wordMap) n x = getColumn x `S.member` getPossibleNext am n
 
 eligibleNext :: Box -> Box -> Bool
-eligibleNext b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2
+eligibleNext b1 b2 = True
 
 eligibleIn :: Box -> Box -> Bool
-eligibleIn b1 b2 = getBottomLeftCorner b1 /= getTopRightCorner b2 && (getCenter1 b1 == getCenter2 b2)
+eligibleIn b1 b2 = getCenter1 b1 == getCenter2 b2
 
 getPossibleNext :: AdjacentMap -> Box -> S.Set O.Ortho
 getPossibleNext am@(Word wordMap) b = S.fromList $ O.getNext am (getOrthotope b)
 getPossibleNext am@(Phrase wordMap) b = S.fromList $ O.getNext am (getLines b)
 
 combineBoxesNext :: Box -> Box -> Box
-combineBoxesNext (Box o1 bl1 tr1 l1 c1 cen11 cen12) (Box o2 bl2 tr2 l2 c2 cen21 cen22) =
+combineBoxesNext (Box o1 l1 c1 cen11 cen12) (Box o2 l2 c2 cen21 cen22) =
   Box (O.upDimension o1 o2)
-  (B.bottomLeftCorner bl1 bl2)
-  (B.topRightCorner tr1 tr2)
   (B.nextLines o1 o2 l1 l2)
   (B.nextColumn o1 o2 c1 c2)
   (B.nextCenter cen11 cen21)
   (B.nextCenter cen12 cen22)
 
 combineBoxesIn :: Box -> Box -> Box
-combineBoxesIn (Box o1 bl1 tr1 l1 c1 cen11 cen12) (Box o2 bl2 tr2 l2 c2 cen21 cen22) =
+combineBoxesIn (Box o1 l1 c1 cen11 cen12) (Box o2 l2 c2 cen21 cen22) =
   Box (O.addLength o1 o2)
-  (B.bottomLeftCorner bl1 bl2)
-  (B.topRightCorner tr1 tr2)
   (B.inLines o1 o2 l1 l2)
   (B.inColumn o1 o2 c1 c2)
   (B.inCenter cen11 cen21)
@@ -79,12 +75,10 @@ combineBoxesIn (Box o1 bl1 tr1 l1 c1 cen11 cen12) (Box o2 bl2 tr2 l2 c2 cen21 ce
 fromStringPair :: (String, String) -> Box
 fromStringPair (f, s) =
   Box (O.Orthotope [O.Point f, O.Point s])
-  f
-  s
   (O.Point (f ++ s))
   (O.Point s)
   (O.Orthotope [O.Point s])
   (O.Orthotope [O.Point f])
 
 instance Show Box where
-  show (Box o bl tr l c cen1 cen2) = show o
+  show (Box o l c cen1 cen2) = show o
