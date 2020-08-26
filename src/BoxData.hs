@@ -1,11 +1,14 @@
-module BoxData (Box (Box, getColumn, getOrthotope, getBottomLeftCorner, getTopRightCorner, getLines, getCenter1, getCenter2)) where
+module BoxData (Box (Box, getColumn, getOrthotope, getLines, getCenter1, getCenter2, getDiagonals)) where
 import Orthotope
+import qualified Data.Set as S
 
 data Box = Box { getOrthotope :: Orthotope String,
-                 getBottomLeftCorner :: String,
-                 getTopRightCorner :: String,
                  getLines :: Orthotope String,
                  getColumn :: Orthotope String,
                  getCenter1 :: Orthotope String,
-                 getCenter2 :: Orthotope String
+                 getCenter2 :: Orthotope String,
+                 getDiagonals :: [S.Set String]
                 } deriving (Eq)
+
+instance Show Box where
+  show (Box o l c cen1 cen2 diag) = show o
