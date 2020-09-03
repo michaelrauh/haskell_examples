@@ -6,11 +6,13 @@ module BoxJoiner (
             inColumn,
             nextColumn,
             inCenter,
-            nextCenter
+            nextCenter,
+            combineDiagonals
             ) where
 
 
 import qualified Orthotope as O
+import qualified Data.Set as S
 
 bottomLeftCorner :: String -> String -> String
 bottomLeftCorner a b = a
@@ -19,7 +21,7 @@ topRightCorner :: String -> String -> String
 topRightCorner a b = b
 
 inLines :: O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho
-inLines (O.Orthotope ol1) (O.Orthotope ol2) l1 l2 = O.zipConcat (head ol1) l2
+inLines (O.Orthotope ol1) (O.Orthotope ol2) l1 = O.zipConcat (head ol1)
 
 nextLines :: O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho -> O.Ortho
 nextLines o1 o2 l1 l2 = O.zipConcat o1 o2
@@ -35,3 +37,6 @@ inCenter = O.addLength
 
 nextCenter :: O.Ortho -> O.Ortho -> O.Ortho
 nextCenter = O.upDimension
+
+combineDiagonals :: [S.Set String] -> [S.Set String] -> [S.Set String]
+combineDiagonals f s = [head f] ++ zipWith S.union (tail f) (init s) ++ [last s]
