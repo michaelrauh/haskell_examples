@@ -12,53 +12,47 @@ import MapBuilder
 import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import Data.Maybe (mapMaybe)
+import Debug.Trace
 
 combineAll :: AdjacentMap -> [Box] -> [Box]
 combineAll adjacentMap knownBoxes =
   let projectionMap = getProjectionMap adjacentMap knownBoxes
-      filteredProjections = filterProjections knownBoxes projectionMap
-      orthoToBox = getOrthoToBox knownBoxes
-      combinationTuples = getCombinationTuples orthoToBox filteredProjections
+      filteredProjections = filterProjections adjacentMap knownBoxes projectionMap
+      combinationTuples = getCombinationTuples (getOrthoToBox adjacentMap knownBoxes) filteredProjections
       allBoxes = getAllBoxes adjacentMap combinationTuples
   in allBoxes
 
-getOrthoToBox :: [Box] -> Map.Map O.Ortho Box
-getOrthoToBox boxes = Map.fromList $ fmap (\box -> (getOrthotope box, box)) boxes
+getOrthoToBox :: AdjacentMap -> [Box] -> Map.Map O.Ortho Box
+getOrthoToBox (Word _) boxes = Map.fromList $ map (\box -> (getOrthotope box, box)) boxes
+getOrthoToBox (Phrase _) boxes = Map.fromList $ map (\box -> (getColumn box, box)) boxes
 
 getProjectionMap :: AdjacentMap -> [Box] -> Map.Map O.Ortho (S.Set Box)
 getProjectionMap adjacentMap knownBoxes =
   let projections = map (getPossibleNext adjacentMap) knownBoxes
       tuples = zip knownBoxes projections
-      fixedTuples = fixTuples tuples
+      fixedTuples = concatMap fixTuple tuples
   in Map.fromListWith S.union fixedTuples
 
-fixTuples :: [(Box, S.Set O.Ortho)] -> [(O.Ortho, S.Set Box)]
-fixTuples = concatMap fixTuple 
-
 fixTuple :: (Box, S.Set O.Ortho) -> [(O.Ortho, S.Set Box)]
-fixTuple (box, orthoSet) = 
-  let orthos = S.toList orthoSet
-  in fmap (fixit box) orthos
+fixTuple (box, orthoSet) = map (flipCorrespondence box) (S.toList orthoSet)
 
-fixit :: Box -> O.Ortho -> (O.Ortho, S.Set Box)
-fixit box ortho = (ortho, S.singleton box)
+flipCorrespondence :: Box -> O.Ortho -> (O.Ortho, S.Set Box)
+flipCorrespondence = flip (,) . S.singleton
 
-filterProjections :: [Box] -> Map.Map O.Ortho (S.Set Box) -> Map.Map O.Ortho (S.Set Box)
-filterProjections knownBoxes projectionMap = Map.restrictKeys projectionMap (S.fromList $ getOrthotope <$> knownBoxes)
+filterProjections :: AdjacentMap -> [Box] -> Map.Map O.Ortho (S.Set Box) -> Map.Map O.Ortho (S.Set Box)
+filterProjections (Word _) knownBoxes projectionMap = Map.restrictKeys projectionMap (S.fromList $ getOrthotope <$> knownBoxes)
+filterProjections (Phrase _) knownBoxes projectionMap = Map.restrictKeys projectionMap (S.fromList $ getColumn <$> knownBoxes)
 
 getCombinationTuples :: Map.Map O.Ortho Box -> Map.Map O.Ortho (S.Set Box) -> [(Box, Box)]
-getCombinationTuples orthoToBox filteredProjectionMap =
-  let listy = Map.toList filteredProjectionMap
-      foo = concatMap expand listy
-  in fmap (lookupfy orthoToBox) foo
+getCombinationTuples orthoToBox filteredProjectionMap = 
+  let orthoBoxTuples = concatMap expand (Map.toList filteredProjectionMap)
+  in map (orthoBoxToBoxBox orthoToBox) orthoBoxTuples
 
-lookupfy :: Map.Map O.Ortho Box -> (O.Ortho, Box) -> (Box, Box)
-lookupfy orthoToBox (ortho, box) = (orthoToBox Map.! ortho, box) 
+orthoBoxToBoxBox :: Map.Map O.Ortho Box -> (O.Ortho, Box) -> (Box, Box)
+orthoBoxToBoxBox orthoToBox (ortho, box) = (orthoToBox Map.! ortho, box)
 
 expand :: (O.Ortho, S.Set Box) -> [(O.Ortho, Box)]
-expand (ortho, boxSet) = 
-  let boxes = S.toList boxSet 
-  in fmap (ortho,) boxes
+expand (ortho, boxSet) = map (ortho,) (S.toList boxSet)
 
 getAllBoxes :: AdjacentMap -> [(Box, Box)] -> [Box]
 getAllBoxes adjacentMap = mapMaybe (combineBoxes adjacentMap)

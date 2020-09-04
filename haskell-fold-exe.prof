@@ -1,109 +1,194 @@
-	Wed Sep  2 20:14 2020 Time and Allocation Profiling Report  (Final)
+	Thu Sep  3 18:09 2020 Time and Allocation Profiling Report  (Final)
 
 	   haskell-fold-exe +RTS -N -p -RTS
 
-	total time  =        0.00 secs   (4 ticks @ 1000 us, 8 processors)
-	total alloc =   2,992,592 bytes  (excludes profiling overheads)
+	total time  =        0.01 secs   (46 ticks @ 1000 us, 8 processors)
+	total alloc =  28,231,024 bytes  (excludes profiling overheads)
 
-COST CENTRE                      MODULE           SRC                               %time %alloc
+COST CENTRE       MODULE     SRC                               %time %alloc
 
-compare                          Orthotope        src/Orthotope.hs:7:68-70           25.0    0.0
-unsafeBuildTuple                 MapBuilder       src/MapBuilder.hs:(30,1)-(32,65)   25.0   10.0
-compare                          BoxData          src/BoxData.hs:11:33-35            25.0    0.8
-filterProjections                Box              src/Box.hs:47:1-118                25.0    9.1
-MAIN                             MAIN             <built-in>                          0.0    5.1
-CAF                              GHC.IO.Handle.FD <entire-module>                     0.0    1.7
-buildFirstBoxes.stringTuples     Search           src/Search.hs:10:7-46               0.0    1.5
-buildFirstBoxes.safeStringtuples Search           src/Search.hs:11:7-59               0.0    1.1
-buildFirstBoxes.initialBoxes     Search           src/Search.hs:12:7-56               0.0    8.5
-traverse                         Orthotope        src/Orthotope.hs:(38,3)-(39,66)     0.0    2.4
-nextWords                        MapBuilder       src/MapBuilder.hs:(21,1)-(22,71)    0.0    1.3
-buildSlidingPhraseTuple          MapBuilder       src/MapBuilder.hs:(25,1)-(27,18)    0.0    2.8
-buildPhraseMap                   MapBuilder       src/MapBuilder.hs:18:1-120          0.0    8.8
-getProjectionMap.tuples          Box              src/Box.hs:31:7-41                  0.0    1.5
-getProjectionMap.projections     Box              src/Box.hs:30:7-64                  0.0    1.7
-getProjectionMap                 Box              src/Box.hs:(29,1)-(33,41)           0.0   10.9
-getPossibleNext                  Box              src/Box.hs:(77,1)-(78,78)           0.0    1.5
-fromStringPair                   Box              src/Box.hs:(99,1)-(105,32)          0.0    4.9
-fixTuples                        Box              src/Box.hs:36:1-30                  0.0    1.9
-fixTuple.orthos                  Box              src/Box.hs:40:7-32                  0.0    1.3
-fixTuple                         Box              src/Box.hs:(39,1)-(41,28)           0.0    3.3
-main.wordList                    Main             app/Main.hs:7:7-31                  0.0   13.1
-main                             Main             app/Main.hs:(5,1)-(12,17)           0.0    4.6
+compare           Orthotope  src/Orthotope.hs:7:68-70           65.2    0.0
+getProjectionMap  Box        src/Box.hs:(29,1)-(33,41)          19.6   48.2
+traverse          Orthotope  src/Orthotope.hs:(38,3)-(39,66)     2.2   16.5
+>=                Orthotope  src/Orthotope.hs:7:68-70            2.2    0.0
+nextWords         MapBuilder src/MapBuilder.hs:(21,1)-(22,71)    2.2    1.2
+getColumn         BoxData    src/BoxData.hs:7:18-26              2.2    0.0
+fixTuples         Box        src/Box.hs:36:1-30                  2.2    3.8
+fixTuple          Box        src/Box.hs:(39,1)-(41,28)           2.2    7.5
+main.wordList     Main       app/Main.hs:7:7-31                  2.2    1.4
+unsafeBuildTuple  MapBuilder src/MapBuilder.hs:(30,1)-(32,65)    0.0    1.1
+getPossibleNext   Box        src/Box.hs:(78,1)-(79,78)           0.0    4.6
+getOrthoToBox     Box        src/Box.hs:(25,1)-(26,89)           0.0    1.7
+fixTuple.orthos   Box        src/Box.hs:40:7-32                  0.0    3.7
+filterProjections Box        src/Box.hs:(47,1)-(48,126)          0.0    1.8
 
 
-                                                                                                                 individual      inherited
-COST CENTRE                          MODULE                  SRC                              no.     entries  %time %alloc   %time %alloc
+                                                                                                                  individual      inherited
+COST CENTRE                          MODULE                  SRC                               no.     entries  %time %alloc   %time %alloc
 
-MAIN                                 MAIN                    <built-in>                       200          0    0.0    5.1   100.0  100.0
- CAF                                 GHC.Conc.Signal         <entire-module>                  300          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.Conc.Sync           <entire-module>                  299          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.Exception           <entire-module>                  296          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.IO.Encoding         <entire-module>                  281          0    0.0    0.1     0.0    0.1
- CAF                                 GHC.IO.Encoding.Iconv   <entire-module>                  279          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.IO.Exception        <entire-module>                  273          0    0.0    0.1     0.0    0.1
- CAF                                 GHC.IO.Handle.FD        <entire-module>                  270          0    0.0    1.7     0.0    1.7
- CAF                                 GHC.IO.Handle.Internals <entire-module>                  269          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.List                <entire-module>                  262          0    0.0    0.2     0.0    0.2
- CAF                                 GHC.Event.Poll          <entire-module>                  218          0    0.0    0.0     0.0    0.0
- CAF                                 GHC.Event.Thread        <entire-module>                  217          0    0.0    0.0     0.0    0.0
- CAF:$fOrdBox2                       BoxData                 <no location info>               358          0    0.0    0.0     0.0    0.0
-  compare                            BoxData                 src/BoxData.hs:11:33-35          436          0    0.0    0.0     0.0    0.0
- CAF:$sfromList1                     Box                     <no location info>               360          0    0.0    0.0     0.0    0.0
-  >=                                 Orthotope               src/Orthotope.hs:7:68-70         439          0    0.0    0.0     0.0    0.0
- CAF:fixTuples_rbkm                  Box                     src/Box.hs:36:1-9                370          0    0.0    0.0     0.0    0.0
-  fixTuples                          Box                     src/Box.hs:36:1-30               408          1    0.0    0.0     0.0    0.0
- CAF:getNext                         Orthotope               src/Orthotope.hs:16:1-7          348          0    0.0    0.0     0.0    0.0
-  getNext                            Orthotope               src/Orthotope.hs:16:1-26         424          1    0.0    0.0     0.0    0.0
- CAF:lvl3_rd4k                       Box                     <no location info>               359          0    0.0    0.0     0.0    0.0
- CAF:main1                           Main                    <no location info>               398          0    0.0    0.0     0.0    0.0
-  main                               Main                    app/Main.hs:(5,1)-(12,17)        400          1    0.0    0.0     0.0    0.0
- main                                Main                    app/Main.hs:(5,1)-(12,17)        401          0    0.0    4.6   100.0   92.6
-  main.b3                            Main                    app/Main.hs:9:7-55               402          1    0.0    0.0   100.0   59.0
-   getAllCurrentDimension            Search                  src/Search.hs:(21,1)-(23,35)     403          1    0.0    0.0   100.0   59.0
-    combineAll                       Box                     src/Box.hs:(17,1)-(23,13)        404          1    0.0    0.0    75.0   36.7
-     combineAll.allBoxes             Box                     src/Box.hs:22:7-58               452          1    0.0    0.0     0.0    0.0
-      getAllBoxes                    Box                     src/Box.hs:64:1-61               453          1    0.0    0.0     0.0    0.0
-     combineAll.combinationTuples    Box                     src/Box.hs:21:7-77               448          1    0.0    0.0     0.0    0.0
-      getCombinationTuples           Box                     src/Box.hs:(50,1)-(53,35)        449          1    0.0    0.0     0.0    0.0
-       getCombinationTuples.foo      Box                     src/Box.hs:52:7-34               451          1    0.0    0.0     0.0    0.0
-       getCombinationTuples.listy    Box                     src/Box.hs:51:7-46               450          1    0.0    0.0     0.0    0.0
-     combineAll.filteredProjections  Box                     src/Box.hs:19:7-70               441          1    0.0    0.0    25.0    9.1
-      filterProjections              Box                     src/Box.hs:47:1-118              442          1   25.0    9.1    25.0    9.1
-       compare                       Orthotope               src/Orthotope.hs:7:68-70         447       9891    0.0    0.0     0.0    0.0
-       getOrthotope                  BoxData                 src/BoxData.hs:5:18-29           445        575    0.0    0.0     0.0    0.0
-       >=                            Orthotope               src/Orthotope.hs:7:68-70         443          2    0.0    0.0     0.0    0.0
-        <                            Orthotope               src/Orthotope.hs:7:68-70         444          2    0.0    0.0     0.0    0.0
-        compare                      Orthotope               src/Orthotope.hs:7:68-70         446          2    0.0    0.0     0.0    0.0
-     combineAll.projectionMap        Box                     src/Box.hs:18:7-61               405          1    0.0    0.0    50.0   27.6
-      getProjectionMap               Box                     src/Box.hs:(29,1)-(33,41)        406          1    0.0   10.9    50.0   27.6
-       compare                       Orthotope               src/Orthotope.hs:7:68-70         434       4507    0.0    0.0     0.0    0.0
-       compare                       BoxData                 src/BoxData.hs:11:33-35          435        749   25.0    0.8    50.0    0.8
-        compare                      Orthotope               src/Orthotope.hs:7:68-70         437       2314   25.0    0.0    25.0    0.0
-       getProjectionMap.fixedTuples  Box                     src/Box.hs:32:7-36               407          1    0.0    0.0     0.0    7.2
-        fixTuples                    Box                     src/Box.hs:36:1-30               409          0    0.0    1.9     0.0    7.2
-         fixTuple                    Box                     src/Box.hs:(39,1)-(41,28)        419        575    0.0    3.3     0.0    5.4
-          fixit                      Box                     src/Box.hs:44:1-42               433        681    0.0    0.8     0.0    0.8
-          fixTuple.orthos            Box                     src/Box.hs:40:7-32               420        575    0.0    1.3     0.0    1.3
-       getProjectionMap.projections  Box                     src/Box.hs:30:7-64               418          1    0.0    1.7     0.0    7.1
-        getPossibleNext              Box                     src/Box.hs:(77,1)-(78,78)        421        575    0.0    1.5     0.0    5.4
-         getLines                    BoxData                 src/BoxData.hs:6:18-25           427        575    0.0    0.0     0.0    0.0
-         >=                          Orthotope               src/Orthotope.hs:7:68-70         438        107    0.0    0.0     0.0    0.0
-          <                          Orthotope               src/Orthotope.hs:7:68-70         440        107    0.0    0.0     0.0    0.0
-         getNext                     Orthotope               src/Orthotope.hs:16:1-26         425          0    0.0    0.3     0.0    3.9
-          traverse                   Orthotope               src/Orthotope.hs:(38,3)-(39,66)  426        575    0.0    2.4     0.0    3.6
-           nextWords                 MapBuilder              src/MapBuilder.hs:(21,1)-(22,71) 429        575    0.0    1.3     0.0    1.3
-       getProjectionMap.tuples       Box                     src/Box.hs:31:7-41               410          1    0.0    1.5     0.0    1.5
-    getAllCurrentDimension.phraseMap Search                  src/Search.hs:22:7-54            422          1    0.0    0.0    25.0   22.4
-     buildPhraseMap                  MapBuilder              src/MapBuilder.hs:18:1-120       423          1    0.0    8.8    25.0   22.4
-      buildSlidingPhraseTuple        MapBuilder              src/MapBuilder.hs:(25,1)-(27,18) 430        575    0.0    2.8    25.0   13.5
-       unsafeBuildTuple              MapBuilder              src/MapBuilder.hs:(30,1)-(32,65) 431        574   25.0   10.0    25.0   10.8
-        unsafeBuildTuple.nextWord    MapBuilder              src/MapBuilder.hs:32:9-65        432        574    0.0    0.8     0.0    0.8
-  main.firstBoxes                    Main                    app/Main.hs:8:7-43               411          1    0.0    0.0     0.0   15.9
-   buildFirstBoxes                   Search                  src/Search.hs:(8,1)-(13,21)      412          1    0.0    0.0     0.0   15.9
-    buildFirstBoxes.initialBoxes     Search                  src/Search.hs:12:7-56            417          1    0.0    8.5     0.0   13.3
-     fromStringPair                  Box                     src/Box.hs:(99,1)-(105,32)       428        575    0.0    4.9     0.0    4.9
-    buildFirstBoxes.safeStringtuples Search                  src/Search.hs:11:7-59            416          1    0.0    1.1     0.0    1.1
-    buildFirstBoxes.shiftedWords     Search                  src/Search.hs:9:7-36             415          1    0.0    0.0     0.0    0.0
-    buildFirstBoxes.stringTuples     Search                  src/Search.hs:10:7-46            413          1    0.0    1.5     0.0    1.5
-  main.wordList                      Main                    app/Main.hs:7:7-31               414          1    0.0   13.1     0.0   13.1
+MAIN                                 MAIN                    <built-in>                        200          0    0.0    0.5   100.0  100.0
+ CAF                                 GHC.Conc.Signal         <entire-module>                   300          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.Conc.Sync           <entire-module>                   299          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.Exception           <entire-module>                   296          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.IO.Encoding         <entire-module>                   281          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.IO.Encoding.Iconv   <entire-module>                   279          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.IO.Exception        <entire-module>                   273          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.IO.Handle.FD        <entire-module>                   270          0    0.0    0.2     0.0    0.2
+ CAF                                 GHC.IO.Handle.Internals <entire-module>                   269          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.List                <entire-module>                   262          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.Event.Poll          <entire-module>                   218          0    0.0    0.0     0.0    0.0
+ CAF                                 GHC.Event.Thread        <entire-module>                   217          0    0.0    0.0     0.0    0.0
+ CAF:$fOrdBox2                       BoxData                 <no location info>                358          0    0.0    0.0     0.0    0.0
+  compare                            BoxData                 src/BoxData.hs:11:33-35           456          0    0.0    0.0     0.0    0.0
+ CAF:$sfromList1                     Box                     <no location info>                360          0    0.0    0.0     0.0    0.0
+  >=                                 Orthotope               src/Orthotope.hs:7:68-70          459          0    0.0    0.0     0.0    0.0
+ CAF:fixTuples_rbkm                  Box                     src/Box.hs:36:1-9                 370          0    0.0    0.0     0.0    0.0
+  fixTuples                          Box                     src/Box.hs:36:1-30                410          1    0.0    0.0     0.0    0.0
+ CAF:getNext                         Orthotope               src/Orthotope.hs:16:1-7           348          0    0.0    0.0     0.0    0.0
+  getNext                            Orthotope               src/Orthotope.hs:16:1-26          444          1    0.0    0.0     0.0    0.0
+ CAF:lvl26_rd6C                      Box                     <no location info>                371          0    0.0    0.0     0.0    0.0
+  combineAll                         Box                     src/Box.hs:(17,1)-(22,13)         478          0    0.0    0.0     0.0    0.0
+   combineAll.allBoxes               Box                     src/Box.hs:21:7-58                479          0    0.0    0.0     0.0    0.0
+    getAllBoxes                      Box                     src/Box.hs:65:1-61                480          0    0.0    0.0     0.0    0.0
+     combineBoxes                    Box                     src/Box.hs:(68,1)-(69,101)        481          0    0.0    0.0     0.0    0.0
+      eligibleIn                     Box                     src/Box.hs:75:1-49                482          0    0.0    0.0     0.0    0.0
+ CAF:lvl4_rd67                       Box                     <no location info>                359          0    0.0    0.0     0.0    0.0
+ CAF:main1                           Main                    <no location info>                398          0    0.0    0.0     0.0    0.0
+  main                               Main                    app/Main.hs:(5,1)-(12,19)         400          1    0.0    0.0     0.0    0.0
+ main                                Main                    app/Main.hs:(5,1)-(12,19)         401          0    0.0    0.5   100.0   99.2
+  main.b3                            Main                    app/Main.hs:9:7-55                423          1    0.0    0.0    10.9    8.9
+   getAllCurrentDimension            Search                  src/Search.hs:(21,1)-(23,35)      424          1    0.0    0.0    10.9    8.9
+    combineAll                       Box                     src/Box.hs:(17,1)-(22,13)         427          1    0.0    0.0    10.9    6.5
+     combineAll.allBoxes             Box                     src/Box.hs:21:7-58                473          1    0.0    0.0     0.0    0.9
+      getAllBoxes                    Box                     src/Box.hs:65:1-61                474          1    0.0    0.1     0.0    0.9
+       combineBoxes                  Box                     src/Box.hs:(68,1)-(69,101)        475        570    0.0    0.1     0.0    0.8
+        eligibleIn                   Box                     src/Box.hs:75:1-49                477        570    0.0    0.1     0.0    0.1
+         ==                          Orthotope               src/Orthotope.hs:7:64-65          483       1140    0.0    0.0     0.0    0.0
+         getCenter1                  BoxData                 src/BoxData.hs:8:18-27            484        570    0.0    0.0     0.0    0.0
+         getCenter2                  BoxData                 src/BoxData.hs:9:18-27            485        570    0.0    0.0     0.0    0.0
+        combineBoxesIn               Box                     src/Box.hs:(91,1)-(97,34)         500        338    0.0    0.5     0.0    0.7
+         addLength                   Orthotope               src/Orthotope.hs:22:1-66          501        338    0.0    0.0     0.0    0.0
+         combineDiagonals            BoxJoiner               src/BoxJoiner.hs:42:1-80          530        277    0.0    0.2     0.0    0.2
+     combineAll.combinationTuples    Box                     src/Box.hs:20:7-105               467          1    0.0    0.0     4.3    1.9
+      getCombinationTuples           Box                     src/Box.hs:(51,1)-(54,35)         468          1    0.0    0.2     2.2    0.9
+       lookupfy                      Box                     src/Box.hs:57:1-64                476        570    0.0    0.1     2.2    0.1
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          492       3756    2.2    0.0     2.2    0.0
+       getCombinationTuples.foo      Box                     src/Box.hs:53:7-34                470          1    0.0    0.1     0.0    0.5
+        expand                       Box                     src/Box.hs:(60,1)-(62,24)         471        325    0.0    0.2     0.0    0.4
+         expand.boxes                Box                     src/Box.hs:61:7-29                472        325    0.0    0.1     0.0    0.1
+       getCombinationTuples.listy    Box                     src/Box.hs:52:7-46                469          1    0.0    0.1     0.0    0.1
+      getOrthoToBox                  Box                     src/Box.hs:(25,1)-(26,89)         486          1    0.0    1.0     2.2    1.0
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          491       3647    0.0    0.0     0.0    0.0
+       getOrthoToBox.\               Box                     src/Box.hs:26:63-82               487        575    0.0    0.0     2.2    0.0
+        getColumn                    BoxData                 src/BoxData.hs:7:18-26            490        575    2.2    0.0     2.2    0.0
+       >=                            Orthotope               src/Orthotope.hs:7:68-70          488          1    0.0    0.0     0.0    0.0
+        <                            Orthotope               src/Orthotope.hs:7:68-70          489          1    0.0    0.0     0.0    0.0
+     combineAll.filteredProjections  Box                     src/Box.hs:19:7-82                461          1    0.0    0.0     0.0    0.8
+      filterProjections              Box                     src/Box.hs:(47,1)-(48,126)        462          1    0.0    0.8     0.0    0.8
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          466       4030    0.0    0.0     0.0    0.0
+       getColumn                     BoxData                 src/BoxData.hs:7:18-26            465        575    0.0    0.0     0.0    0.0
+       >=                            Orthotope               src/Orthotope.hs:7:68-70          463          1    0.0    0.0     0.0    0.0
+        <                            Orthotope               src/Orthotope.hs:7:68-70          464          1    0.0    0.0     0.0    0.0
+     combineAll.projectionMap        Box                     src/Box.hs:18:7-61                428          1    0.0    0.0     6.5    2.9
+      getProjectionMap               Box                     src/Box.hs:(29,1)-(33,41)         429          1    0.0    1.2     6.5    2.9
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          454       4507    0.0    0.0     0.0    0.0
+       compare                       BoxData                 src/BoxData.hs:11:33-35           455        749    0.0    0.1     2.2    0.1
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          457       2314    2.2    0.0     2.2    0.0
+       getProjectionMap.fixedTuples  Box                     src/Box.hs:32:7-36                430          1    0.0    0.0     2.2    0.8
+        fixTuples                    Box                     src/Box.hs:36:1-30                431          0    0.0    0.2     2.2    0.8
+         fixTuple                    Box                     src/Box.hs:(39,1)-(41,28)         441        575    2.2    0.4     2.2    0.6
+          fixit                      Box                     src/Box.hs:44:1-42                453        681    0.0    0.1     0.0    0.1
+          fixTuple.orthos            Box                     src/Box.hs:40:7-32                442        575    0.0    0.1     0.0    0.1
+       getProjectionMap.projections  Box                     src/Box.hs:30:7-64                440          1    0.0    0.2     2.2    0.8
+        getPossibleNext              Box                     src/Box.hs:(78,1)-(79,78)         443        575    0.0    0.2     2.2    0.6
+         getLines                    BoxData                 src/BoxData.hs:6:18-25            447        575    0.0    0.0     0.0    0.0
+         >=                          Orthotope               src/Orthotope.hs:7:68-70          458        107    0.0    0.0     0.0    0.0
+          <                          Orthotope               src/Orthotope.hs:7:68-70          460        107    0.0    0.0     0.0    0.0
+         getNext                     Orthotope               src/Orthotope.hs:16:1-26          445          0    0.0    0.0     2.2    0.4
+          traverse                   Orthotope               src/Orthotope.hs:(38,3)-(39,66)   446        575    0.0    0.3     2.2    0.4
+           nextWords                 MapBuilder              src/MapBuilder.hs:(21,1)-(22,71)  449        575    2.2    0.1     2.2    0.1
+       getProjectionMap.tuples       Box                     src/Box.hs:31:7-41                432          1    0.0    0.2     0.0    0.2
+    getAllCurrentDimension.phraseMap Search                  src/Search.hs:22:7-54             425          1    0.0    0.0     0.0    2.4
+     buildPhraseMap                  MapBuilder              src/MapBuilder.hs:18:1-120        426          1    0.0    0.9     0.0    2.4
+      buildSlidingPhraseTuple        MapBuilder              src/MapBuilder.hs:(25,1)-(27,18)  450        575    0.0    0.3     0.0    1.4
+       unsafeBuildTuple              MapBuilder              src/MapBuilder.hs:(30,1)-(32,65)  451        574    0.0    1.1     0.0    1.1
+        unsafeBuildTuple.nextWord    MapBuilder              src/MapBuilder.hs:32:9-65         452        574    0.0    0.1     0.0    0.1
+  main.b3x2                          Main                    app/Main.hs:10:7-44               413          1    0.0    0.0    87.0   86.7
+   getAllNextDimension               Search                  src/Search.hs:(16,1)-(18,33)      414          1    0.0    0.0    87.0   86.7
+    combineAll                       Box                     src/Box.hs:(17,1)-(22,13)         417          1    0.0    0.0    87.0   85.6
+     combineAll.allBoxes             Box                     src/Box.hs:21:7-58                524          1    0.0    0.0     0.0    0.1
+      getAllBoxes                    Box                     src/Box.hs:65:1-61                525          1    0.0    0.0     0.0    0.1
+       combineBoxes                  Box                     src/Box.hs:(68,1)-(69,101)        526        228    0.0    0.0     0.0    0.1
+        eligibleNext                 Box                     src/Box.hs:72:1-95                528        228    0.0    0.1     0.0    0.1
+         getDiagonals                BoxData                 src/BoxData.hs:10:18-29           529        456    0.0    0.0     0.0    0.0
+     combineAll.combinationTuples    Box                     src/Box.hs:20:7-105               518          1    0.0    0.0     0.0    1.1
+      getCombinationTuples           Box                     src/Box.hs:(51,1)-(54,35)         519          1    0.0    0.1     0.0    0.4
+       lookupfy                      Box                     src/Box.hs:57:1-64                527        228    0.0    0.0     0.0    0.0
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          538       4376    0.0    0.0     0.0    0.0
+       getCombinationTuples.foo      Box                     src/Box.hs:53:7-34                521          1    0.0    0.1     0.0    0.2
+        expand                       Box                     src/Box.hs:(60,1)-(62,24)         522        187    0.0    0.1     0.0    0.1
+         expand.boxes                Box                     src/Box.hs:61:7-29                523        187    0.0    0.0     0.0    0.0
+       getCombinationTuples.listy    Box                     src/Box.hs:52:7-46                520          1    0.0    0.1     0.0    0.1
+      getOrthoToBox                  Box                     src/Box.hs:(25,1)-(26,89)         531          1    0.0    0.7     0.0    0.7
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          537       5294    0.0    0.0     0.0    0.0
+       getOrthoToBox.\               Box                     src/Box.hs:25:61-83               532        338    0.0    0.0     0.0    0.0
+        getOrthotope                 BoxData                 src/BoxData.hs:5:18-29            535        338    0.0    0.0     0.0    0.0
+       >=                            Orthotope               src/Orthotope.hs:7:68-70          533          1    0.0    0.0     0.0    0.0
+        <                            Orthotope               src/Orthotope.hs:7:68-70          534          1    0.0    0.0     0.0    0.0
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          536          1    0.0    0.0     0.0    0.0
+     combineAll.filteredProjections  Box                     src/Box.hs:19:7-82                511          1    0.0    0.0     4.3    1.0
+      filterProjections              Box                     src/Box.hs:(47,1)-(48,126)        512          1    0.0    1.0     4.3    1.0
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          517      12081    4.3    0.0     4.3    0.0
+       getOrthotope                  BoxData                 src/BoxData.hs:5:18-29            515        338    0.0    0.0     0.0    0.0
+       >=                            Orthotope               src/Orthotope.hs:7:68-70          513          1    0.0    0.0     0.0    0.0
+        <                            Orthotope               src/Orthotope.hs:7:68-70          514          1    0.0    0.0     0.0    0.0
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          516          1    0.0    0.0     0.0    0.0
+     combineAll.projectionMap        Box                     src/Box.hs:18:7-61                418          1    0.0    0.0    82.6   83.4
+      getProjectionMap               Box                     src/Box.hs:(29,1)-(33,41)         419          1   19.6   47.1    82.6   83.4
+       compare                       Orthotope               src/Orthotope.hs:7:68-70          508     643820   50.0    0.0    50.0    0.0
+       compare                       BoxData                 src/BoxData.hs:11:33-35           509       1923    0.0    0.0     0.0    0.0
+        compare                      Orthotope               src/Orthotope.hs:7:68-70          510       4192    0.0    0.0     0.0    0.0
+       getProjectionMap.fixedTuples  Box                     src/Box.hs:32:7-36                420          1    0.0    0.0     2.2   14.3
+        fixTuples                    Box                     src/Box.hs:36:1-30                421          0    2.2    3.6     2.2   14.3
+         fixTuple                    Box                     src/Box.hs:(39,1)-(41,28)         494        338    0.0    7.1     0.0   10.7
+          fixit                      Box                     src/Box.hs:44:1-42                507      17885    0.0    0.0     0.0    0.0
+          fixTuple.orthos            Box                     src/Box.hs:40:7-32                495        338    0.0    3.5     0.0    3.5
+       getProjectionMap.projections  Box                     src/Box.hs:30:7-64                493          1    0.0    0.1    10.9   21.9
+        getPossibleNext              Box                     src/Box.hs:(78,1)-(79,78)         496        338    0.0    4.5    10.9   21.8
+         >=                          Orthotope               src/Orthotope.hs:7:68-70          504      17548    2.2    0.0     8.7    0.0
+          compare                    Orthotope               src/Orthotope.hs:7:68-70          506      38786    6.5    0.0     6.5    0.0
+          <                          Orthotope               src/Orthotope.hs:7:68-70          505      17548    0.0    0.0     0.0    0.0
+         getOrthotope                BoxData                 src/BoxData.hs:5:18-29            499        338    0.0    0.0     0.0    0.0
+         getNext                     Orthotope               src/Orthotope.hs:16:1-26          497          0    0.0    0.0     2.2   17.3
+          traverse                   Orthotope               src/Orthotope.hs:(38,3)-(39,66)   498       1352    2.2   16.2     2.2   17.3
+           nextWords                 MapBuilder              src/MapBuilder.hs:(21,1)-(22,71)  502       1014    0.0    1.0     0.0    1.0
+       getProjectionMap.tuples       Box                     src/Box.hs:31:7-41                422          1    0.0    0.1     0.0    0.1
+    getAllNextDimension.wordMap      Search                  src/Search.hs:17:7-41             415          1    0.0    0.0     0.0    1.1
+     buildNextWordMap                MapBuilder              src/MapBuilder.hs:15:1-88         416          1    0.0    0.9     0.0    1.1
+      buildSlidingTuple              MapBuilder              src/MapBuilder.hs:(35,1)-(38,103) 503        575    0.0    0.3     0.0    0.3
+  main.b3x3                          Main                    app/Main.hs:11:7-51               402          1    0.0    0.0     0.0    0.0
+   getAllCurrentDimension            Search                  src/Search.hs:(21,1)-(23,35)      403          1    0.0    0.0     0.0    0.0
+    combineAll                       Box                     src/Box.hs:(17,1)-(22,13)         406          1    0.0    0.0     0.0    0.0
+     combineAll.allBoxes             Box                     src/Box.hs:21:7-58                545          1    0.0    0.0     0.0    0.0
+      getAllBoxes                    Box                     src/Box.hs:65:1-61                546          1    0.0    0.0     0.0    0.0
+     combineAll.combinationTuples    Box                     src/Box.hs:20:7-105               541          1    0.0    0.0     0.0    0.0
+      getCombinationTuples           Box                     src/Box.hs:(51,1)-(54,35)         542          1    0.0    0.0     0.0    0.0
+       getCombinationTuples.foo      Box                     src/Box.hs:53:7-34                544          1    0.0    0.0     0.0    0.0
+       getCombinationTuples.listy    Box                     src/Box.hs:52:7-46                543          1    0.0    0.0     0.0    0.0
+     combineAll.filteredProjections  Box                     src/Box.hs:19:7-82                539          1    0.0    0.0     0.0    0.0
+      filterProjections              Box                     src/Box.hs:(47,1)-(48,126)        540          1    0.0    0.0     0.0    0.0
+     combineAll.projectionMap        Box                     src/Box.hs:18:7-61                407          1    0.0    0.0     0.0    0.0
+      getProjectionMap               Box                     src/Box.hs:(29,1)-(33,41)         408          1    0.0    0.0     0.0    0.0
+       getProjectionMap.fixedTuples  Box                     src/Box.hs:32:7-36                409          1    0.0    0.0     0.0    0.0
+        fixTuples                    Box                     src/Box.hs:36:1-30                411          0    0.0    0.0     0.0    0.0
+       getProjectionMap.tuples       Box                     src/Box.hs:31:7-41                412          1    0.0    0.0     0.0    0.0
+    getAllCurrentDimension.phraseMap Search                  src/Search.hs:22:7-54             404          1    0.0    0.0     0.0    0.0
+     buildPhraseMap                  MapBuilder              src/MapBuilder.hs:18:1-120        405          1    0.0    0.0     0.0    0.0
+  main.firstBoxes                    Main                    app/Main.hs:8:7-43                433          1    0.0    0.0     0.0    1.7
+   buildFirstBoxes                   Search                  src/Search.hs:(8,1)-(13,21)       434          1    0.0    0.0     0.0    1.7
+    buildFirstBoxes.initialBoxes     Search                  src/Search.hs:12:7-56             439          1    0.0    0.9     0.0    1.5
+     fromStringPair                  Box                     src/Box.hs:(100,1)-(106,32)       448        575    0.0    0.6     0.0    0.6
+    buildFirstBoxes.safeStringtuples Search                  src/Search.hs:11:7-59             438          1    0.0    0.1     0.0    0.1
+    buildFirstBoxes.shiftedWords     Search                  src/Search.hs:9:7-36              437          1    0.0    0.0     0.0    0.0
+    buildFirstBoxes.stringTuples     Search                  src/Search.hs:10:7-46             435          1    0.0    0.2     0.0    0.2
+  main.wordList                      Main                    app/Main.hs:7:7-31                436          1    2.2    1.4     2.2    1.4
